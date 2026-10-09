@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Stable (Tether) i Arc (Circle): izdavatelji, statistike chainova i usporedba. Stable (Tether) and Arc (Circle): issuers, chain statistics and comparison.">
+<meta name="description" content="Stable (Tether) i Arc (Circle): izdavatelji, statistike chainova, usporedba i strategija. Stable (Tether) and Arc (Circle): issuers, chain statistics, comparison and strategy.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'%3E%3Crect width='26' height='26' fill='%237fd321'/%3E%3Cpath d='M6 17h14M6 12h14M9 7h8' stroke='%23121410' stroke-width='2.4'/%3E%3C/svg%3E">
 <title>Stable L1 Chains</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -147,6 +147,34 @@ table.cmp{width:100%;border-collapse:collapse;font-size:14px;min-width:560px}
 .lang button{font:inherit;font-family:var(--f-mono);font-size:12px;background:none;border:0;color:var(--bar-ink-2);padding:7px 10px;cursor:pointer}
 .lang button[aria-pressed="true"]{background:var(--lime);color:#122100}
 .lang button:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+.strat-hero{padding-bottom:6px}
+.sh1{font-weight:300;font-size:clamp(30px,5vw,52px);line-height:1.08;letter-spacing:-.02em;margin:4px 0 0;max-width:20ch;text-wrap:balance}
+.leaks{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:22px;border-top:1px solid var(--line)}
+.leak{padding:22px 28px;min-width:0}.leak+.leak{border-left:1px solid var(--line)}
+.lnum{font-size:clamp(40px,6vw,64px);font-weight:300;letter-spacing:-.03em;line-height:1.05;color:var(--ink);margin:6px 0 8px}
+.leak p{margin:0;color:var(--ink-2);max-width:52ch}
+.flowsec{padding:26px 28px}
+.flows{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.flowrow{min-width:0}.flowt{font-size:14px;margin-bottom:10px}
+.stack.tall{height:44px}
+.sw{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px}
+.goalsec{padding:26px 28px;border-top:1px solid var(--line)}
+.goalcols{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.gh{font-weight:400;font-size:20px;margin:6px 0 12px}
+.goals{display:grid;gap:10px}
+.goal{border:1px solid var(--line);padding:14px 16px;min-width:0}
+.goal h4{font-weight:500;font-size:15px;margin:8px 0 4px}
+.goal p{margin:0;font-size:14px;color:var(--ink-2)}
+.goal .st{display:inline-block}
+.vsb.wide{grid-template-columns:120px 1fr 72px}
+.scale{display:grid;gap:8px;margin-top:6px}
+.quotes{display:grid;gap:16px}
+.q{margin:0;padding-left:16px;border-left:2px solid var(--lime)}
+.q blockquote{margin:0;font-size:18px;font-weight:300;line-height:1.35}
+.q figcaption{font-size:12px;color:var(--ink-2);margin-top:6px}
+.watch strong{font-size:14px!important;max-width:60%}
+@media (max-width:880px){.leaks,.flows,.goalcols{grid-template-columns:1fr}.leak+.leak{border-left:0;border-top:1px solid var(--line)}}
+@media (max-width:520px){.leak,.flowsec,.goalsec{padding-left:16px;padding-right:16px}.vsb.wide{grid-template-columns:96px 1fr 60px}}
 </style>
 
 <style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
@@ -161,6 +189,7 @@ table.cmp{width:100%;border-collapse:collapse;font-size:14px;min-width:560px}
     <a href="#stable" data-page="stable">Stable</a>
     <a href="#arc" data-page="arc">Arc</a>
     <a href="#usporedba" data-page="usporedba">Usporedba</a>
+    <a href="#strategija" data-page="strategija">Strategija</a>
   </nav>
   <div class="hdr-end"><div class="hdr-right"><span id="hdr-date">Podaci do 9. 10. 2026.</span></div><div class="lang" role="group" aria-label="Jezik / Language"><button data-lang="hr" aria-pressed="true">HR</button><button data-lang="en" aria-pressed="false">EN</button></div></div>
 </header>
@@ -425,6 +454,143 @@ function renderCompare(){
   <div class="src">${tr("cmpSrc")}</div>`;
 }
 
+// ---------- Strategija: chain i glavni proizvod ----------
+const STRAT={
+hr:{
+  nav:"Strategija",
+  eyebrow:"Dubinska analiza",
+  title:"Zašto izdavatelji stablecoina grade vlastite chainove",
+  sub:"I Tether i Circle zarađuju gotovo isključivo na kamatama od rezervi. Oba gube velik dio vrijednosti koju njihov dolar stvara: Tether u korist mreža kojima putuje USDT, a Circle u korist distributera USDC-a. Stable i Arc su dva različita odgovora na isti problem.",
+  leakT:"Tether / USDT",leakTnum:"~$2,9B",leakTtxt:"godišnje plaćaju korisnici USDT-a u naknadama tuđim mrežama, najviše Tronu i Ethereumu. To je oko 59% procijenjenog godišnjeg prihoda Tethera od rezervi (~$4,9B).",
+  leakC:"Circle / USDC",leakCnum:"58,5%",leakCtxt:"prihoda Circlea u Q2 2026. otišlo je distributerima i na transakcijske troškove ($410,4M od $701,3M). Samo Coinbaseu je otišlo $324,6M.",
+  leakNote:"Brojke za Tether su procjene istraživačkih kuća (crypto.news, CoinMarketCap). Brojke za Circle su iz izvješća za Q2 2026.",
+  flowH:"Kamo ide svaki dolar",flowSub:"Tko danas uzima vrijednost koju stvara stablecoin",
+  flowT:"USDT: vrijednost koju stvara godišnje (procjena, $7,8B)",
+  flowTparts:[["Tether, prihod od rezervi",4.9,"var(--lime)"],["Naknade mrežama (Tron, Ethereum…)",2.9,"var(--red)"]],
+  flowC:"USDC: prihod Circlea u Q2 2026. ($701,3M)",
+  flowCparts:[["Coinbase",324.6,"var(--red)"],["Ostali distributeri i troškovi",85.8,"var(--amber)"],["Ostaje Circleu",291,"var(--lime)"]],
+  flowWhy:"Dva problema izgledaju isto, ali ih ne plaća ista strana. Tetherov gubitak plaćaju korisnici kroz naknade, a Tether ga osjeti kao sporiji rast i veće troškove plaćanja za svoje tržište. Circleov gubitak izravno ide s njegova računa dobiti i gubitka.",
+  linkH:"Kako se chain nadovezuje na glavni proizvod",
+  linkRows:[
+    ["Što chain mijenja za stablecoin","Plin je USDT0, a obični transferi mogu biti besplatni. USDT postaje jeftiniji za slanje i ne treba TRX ili ETH.","Plin je USDC, a naknade su predvidljive i u dolarima. Svaka transakcija na Arcu treba USDC."],
+    ["Tko zarađuje na naknadama","Validatori i stakeri tokena STABLE, ekosustav blizak Bitfinexu. Ne Tether izravno.","Circle navodi naknade i staking na Arcu kao svoj izvor prihoda. Točna raspodjela još nije objavljena."],
+    ["Veza s ostalim proizvodima","USDT0 (omnichain USDT preko LayerZera, preko $100B prenesenih), Bitfinex, PayPal i PYUSD.","Circle Mint, CCTP, Gateway, Circle Payments Network (CPN), StableFX i EURC, sve na jednom mjestu."],
+    ["Token","STABLE se slobodno trguje (~$689M tržišna kapitalizacija). Vrijednost od rasta mreže ostaje kod vlasnika tokena.","ARC je u Circleovim rukama (25%), privatna prodaja $242,2M. Novi izvor prihoda za Circle, neovisan o kamatama."],
+    ["Regulativa","Stable je izvan Tethera, pa Tether ostaje neutralan i ne mora prilagođavati chain regulatorima.","Arc je dio regulirane tvrtke s odobrenjima OCC-a i NYDFS-a. Ima privatnost uz pristup za revizore i dopuštene validatore."],
+    ["Najveći rizik","Kapital ne ostaje na chainu: stablecoini na Stableu pali su s $706M na ~$21M.","Sukob s distribucijom: Circle smanjuje partnerstva s drugim chainovima, a USDC mora ostati svugdje."]],
+  goalsH:"Što su firme htjele postići",
+  status:{ok:"Ostvareno",prog:"U tijeku",no:"Nije ostvareno"},
+  tGoals:[
+    ["no","Vratiti vrijednost od naknada","Na Tronu je $87,9B USDT-a (47,6% ukupne opskrbe), a Tron je u Q2 2026. naplatio $699,4M naknada. Stable bi taj promet trebao preuzeti, ali na njemu je danas samo oko $21M stablecoina."],
+    ["ok","Jeftina plaćanja u USDT-u","Ardoino tvrdi da 40% svih naknada na blockchainima ide na slanje USDT-a. Na Stableu je plin u USDT-u, a gas waiveri i besplatni USDT0 transferi rade od nadogradnje u veljači 2026. Tehnički je cilj ostvaren, ali korisnika je još malo."],
+    ["prog","Portfelj umjesto jednog chaina","Ekosustav Tethera financira i Stable (Bitfinex) i Plasmu (Founders Fund, kapital blizak Tetheru). Dva suprotna dizajna testiraju različite putove, a zajedno jačaju Tetherovu pregovaračku poziciju prema Tronu."],
+    ["prog","Institucionalni promet","Zajamčeni blockspace i partneri poput Anchorage Digitala, PayPala i Standard Chartereda (Libeara) ciljaju plaće, namirenja i B2B plaćanja. Velikih javno objavljenih tokova zasad nema."],
+    ["ok","Ostati neutralan","Ardoino je u kolovozu 2026. napisao da Tether ne gradi blockchain i da ga ne planira graditi. Tether ostaje agnostičan prema mrežama, a vrijednost chaina pripada povezanim stranama, ne bilanci Tethera."]],
+  cGoals:[
+    ["prog","Manja ovisnost o distributerima","Distribucija uzima 58,5% prihoda. USDC na Circleovoj platformi narastao je 106% godišnje na $12,4B (17% opskrbe), dok je na Coinbaseu oko 30%. Arc je kanal na kojem Circle sam drži odnos s korisnikom."],
+    ["prog","Prihod neovisan o kamatama","Prinos na rezerve pao je na 3,48% (-66 bp). Smjernica za ostale prihode podignuta je na $310–330M, od čega je oko $180M od tokena ARC. Bez ARC-a smjernica bi bila niža od prethodne."],
+    ["ok","Platforma za regulirane institucije","Među validatorima su BlackRock, DTCC, ICE, Visa i Mastercard. BlackRock planira BUIDL na Arcu, a DTCC tokenizaciju od druge polovice 2027. Allaire Arc zove »kanonskim domom za izdavatelje imovine«."],
+    ["prog","Plaćanja, devize i AI agenti","CPN je dosegao $23B anualiziranog prometa (31. 7.), a monetizacija kreće u drugoj polovici 2026. StableFX dodaje 22 stablecoina za devizno namirenje 0–24. Circle tvrdi da USDC drži 98,6% volumena plaćanja AI agenata."],
+    ["ok","Kontrola nad infrastrukturom","Circle bira validatore, upravlja nadogradnjama i naknadama i ugrađuje privatnost uz pristup za revizore. Za regulatore je to prednost, ali za decentralizaciju je to slabost dok ne stigne proof of stake."]],
+  scaleH:"Provjera stvarnosti",scaleSub:"Koliko je stablecoina danas na novim chainovima u odnosu na stare mreže",
+  scale:[["USDT na Tronu",87.9,"var(--grey)"],["USDT na Stableu",0.021,"var(--lime)"],["Ukupni USDC",74.2,"var(--grey)"],["USDC na Arcu",0.523,"var(--lime)"]],
+  scaleNote:"Stablecoin chainovi (Stable, Arc, Plasma, Tempo) zajedno drže manje od 0,3% svih stablecoina, a Ethereum i Tron oko 78% (CoinMarketCap). Arc je u tri tjedna dosegao 0,7% USDC-a, a Stable nakon deset mjeseci drži 0,01% USDT-a.",
+  quotesH:"Što kažu čelnici",
+  quotes:[["»Arc je još značajnije lansiranje od samog USDC-a.«","Jeremy Allaire, Circle, rujan 2026."],["»Tether NE gradi nikakav blockchain niti ga planira graditi.«","Paolo Ardoino, Tether, kolovoz 2026."],["»40% svih naknada na blockchainima plaća se za slanje USDt-a.«","Paolo Ardoino, kolovoz 2025."],["»Tražiti nativni token za korištenje mreže bilo bi ludo.«","Jeremy Allaire o plinu u USDC-u"]],
+  verdictH:"Zaključak",
+  verdict:["Tether i Circle rješavaju isti problem s dvije strane. Tether ne mora graditi chain da bi zarađivao, jer prihod dolazi od rezervi bez obzira na to gdje USDT putuje. Zato Stable drži na udaljenosti, preko Bitfinexa i tokena STABLE. Cilj je smanjiti cijenu slanja USDT-a i oslabiti Tronovu poziciju, a ne napraviti novi izvor prihoda za Tether. Za sada to ne uspijeva, jer kapital iz pre-deposita od $2B nije ostao na chainu.",
+           "Circle je u drugačijem položaju. Njegov problem je u vlastitom računu dobiti i gubitka: distribucija mu uzima gotovo 60%, a prihod pada sa svakim smanjenjem kamata. Arc mu zato treba kao drugi posao s vlastitim kanalom do korisnika, prihodima od naknada, tokenom i uslugama za institucije. Start je jak ($553M TVL-a u tri tjedna), ali Arc još nije pokazao stvarnu dobit, a ARC ovisi o prijelazu na proof of stake do svibnja 2028."],
+  watchH:"Što pratiti",
+  watch:[["Circle Q3 2026. (studeni)","Prvi kvartal s Arcom: naknade, prihod od ARC-a i udio platforme"],["TVL Stablea","Hoće li prijeći prethodni vrh od $100M"],["Opskrba USDT0","Sada ~$4B. Mjera koliko USDT napušta Tron"],["ARC i proof of stake","Ako prijelaz ne stigne do 8. 5. 2028., Circle mora vratiti novac kupcima tokena"],["Tronove naknade","Smanjenje cijena na Tronu bilo bi znak da pritisak djeluje"]],
+  srcH:"Izvori:"
+},
+en:{
+  nav:"Strategy",
+  eyebrow:"Deep dive",
+  title:"Why stablecoin issuers build their own chains",
+  sub:"Tether and Circle both earn almost entirely from interest on reserves. Both lose a large share of the value their dollar creates: Tether to the networks USDT travels on, and Circle to USDC's distributors. Stable and Arc are two different answers to the same problem.",
+  leakT:"Tether / USDT",leakTnum:"~$2.9B",leakTtxt:"a year paid by USDT users in fees to other networks, mostly Tron and Ethereum. That equals about 59% of Tether's estimated annual reserve income (~$4.9B).",
+  leakC:"Circle / USDC",leakCnum:"58.5%",leakCtxt:"of Circle's Q2 2026 revenue went to distributors and transaction costs ($410.4M of $701.3M). Coinbase alone received $324.6M.",
+  leakNote:"Tether figures are research-house estimates (crypto.news, CoinMarketCap). Circle figures come from its Q2 2026 report.",
+  flowH:"Where every dollar goes",flowSub:"Who captures the value a stablecoin creates today",
+  flowT:"USDT: value created per year (estimate, $7.8B)",
+  flowTparts:[["Tether, reserve income",4.9,"var(--lime)"],["Fees to networks (Tron, Ethereum…)",2.9,"var(--red)"]],
+  flowC:"USDC: Circle revenue in Q2 2026 ($701.3M)",
+  flowCparts:[["Coinbase",324.6,"var(--red)"],["Other distributors and costs",85.8,"var(--amber)"],["Kept by Circle",291,"var(--lime)"]],
+  flowWhy:"The two problems look alike, but they are not paid by the same party. Tether's leak is paid by users through fees, and Tether feels it as slower growth and higher payment costs in its markets. Circle's leak comes straight off its own income statement.",
+  linkH:"How each chain connects to the core product",
+  linkRows:[
+    ["What the chain changes for the stablecoin","Gas is USDT0 and plain transfers can be free. USDT gets cheaper to send and needs no TRX or ETH.","Gas is USDC and fees are predictable and in dollars. Every transaction on Arc needs USDC."],
+    ["Who earns the fees","Validators and STABLE stakers, an ecosystem close to Bitfinex. Not Tether directly.","Circle lists fees and staking on Arc as a revenue source for itself. The exact split has not been disclosed."],
+    ["Link to other products","USDT0 (omnichain USDT via LayerZero, over $100B moved), Bitfinex, PayPal and PYUSD.","Circle Mint, CCTP, Gateway, Circle Payments Network (CPN), StableFX and EURC, all in one place."],
+    ["Token","STABLE trades freely (~$689M market cap). Value from network growth stays with token holders.","Circle holds ARC (25%), with a $242.2M private sale. A new revenue source for Circle that does not depend on interest rates."],
+    ["Regulation","Stable sits outside Tether, so Tether stays neutral and does not have to fit a chain to regulators.","Arc is part of a regulated company with OCC and NYDFS approvals. It offers privacy with auditor access and permissioned validators."],
+    ["Biggest risk","Capital does not stay: stablecoins on Stable fell from $706M to ~$21M.","Conflict with distribution: Circle is cutting partnerships with other chains, while USDC must stay everywhere."]],
+  goalsH:"What the companies set out to achieve",
+  status:{ok:"Achieved",prog:"In progress",no:"Not achieved"},
+  tGoals:[
+    ["no","Recapture fee value","Tron holds $87.9B of USDT (47.6% of supply) and collected $699.4M in fees in Q2 2026. Stable is meant to take over that traffic, but it holds only about $21M of stablecoins today."],
+    ["ok","Cheap USDT payments","Ardoino says 40% of all blockchain fees are paid to send USDT. On Stable, gas is USDT, and gas waivers and free USDT0 transfers have worked since the February 2026 upgrade. The goal is met technically, but there are still few users."],
+    ["prog","A portfolio instead of one chain","Tether's ecosystem funds both Stable (Bitfinex) and Plasma (Founders Fund, Tether-adjacent capital). Two opposite designs test different routes, and together they strengthen Tether's hand against Tron."],
+    ["prog","Institutional flows","Guaranteed blockspace and partners such as Anchorage Digital, PayPal and Standard Chartered (Libeara) target payroll, settlement and B2B payments. No large public flows have been announced yet."],
+    ["ok","Stay neutral","In August 2026 Ardoino wrote that Tether is not building a blockchain and has no plans to. Tether stays network-agnostic, and the chain's value belongs to related parties, not to Tether's balance sheet."]],
+  cGoals:[
+    ["prog","Less reliance on distributors","Distribution takes 58.5% of revenue. USDC on Circle's own platform grew 106% year on year to $12.4B (17% of supply), while about 30% sits on Coinbase. Arc is a channel where Circle owns the customer relationship."],
+    ["prog","Revenue that does not depend on rates","Reserve yield fell to 3.48% (-66 bp). Other-revenue guidance was raised to $310–330M, of which about $180M comes from the ARC token. Without ARC, guidance would be below the previous range."],
+    ["ok","A platform for regulated institutions","Validators include BlackRock, DTCC, ICE, Visa and Mastercard. BlackRock plans BUIDL on Arc, and DTCC plans tokenization from the second half of 2027. Allaire calls Arc a \"canonical home for asset issuers\"."],
+    ["prog","Payments, FX and AI agents","CPN reached $23B in annualized volume (31 Jul), with monetization starting in H2 2026. StableFX adds 22 stablecoins for 24/7 FX settlement. Circle says USDC carries 98.6% of AI agent payment volume."],
+    ["ok","Control over infrastructure","Circle picks the validators, manages upgrades and fees, and builds in privacy with auditor access. Regulators see that as a strength, but it weakens decentralization until proof of stake arrives."]],
+  scaleH:"Reality check",scaleSub:"How many stablecoins sit on the new chains compared with the incumbents",
+  scale:[["USDT on Tron",87.9,"var(--grey)"],["USDT on Stable",0.021,"var(--lime)"],["Total USDC",74.2,"var(--grey)"],["USDC on Arc",0.523,"var(--lime)"]],
+  scaleNote:"The stablecoin chains (Stable, Arc, Plasma, Tempo) together hold under 0.3% of all stablecoins, while Ethereum and Tron hold about 78% (CoinMarketCap). Arc reached 0.7% of USDC in three weeks, while Stable holds 0.01% of USDT after ten months.",
+  quotesH:"What the leaders say",
+  quotes:[["\"An even more consequential launch than USDC itself.\"","Jeremy Allaire, Circle, September 2026"],["\"Tether is NOT building any blockchain nor has plan to build one.\"","Paolo Ardoino, Tether, August 2026"],["\"40% of all blockchain fees are paid to send USDt.\"","Paolo Ardoino, August 2025"],["Requiring a native token to use the network would be \"crazy\".","Jeremy Allaire on USDC gas"]],
+  verdictH:"Conclusion",
+  verdict:["Tether and Circle are solving the same problem from two sides. Tether does not need a chain to make money, because its income comes from reserves wherever USDT travels. That is why it keeps Stable at arm's length, through Bitfinex and the STABLE token. The goal is to lower the cost of sending USDT and weaken Tron's position, not to create a new revenue line for Tether. So far it is not working, because the $2B of pre-deposit capital did not stay on the chain.",
+           "Circle is in a different position. Its problem sits in its own income statement: distribution takes almost 60% and revenue falls with every rate cut. It needs Arc as a second business, with its own channel to users, fee revenue, a token and services for institutions. The start is strong ($553M of TVL in three weeks), but Arc has yet to show real profit, and ARC depends on a move to proof of stake by May 2028."],
+  watchH:"What to watch",
+  watch:[["Circle Q3 2026 (November)","First quarter with Arc: fees, ARC revenue and platform share"],["Stable TVL","Whether it passes the earlier $100M peak"],["USDT0 supply","Now ~$4B. A measure of how much USDT leaves Tron"],["ARC and proof of stake","If the move is not delivered by 8 May 2028, Circle must refund token buyers"],["Tron fees","A price cut on Tron would signal that the pressure is working"]],
+  srcH:"Sources:"
+}};
+const STRAT_SRC=[["crypto.news: Tether's chain war","https://crypto.news/tether-stable-plasma-chain-war/"],["CoinMarketCap: What are stablechains","https://coinmarketcap.com/academy/article/what-are-stablechains-stablecoin-issuers-building-blockchains"],["Yellow: Ardoino, no Tether blockchain","https://yellow.com/news/tether-wont-build-usdt-blockchain"],["CryptoRank: 40% of fees are USDT","https://cryptorank.io/news/feed/1bd46-tethers-claims-40-fees-come-from-usdt"],["Blockonomi: Tron Q2 2026","https://blockonomi.com/tron-usdt-transfers-hit-2-1-trillion-in-q2-2026"],["Crypto Briefing: USDT0 $100B","https://cryptobriefing.com/usdt0-surpasses-100b-transaction-volume/"],["Bankless: Plasma","https://www.bankless.com/read/plasma-wants-to-own-stablecoin-fever"],["Circle Q2 2026 earnings call","https://gloom.sh/stocks/crcl/transcripts/q2-2026"],["insights4.vc: Circle, Coinbase and distribution","https://insights4.vc/blog/circle-coinbase-and-the-price-of-distribution/"],["TechFlow: distribution costs and Arc","https://www.techflowpost.com/en-US/article/34069"],["CoinDesk: Arc launch, Allaire","https://www.coindesk.com/business/2026/09/15/circle-debuts-arc-blockchain-which-jeremy-allaire-calls-more-consequential-than-usdc"],["CoinGeek: AI agents and Arc","https://coingeek.com/could-ai-agents-kill-circle-new-layer-1-blockchain-arc/"],["Stablecoin Insider: Tether 2025","https://stablecoininsider.org/tether-achieves-record-10b-profits-in-2025/"]];
+
+function renderStrategy(){
+  const S=STRAT[LANG];
+  const flow=(title,parts,unit)=>{const tot=parts.reduce((a,p)=>a+p[1],0);return `<div class="flowrow"><div class="flowt">${title}</div>
+    <div class="stack tall">${parts.map(p=>`<div title="${esc(p[0])}" style="flex:${p[1]};background:${p[2]}"></div>`).join("")}</div>
+    <ul class="rlist">${parts.map(p=>`<li><span><b class="sw" style="background:${p[2]}"></b>${esc(p[0])}</span><span>$${(unit==="B"?p[1].toFixed(1):p[1].toFixed(1)).replace(".",LANG==="en"?".":",")}${unit} · ${(p[1]/tot*100).toFixed(0)}%</span></li>`).join("")}</ul></div>`};
+  const goals=(name,list)=>`<div><h3 class="gh">${name}</h3><div class="goals">${list.map(g=>`<div class="goal"><span class="st ${g[0]==="ok"?"ok":g[0]==="no"?"no":"mid"}">${S.status[g[0]]}</span><h4>${esc(g[1])}</h4><p>${esc(g[2])}</p></div>`).join("")}</div></div>`;
+  const smax=Math.max(...S.scale.map(s=>s[1]));
+  document.getElementById("app").innerHTML=`
+  <section class="hero strat-hero">
+    <div><div class="eyebrow">${S.eyebrow}</div><h1 class="sh1">${S.title}</h1><p class="sub">${S.sub}</p></div>
+  </section>
+  <div class="leaks">
+    <div class="leak"><div class="small">${S.leakT}</div><div class="lnum">${S.leakTnum}</div><p>${S.leakTtxt}</p></div>
+    <div class="leak"><div class="small">${S.leakC}</div><div class="lnum">${S.leakCnum}</div><p>${S.leakCtxt}</p></div>
+  </div>
+  <p class="src" style="border-top:0;padding-top:0">${S.leakNote}</p>
+  <section class="card dark flowsec">
+    <h3>${S.flowH}</h3><p class="small" style="margin:-6px 0 18px">${S.flowSub}</p>
+    <div class="flows">${flow(S.flowT,S.flowTparts,"B")}${flow(S.flowC,S.flowCparts,"M")}</div>
+    <p class="para" style="color:var(--bar-ink-2);margin:18px 0 0">${S.flowWhy}</p>
+  </section>
+  <div class="tblwrap"><table class="cmp"><thead><tr><th>${S.linkH}</th><th>Stable → USDT</th><th>Arc → USDC</th></tr></thead><tbody>${S.linkRows.map(r=>`<tr><th scope="row">${esc(r[0])}</th><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody></table></div>
+  <section class="goalsec"><div class="eyebrow">${S.goalsH}</div><div class="goalcols">${goals("Tether · Stable",S.tGoals)}${goals("Circle · Arc",S.cGoals)}</div></section>
+  <section class="sec">
+    <div><div class="eyebrow">${S.scaleH}</div><h2>${S.scaleSub}</h2>
+      <div class="scale">${S.scale.map(s=>`<div class="vsb wide"><span class="nm">${s[0]}</span><div class="track"><div style="width:${Math.max(s[1]/smax*100,0.5)}%;background:${s[2]}"></div></div><span class="val">$${(s[1]>=1?s[1].toFixed(1)+"B":(s[1]*1000).toFixed(0)+"M").replace(".",LANG==="en"?".":",")}</span></div>`).join("")}</div>
+      <p class="small" style="margin:14px 0 0;max-width:62ch">${S.scaleNote}</p></div>
+    <div><div class="eyebrow">${S.quotesH}</div>
+      <div class="quotes">${S.quotes.map(q=>`<figure class="q"><blockquote>${esc(q[0])}</blockquote><figcaption>${esc(q[1])}</figcaption></figure>`).join("")}</div></div>
+  </section>
+  <section class="chain">
+    <div><div class="eyebrow">${S.verdictH}</div>${S.verdict.map(v=>`<p>${esc(v)}</p>`).join("")}</div>
+    <div><div class="eyebrow">${S.watchH}</div><div class="kv watch">${S.watch.map(w=>`<div><span>${esc(w[0])}</span><strong>${esc(w[1])}</strong></div>`).join("")}</div></div>
+  </section>
+  <div class="src">${S.srcH} <ul>${STRAT_SRC.map(s=>`<li><a href="${s[1]}" target="_blank" rel="noopener">${esc(s[0])}</a></li>`).join("")}</ul></div>`;
+}
+
 // ---------- English ----------
 const PAGES_EN={
 tether:{...PAGES_HR.tether,
@@ -595,6 +761,7 @@ function applyLang(){
   document.documentElement.lang=LANG;
   document.querySelector("nav").setAttribute("aria-label",tr("nav"));
   document.querySelector('nav a[data-page="usporedba"]').textContent=tr("compare");
+  document.querySelector('nav a[data-page="strategija"]').textContent=STRAT[LANG].nav;
   document.getElementById("hdr-date").textContent=tr("data");
   document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.lang===LANG));
 }
@@ -607,6 +774,7 @@ function render(){
   try{localStorage.setItem("izd-page",id)}catch(e){}
   if(CHAINS[id]){setNav(id);renderChain(id);return}
   if(id==="usporedba"){setNav(id);renderCompare();return}
+  if(id==="strategija"){setNav(id);renderStrategy();return}
   const p=PAGES[id]||PAGES.tether;setNav(PAGES[id]?id:"tether");
   const r=p.reserves,tot=r.parts.reduce((s,x)=>s+x[1],0);
   const other=p.other.toUpperCase();
@@ -673,7 +841,7 @@ function render(){
   try{localStorage.setItem("izd-page",id)}catch(e){}
 }
 window.addEventListener("hashchange",()=>{render();scrollTo(0,0)});
-if(!location.hash){try{const s=localStorage.getItem("izd-page");if(s&&(PAGES[s]||CHAINS[s]||s==="usporedba"))history.replaceState(null,"","#"+s)}catch(e){}}
+if(!location.hash){try{const s=localStorage.getItem("izd-page");if(s&&(PAGES[s]||CHAINS[s]||s==="usporedba"||s==="strategija"))history.replaceState(null,"","#"+s)}catch(e){}}
 render();
 </script>
 

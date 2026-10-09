@@ -219,9 +219,9 @@ tether:{
        ["mid","Revizija","Kvartalne atestacije radi BDO. Prva puna neovisna revizija (KPMG) još je u tijeku."],
        ["ok","El Salvador","Licenca davatelja usluga digitalne imovine, lokalno sjedište od 2025."]],
   chain:{name:"Stable",eyebrow:"Veza s chainom",
-    text:["Stable je Layer 1 mreža za plaćanja u kojoj je USDT plin. Korisnici plaćaju naknade u dolarima i ne trebaju zaseban volatilni token. Mrežu financira Bitfinex, a Paolo Ardoino joj je savjetnik.",
+    text:["Stable je Layer 1 mreža za plaćanja u kojoj se naknade mreže (gas fees) plaćaju u USDT-u. Korisnici tako plaćaju u dolarima i ne trebaju zaseban volatilni token. Mrežu financira Bitfinex, a Paolo Ardoino joj je savjetnik.",
           "Tether time dobiva vlastitu namjensku infrastrukturu za USDT, dok mu je dosad najveći dio prometa išao preko Trona i Ethereuma."],
-    kv:[["Mainnet","8. 12. 2025."],["Plin","USDT (USDT0)"],["Token","STABLE, 100 mlrd"],["Konsenzus","StableBFT (DPoS)"],["Seed runda","$28M (Bitfinex, Hack VC)"],["CEO","Brian Mehler"]]},
+    kv:[["Mainnet","8. 12. 2025."],["Naknade mreže (gas fees)","USDT (USDT0)"],["Token","STABLE, 100 mlrd"],["Konsenzus","StableBFT (DPoS)"],["Seed runda","$28M (Bitfinex, Hack VC)"],["CEO","Brian Mehler"]]},
   src:[["Stablecoin Insider: Tether Q2 2026","https://stablecoininsider.org/tether-q2-2026-reserve-buffer-halved/"],["Paolo Ardoino na X-u, Q2 2026","https://x.com/paoloardoino/status/2083216885995175980"],["Cointelegraph: lansiranje USA₮","https://cointelegraph.com/news/tether-launch-usat-regulated-stablecoin-us"],["The Block: Stable mainnet","https://www.theblock.co/post/381688/stable-launches-mainnet-native-token-foundation"]]
 },
 circle:{
@@ -243,9 +243,9 @@ circle:{
        ["ok","Rezerve","Rezerve su gotovina u bankama i Circle Reserve Fund, SEC-registrirani fond kojim upravlja BlackRock. Mjesečne atestacije radi Deloitte."],
        ["mid","Ovisnost o kamatama","Gotovo sav prihod dolazi od prinosa na rezerve, pa svako smanjenje kamatnih stopa izravno smanjuje prihod."]],
   chain:{name:"Arc",eyebrow:"Veza s chainom",
-    text:["Arc je Circleov Layer 1 u kojem je USDC plin. Finalnost je deterministička i traje ispod jedne sekunde. Mreža je kompatibilna s EVM-om i namijenjena institucijama, a podržava i opcionalnu privatnost iznosa.",
+    text:["Arc je Circleov Layer 1 u kojem se naknade mreže (gas fees) plaćaju u USDC-u. Finalnost je deterministička i traje ispod jedne sekunde. Mreža je kompatibilna s EVM-om i namijenjena institucijama, a podržava i opcionalnu privatnost iznosa.",
           "Mainnet je pokrenut 16. rujna 2026. s 11 validatora koje je odabrao Circle, među njima BlackRock, DTCC, Visa i Mastercard."],
-    kv:[["Mainnet","16. 9. 2026."],["Plin","USDC"],["Konsenzus","Malachite (BFT), PoA"],["Validatori","11 + Circle"],["ARC token","10 mlrd, javno nelansiran"],["Privatna prodaja","$242,2M po $0,30"]]},
+    kv:[["Mainnet","16. 9. 2026."],["Naknade mreže (gas fees)","USDC"],["Konsenzus","Malachite (BFT), PoA"],["Validatori","11 + Circle"],["ARC token","10 mlrd, javno nelansiran"],["Privatna prodaja","$242,2M po $0,30"]]},
   src:[["Beancount: Circle Q2 2026","https://beancount.io/blog/2026/09/13/circle-q2-2026-earnings-analysis"],["CertiK: Arc mainnet","https://www.certik.com/blog/circle-arc-mainnet-usdc-native-settlement"],["crypto.news: Arc lansiran","https://crypto.news/circle-arc-mainnet-launches-with-usdc-gas/"],["Arc blog","https://www.arc.io/blog/arc-mainnet-goes-live-on-september-16-2026"]]
 }};
 
@@ -296,25 +296,25 @@ stable:{
     share:[["USDT",99.99,"var(--lime)"],["Ostali",0.01,"var(--grey)"]],shareNote:"Udio u stablecoinima na chainu (~$21,1M), DefiLlama",
     kv:[["TVL","$30,3M"],["Stablecoini na chainu","$21,1M"],["Transakcije (24 h)","135.487"],["Aktivne adrese (24 h)","8.010"],["Naknade aplikacija (24 h)","$25.631"],["STABLE tržišna kap.","$689M"]]},
   why:["Tether godišnje prenese bilijune dolara u USDT-u, ali promet ide preko tuđih mreža, najviše Trona i Ethereuma. Naknade te mreže naplaćuju u svojim tokenima (TRX, ETH), pa vrijednost od prometa USDT-a ostaje njima.",
-       "Stable to okreće: plin je sam USDT, obični USDT0 transferi mogu biti besplatni, a velikim korisnicima se jamči dio kapaciteta bloka (guaranteed blockspace). Cilj je da USDT dobije svoju mrežu za plaćanja, a da prihod od naknada ostane u Tetherovom ekosustavu."],
+       "Stable to okreće: naknade mreže (gas fees) plaćaju se u samom USDT-u, obični USDT0 transferi mogu biti besplatni, a velikim korisnicima se jamči dio kapaciteta bloka (guaranteed blockspace). Cilj je da USDT dobije svoju mrežu za plaćanja, a da prihod od naknada ostane u Tetherovom ekosustavu."],
   hist:[["06/2025","Stable izlazi iz stealtha. Ardoino javno čestita timu."],
         ["07/2025","Objavljen plan u tri faze i seed runda od $28M (Bitfinex, Hack VC)."],
         ["09/2025","Investicija PayPal Venturesa i integracija PYUSD-a."],
         ["10/2025","Faza 1 pre-deposita: $825M popunjeno u minutama, uz optužbe za front-running (oko $500M s jedne adrese povezane s BTSE-om)."],
         ["12/2025","Mainnet i token STABLE 8. 12. Pre-deposit ukupno preko $2B. Osnovana Stable Foundation."],
         ["01/2026","DeFi TVL pada na ~$29 tisuća. Kapital iz pre-deposita nije ostao na chainu."],
-        ["02/2026","Nadogradnja v1.2.0: plin prelazi s gUSDT na USDT0, uvode se gas waiveri preko API-ja."],
+        ["02/2026","Nadogradnja v1.2.0: naknade mreže (gas fees) više se ne plaćaju u gUSDT-u nego u USDT0, uvode se gas waiveri preko API-ja."],
         ["10/2026","TVL se vratio na ~$30M (Concrete, Morpho, Gauntlet). Oko 135 tisuća transakcija dnevno."]],
   layer:{verdict:"L1",title:"Samostalni Layer 1",
     text:["Stable nije L2. Ima vlastiti konsenzus (StableBFT, temeljen na CometBFT-u), vlastite validatore i vlastiti token za staking. Ne objavljuje podatke ni dokaze na Ethereum, pa njegova sigurnost ne ovisi o Ethereumu.",
           "Hibridni dio je EVM kompatibilnost i USDT0, omnichain verzija USDT-a preko LayerZera. Zbog toga se Stable ponaša kao dio šire USDT mreže, iako je tehnički zaseban chain."],
-    rows:[["Vlastiti konsenzus",true],["Vlastiti validatori",true],["Settlement na Ethereumu",false],["EVM kompatibilan",true],["Plin u stablecoinu",true],["Vlastiti token",true]]},
+    rows:[["Vlastiti konsenzus",true],["Vlastiti validatori",true],["Settlement na Ethereumu",false],["EVM kompatibilan",true],["Naknade mreže (gas fees) u stablecoinu",true],["Vlastiti token",true]]},
   src:[["DefiLlama: Stable","https://defillama.com/chain/stable"],["The Block: plan faze 1","https://www.theblock.co/post/360616/stable-a-bitfinex-backed-layer-1-blockchain-using-tethers-usdt-as-a-gas-token-unveils-phase-1-of-its-roadmap"],["The Block: pre-deposit $825M","https://www.theblock.co/post/376022/stables-phase-1-hits-cap"],["The Block: mainnet","https://www.theblock.co/post/381688/stable-launches-mainnet-native-token-foundation"],["Cryptopolitan: prijelaz na USDT0","https://www.cryptopolitan.com/stable-migrate-to-usdt0-native-gas-token/"],["Lookonchain: pad TVL-a","https://lookonchain.com/feeds/42941"],["CoinGecko: STABLE","https://www.coingecko.com/en/coins/stable-2"]]
 },
 arc:{
   name:"Arc",issuer:"Circle",coinColor:"#2775ca",glyph:"A",
   num:["$553",",1M"],pill:"TVL, DefiLlama",
-  sub:"Arc je Circleov blockchain za financijska tržišta i plaćanja, s USDC-om kao plinom. Javni mainnet radi od 16. rujna 2026., a validatore čine BlackRock, DTCC, Visa, Mastercard i druge institucije.",
+  sub:"Arc je Circleov blockchain za financijska tržišta i plaćanja, u kojem se naknade mreže (gas fees) plaćaju u USDC-u. Javni mainnet radi od 16. rujna 2026., a validatore čine BlackRock, DTCC, Visa, Mastercard i druge institucije.",
   metrics:{
     tx:{label:"Transakcije / dan",unit:"M",pts:[["12. 9.",0.126,false,"Privatni mainnet"],["13. 9.",0.131,false,"Privatni mainnet"],["14. 9.",0.407,false,"Privatni mainnet"],["15. 9.",0.456,false,"Privatni mainnet"],["16. 9.",7.76,false,"Javno lansiranje, val memecoin launchpada"],["17. 9.",5.47,false,""],["18. 9.",2.61,false,""],["19. 9.",1.55,false,"80% manje nego prvi dan"],["kraj 9.",1.5,true,"Okvirno ~1,5M dnevno prema istom izvoru, bez točnog datuma"]],
       note:"Dnevni podaci s Arc explorera (dev.to analiza). Zadnja točka je procjena."},
@@ -338,7 +338,7 @@ arc:{
   layer:{verdict:"L1",title:"Permissioned Layer 1",
     text:["Arc nije L2. Ima vlastiti konsenzus Malachite (BFT, izveden iz Tendermint-a), vlastite validatore i finalnost ispod sekunde. Ne namiruje se na Ethereumu.",
           "Hibridni dio je model upravljanja. Validatore danas bira Circle (proof of authority), pa je Arc bliži konzorcijskoj mreži nego otvorenom L1 kao Ethereum. Prijelaz na proof of stake s tokenom ARC tek se razmatra."],
-    rows:[["Vlastiti konsenzus",true],["Vlastiti validatori",true],["Settlement na Ethereumu",false],["EVM kompatibilan",true],["Plin u stablecoinu",true],["Otvoreni validatori",false]]},
+    rows:[["Vlastiti konsenzus",true],["Vlastiti validatori",true],["Settlement na Ethereumu",false],["EVM kompatibilan",true],["Naknade mreže (gas fees) u stablecoinu",true],["Otvoreni validatori",false]]},
   src:[["Circle: Arc mainnet","https://www.circle.com/pressroom/circle-launches-arc-mainnet-an-economic-operating-system-for-the-internet"],["Circle: Arc testnet","https://www.circle.com/pressroom/circle-launches-arc-public-testnet"],["DefiLlama: Arc","https://defillama.com/chain/arc"],["dev.to: Arc u brojkama","https://dev.to/sulimanmukhtar/arc-chain-in-numbers-one-dollar-two-decimals-and-97000-tokens-in-a-day-4b5o"],["Coin Gabbar: prvi tjedan","https://www.coingabbar.com/en/arc-chain-news-usdc-circulation-week-one"],["Coincu: pad naknada","https://www.coincu.com/arc-mainnet-fees-fall-96-7-percent-six-days-after-launch/"],["crypto.news: lansiranje","https://crypto.news/circle-arc-mainnet-launches-with-usdc-gas/"]]
 }};
 const cMode={stable:"tvl",arc:"tx"};
@@ -411,7 +411,7 @@ const CMP_HR=[
   ["Tip mreže","Layer 1","Layer 1 (permissioned)"],
   ["Tko stoji iza","Bitfinex, USDT0, Tether ekosustav","Circle (javna tvrtka, NYSE: CRCL)"],
   ["Mainnet","8. 12. 2025.","16. 9. 2026."],
-  ["Plin","USDT0","USDC"],
+  ["Naknade mreže (gas fees)","USDT0","USDC"],
   ["Konsenzus","StableBFT (CometBFT), delegirani PoS","Malachite (BFT), proof of authority"],
   ["Validatori","Delegatori STABLE tokena","11 institucija + Circle (BlackRock, DTCC, Visa…)"],
   ["Finalnost","Ispod sekunde","Ispod sekunde (~0,5 s blok)"],
@@ -472,7 +472,7 @@ hr:{
   flowWhy:"Dva problema izgledaju isto, ali ih ne plaća ista strana. Tetherov gubitak plaćaju korisnici kroz naknade, a Tether ga osjeti kao sporiji rast i veće troškove plaćanja za svoje tržište. Circleov gubitak izravno ide s njegova računa dobiti i gubitka.",
   linkH:"Kako se chain nadovezuje na glavni proizvod",
   linkRows:[
-    ["Što chain mijenja za stablecoin","Plin je USDT0, a obični transferi mogu biti besplatni. USDT postaje jeftiniji za slanje i ne treba TRX ili ETH.","Plin je USDC, a naknade su predvidljive i u dolarima. Svaka transakcija na Arcu treba USDC."],
+    ["Što chain mijenja za stablecoin","Naknade mreže (gas fees) plaćaju se u USDT0, a obični transferi mogu biti besplatni. USDT postaje jeftiniji za slanje i ne treba TRX ili ETH.","Naknade mreže (gas fees) plaćaju se u USDC-u, predvidljive su i u dolarima. Svaka transakcija na Arcu treba USDC."],
     ["Tko zarađuje na naknadama","Validatori i stakeri tokena STABLE, ekosustav blizak Bitfinexu. Ne Tether izravno.","Circle navodi naknade i staking na Arcu kao svoj izvor prihoda. Točna raspodjela još nije objavljena."],
     ["Veza s ostalim proizvodima","USDT0 (omnichain USDT preko LayerZera, preko $100B prenesenih), Bitfinex, PayPal i PYUSD.","Circle Mint, CCTP, Gateway, Circle Payments Network (CPN), StableFX i EURC, sve na jednom mjestu."],
     ["Token","STABLE se slobodno trguje (~$689M tržišna kapitalizacija). Vrijednost od rasta mreže ostaje kod vlasnika tokena.","ARC je u Circleovim rukama (25%), privatna prodaja $242,2M. Novi izvor prihoda za Circle, neovisan o kamatama."],
@@ -482,7 +482,7 @@ hr:{
   status:{ok:"Ostvareno",prog:"U tijeku",no:"Nije ostvareno"},
   tGoals:[
     ["no","Vratiti vrijednost od naknada","Na Tronu je $87,9B USDT-a (47,6% ukupne opskrbe), a Tron je u Q2 2026. naplatio $699,4M naknada. Stable bi taj promet trebao preuzeti, ali na njemu je danas samo oko $21M stablecoina."],
-    ["ok","Jeftina plaćanja u USDT-u","Ardoino tvrdi da 40% svih naknada na blockchainima ide na slanje USDT-a. Na Stableu je plin u USDT-u, a gas waiveri i besplatni USDT0 transferi rade od nadogradnje u veljači 2026. Tehnički je cilj ostvaren, ali korisnika je još malo."],
+    ["ok","Jeftina plaćanja u USDT-u","Ardoino tvrdi da 40% svih naknada na blockchainima ide na slanje USDT-a. Na Stableu se naknade mreže (gas fees) plaćaju u USDT-u, a gas waiveri i besplatni USDT0 transferi rade od nadogradnje u veljači 2026. Tehnički je cilj ostvaren, ali korisnika je još malo."],
     ["prog","Portfelj umjesto jednog chaina","Ekosustav Tethera financira i Stable (Bitfinex) i Plasmu (Founders Fund, kapital blizak Tetheru). Dva suprotna dizajna testiraju različite putove, a zajedno jačaju Tetherovu pregovaračku poziciju prema Tronu."],
     ["prog","Institucionalni promet","Zajamčeni blockspace i partneri poput Anchorage Digitala, PayPala i Standard Chartereda (Libeara) ciljaju plaće, namirenja i B2B plaćanja. Velikih javno objavljenih tokova zasad nema."],
     ["ok","Ostati neutralan","Ardoino je u kolovozu 2026. napisao da Tether ne gradi blockchain i da ga ne planira graditi. Tether ostaje agnostičan prema mrežama, a vrijednost chaina pripada povezanim stranama, ne bilanci Tethera."]],
@@ -496,7 +496,7 @@ hr:{
   scale:[["USDT na Tronu",87.9,"var(--grey)"],["USDT na Stableu",0.021,"var(--lime)"],["Ukupni USDC",74.2,"var(--grey)"],["USDC na Arcu",0.523,"var(--lime)"]],
   scaleNote:"Stablecoin chainovi (Stable, Arc, Plasma, Tempo) zajedno drže manje od 0,3% svih stablecoina, a Ethereum i Tron oko 78% (CoinMarketCap). Arc je u tri tjedna dosegao 0,7% USDC-a, a Stable nakon deset mjeseci drži 0,01% USDT-a.",
   quotesH:"Što kažu čelnici",
-  quotes:[["»Arc je još značajnije lansiranje od samog USDC-a.«","Jeremy Allaire, Circle, rujan 2026."],["»Tether NE gradi nikakav blockchain niti ga planira graditi.«","Paolo Ardoino, Tether, kolovoz 2026."],["»40% svih naknada na blockchainima plaća se za slanje USDt-a.«","Paolo Ardoino, kolovoz 2025."],["»Tražiti nativni token za korištenje mreže bilo bi ludo.«","Jeremy Allaire o plinu u USDC-u"]],
+  quotes:[["»Arc je još značajnije lansiranje od samog USDC-a.«","Jeremy Allaire, Circle, rujan 2026."],["»Tether NE gradi nikakav blockchain niti ga planira graditi.«","Paolo Ardoino, Tether, kolovoz 2026."],["»40% svih naknada na blockchainima plaća se za slanje USDt-a.«","Paolo Ardoino, kolovoz 2025."],["»Tražiti nativni token za korištenje mreže bilo bi ludo.«","Jeremy Allaire o naknadama mreže (gas fees) u USDC-u"]],
   verdictH:"Zaključak",
   verdict:["Tether i Circle rješavaju isti problem s dvije strane. Tether ne mora graditi chain da bi zarađivao, jer prihod dolazi od rezervi bez obzira na to gdje USDT putuje. Zato Stable drži na udaljenosti, preko Bitfinexa i tokena STABLE. Cilj je smanjiti cijenu slanja USDT-a i oslabiti Tronovu poziciju, a ne napraviti novi izvor prihoda za Tether. Za sada to ne uspijeva, jer kapital iz pre-deposita od $2B nije ostao na chainu.",
            "Circle je u drugačijem položaju. Njegov problem je u vlastitom računu dobiti i gubitka: distribucija mu uzima gotovo 60%, a prihod pada sa svakim smanjenjem kamata. Arc mu zato treba kao drugi posao s vlastitim kanalom do korisnika, prihodima od naknada, tokenom i uslugama za institucije. Start je jak ($553M TVL-a u tri tjedna), ali Arc još nije pokazao stvarnu dobit, a ARC ovisi o prijelazu na proof of stake do svibnja 2028."],
@@ -730,7 +730,7 @@ hr:{nav:"Stranice",data:"Podaci do 9. 10. 2026.",supply:"Opskrba",share:"udio",c
   metricAria:"Metrika grafa",measured:"izmjereno",est:"procjena (isprekidana linija)",layerQ:"L1, L2 ili hibrid?",yes:"da",no:"ne",
   month:", listopad 2026.",chainStats:"Statistika chaina",whyOwn:"Zašto vlastiti chain",howGot:(i,n)=>`Kako je ${i} došao do ${n==="Arc"?"Arca":"Stablea"}`,
   netType:"Tip mreže",dev:"Razvoj",sinceAnn:"Od najave do danas",
-  cmpPill:"TVL Arc / Stable",cmpSub:"Oba su samostalni Layer 1 chainovi s plinom u stablecoinu, a ne L2. Stable je devet mjeseci stariji, ali Arc je u tri tjedna privukao osamnaest puta više kapitala. Podaci su od 9. 10. 2026.",
+  cmpPill:"TVL Arc / Stable",cmpSub:"Oba su samostalni Layer 1 chainovi u kojima se naknade mreže (gas fees) plaćaju u stablecoinu, a ne L2. Stable je devet mjeseci stariji, ali Arc je u tri tjedna privukao osamnaest puta više kapitala. Podaci su od 9. 10. 2026.",
   feature:"Karakteristika",concl:"Zaključak",twoWays:"Dva različita pristupa",
   c1:"Stable je otvoreniji i kripto-nativan. Ima token kojim se trguje, delegirani staking i fokus na jeftina plaćanja u USDT-u. Najveći mu je problem što kapital iz pre-deposita od $2B nije ostao na chainu, pa je TVL danas oko $30M.",
   c2:"Arc je institucionalan. Validatore bira Circle, a partneri su BlackRock, DTCC, Visa i Mastercard. Na startu je odmah dobio DeFi likvidnost preko Morpha i Aavea, ali je decentralizacija za sada ograničena.",

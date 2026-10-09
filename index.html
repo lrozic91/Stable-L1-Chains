@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Analiza stablecoin chainova Stable (Tether) i Arc (Circle): izdavatelji, statistike i usporedba.">
+<meta name="description" content="Stable (Tether) i Arc (Circle): izdavatelji, statistike chainova i usporedba. Stable (Tether) and Arc (Circle): issuers, chain statistics and comparison.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'%3E%3Crect width='26' height='26' fill='%237fd321'/%3E%3Cpath d='M6 17h14M6 12h14M9 7h8' stroke='%23121410' stroke-width='2.4'/%3E%3C/svg%3E">
-<title>Stablecoin Izdavatelji</title>
+<title>Stable L1 Chains</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
@@ -141,6 +141,12 @@ table.cmp{width:100%;border-collapse:collapse;font-size:14px;min-width:560px}
 .cmp tbody tr:hover{background:var(--lime-soft)}
 @media (max-width:880px){.vs{grid-template-columns:1fr}}
 @media (max-width:520px){.vs{padding-left:16px;padding-right:16px}.cmp th,.cmp td{padding:10px 16px}}
+.hdr-end{margin-left:auto;display:flex;gap:10px;align-items:center}
+.hdr-end .hdr-right{margin-left:0}
+.lang{display:flex;border:1px solid var(--bar-line)}
+.lang button{font:inherit;font-family:var(--f-mono);font-size:12px;background:none;border:0;color:var(--bar-ink-2);padding:7px 10px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--lime);color:#122100}
+.lang button:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
 </style>
 
 <style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
@@ -148,7 +154,7 @@ table.cmp{width:100%;border-collapse:collapse;font-size:14px;min-width:560px}
 <body>
 <div class="wrap"><div class="shell">
 <header>
-  <div class="logo"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect width="26" height="26" fill="#7fd321"/><path d="M6 17h14M6 12h14M9 7h8" stroke="#121410" stroke-width="2.4"/></svg>Stable L2</div>
+  <div class="logo"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect width="26" height="26" fill="#7fd321"/><path d="M6 17h14M6 12h14M9 7h8" stroke="#121410" stroke-width="2.4"/></svg>Stable L1 Chains</div>
   <nav aria-label="Stranice">
     <a href="#tether" data-page="tether">Tether · USDT</a>
     <a href="#circle" data-page="circle">Circle · USDC</a>
@@ -156,7 +162,7 @@ table.cmp{width:100%;border-collapse:collapse;font-size:14px;min-width:560px}
     <a href="#arc" data-page="arc">Arc</a>
     <a href="#usporedba" data-page="usporedba">Usporedba</a>
   </nav>
-  <div class="hdr-right">Podaci do 9. 10. 2026.</div>
+  <div class="hdr-end"><div class="hdr-right"><span id="hdr-date">Podaci do 9. 10. 2026.</span></div><div class="lang" role="group" aria-label="Jezik / Language"><button data-lang="hr" aria-pressed="true">HR</button><button data-lang="en" aria-pressed="false">EN</button></div></div>
 </header>
 <main id="app"></main>
 </div></div>
@@ -165,7 +171,7 @@ table.cmp{width:100%;border-collapse:collapse;font-size:14px;min-width:560px}
 const YEARS=["2019","2020","2021","2022","2023","2024","2025","10/2026"];
 const SUPPLY={usdt:[4.1,21,78,66,92,137,186,184.1],usdc:[0.5,4,42,44,24,44,75,74.2]};
 
-const PAGES={
+const PAGES_HR={
 tether:{
   key:"usdt",other:"usdc",color:"#26a17b",ticker:"USDT",company:"Tether",
   num:["$184",",1B"],pill:"59% tržišta",
@@ -215,7 +221,7 @@ circle:{
 }};
 
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const fmt=v=>"$"+(v>=10?v.toFixed(0):v.toFixed(1)).replace(".",",")+"B";
+const fmt=v=>"$"+(v>=10?v.toFixed(0):v.toFixed(1)).replace(".",LANG==="en"?".":",")+"B";
 
 function chartSVG(p,mode){
   const W=1000,H=330,L=0,R=58,T=20,B=34,iw=W-L-R,ih=H-T-B;
@@ -229,10 +235,10 @@ function chartSVG(p,mode){
   let g="";
   ticks.forEach(t=>{g+=`<line x1="${L}" x2="${L+iw}" y1="${y(t)}" y2="${y(t)}" stroke="var(--line)" stroke-dasharray="${t?'2 4':'0'}"/><text x="${W-6}" y="${y(t)+4}" text-anchor="end" font-size="12" fill="var(--ink-2)" font-family="JetBrains Mono,monospace">${lab(t)}</text>`});
   YEARS.forEach((yr,i)=>g+=`<text x="${x(i)}" y="${H-10}" text-anchor="${i===0?'start':i===YEARS.length-1?'end':'middle'}" font-size="12" fill="var(--ink-2)">${yr}</text>`);
-  const last=sa.length-1,vl=mode==="share"?sa[last].toFixed(1).replace(".",",")+"%":fmt(sa[last]);
+  const last=sa.length-1,vl=mode==="share"?sa[last].toFixed(1).replace(".",LANG==="en"?".":",")+"%":fmt(sa[last]);
   // vertical hatch like the template
   let hatch="";for(let i=0;i<=120;i++){const xx=L+i*iw/120;hatch+=`<line x1="${xx}" x2="${xx}" y1="${T}" y2="${T+ih}" stroke="var(--lime)" stroke-opacity=".10"/>`;}
-  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Opskrba ${p.ticker} i ${p.other.toUpperCase()} po godinama">
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${tr("supplyAria")(p.ticker,p.other.toUpperCase())}">
   <defs><clipPath id="ca"><path d="${area}"/></clipPath><linearGradient id="gf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--lime)" stop-opacity=".22"/><stop offset="1" stop-color="var(--lime)" stop-opacity="0"/></linearGradient></defs>
   ${g}<path d="${area}" fill="url(#gf)"/><g clip-path="url(#ca)">${hatch}</g>
   <path d="${path(sb)}" fill="none" stroke="var(--ink)" stroke-width="1.4" opacity=".8"/>
@@ -246,7 +252,7 @@ function chartSVG(p,mode){
 
 // ---------- Chain stranice (Stable, Arc) i usporedba ----------
 // Točke: [oznaka, vrijednost, procjena?, napomena]
-const CHAINS={
+const CHAINS_HR={
 stable:{
   name:"Stable",issuer:"Tether / Bitfinex",coinColor:"#26a17b",glyph:"S",
   num:["$30",",3M"],pill:"TVL, DefiLlama",
@@ -308,8 +314,8 @@ arc:{
 }};
 const cMode={stable:"tvl",arc:"tx"};
 
-function fmtU(v,u){const s=v>=100?v.toFixed(0):v>=10?v.toFixed(1):v>=1?v.toFixed(2):v.toFixed(3);return "$"===u?"$"+s:(u==="k"?s.replace(".",",")+"k":"$"+s.replace(".",",")+"M")}
-function fmtM(v,m){if(m.label.startsWith("Transakcije"))return m.unit==="k"?v.toFixed(1).replace(".",",")+"k":v.toFixed(2).replace(".",",")+"M";return fmtU(v,m.unit)}
+function fmtU(v,u){const s=v>=100?v.toFixed(0):v>=10?v.toFixed(1):v>=1?v.toFixed(2):v.toFixed(3);return "$"===u?"$"+s:(u==="k"?s.replace(".",LANG==="en"?".":",")+"k":"$"+s.replace(".",LANG==="en"?".":",")+"M")}
+function fmtM(v,m){if(/^Trans/.test(m.label))return m.unit==="k"?v.toFixed(1).replace(".",LANG==="en"?".":",")+"k":v.toFixed(2).replace(".",LANG==="en"?".":",")+"M";return fmtU(v,m.unit)}
 
 function seriesSVG(m){
   const W=1000,H=330,R=64,T=24,B=40,iw=W-R-24,ih=H-T-B,L=24,pts=m.pts,n=pts.length;
@@ -336,33 +342,33 @@ function renderChain(id){
         <span class="tag"><span class="coin" style="background:${c.coinColor}">${c.glyph}</span>${c.name} · ${c.issuer}</span></div>
       <p class="sub">${esc(c.sub)}</p>
     </div>
-    <div class="seg" role="group" aria-label="Metrika grafa">${Object.entries(c.metrics).map(([k,v])=>`<button data-m="${k}" aria-pressed="${k===cMode[id]}">${v.label}</button>`).join("")}</div>
+    <div class="seg" role="group" aria-label="${tr("metricAria")}">${Object.entries(c.metrics).map(([k,v])=>`<button data-m="${k}" aria-pressed="${k===cMode[id]}">${v.label}</button>`).join("")}</div>
   </section>
   <div class="chart" id="chart">${seriesSVG(m)}<div class="tip" id="tip" hidden></div></div>
-  <div class="legend"><span><b class="ldot"></b>izmjereno</span><span><b class="ldot est"></b>procjena (isprekidana linija)</span><span>${esc(m.note)}</span></div>
+  <div class="legend"><span><b class="ldot"></b>${tr("measured")}</span><span><b class="ldot est"></b>${tr("est")}</span><span>${esc(m.note)}</span></div>
   <div class="cards">
     <div class="card dark">
-      <h3>L1, L2 ili hibrid?</h3>
+      <h3>${tr("layerQ")}</h3>
       <div class="verdict"><span class="vbig">${c.layer.verdict}</span><span>${c.layer.title}</span></div>
-      <ul class="checks">${c.layer.rows.map(r=>`<li><span class="ck ${r[1]?'y':'n'}" aria-label="${r[1]?'da':'ne'}">${r[1]?'✓':'✕'}</span>${r[0]}</li>`).join("")}</ul>
+      <ul class="checks">${c.layer.rows.map(r=>`<li><span class="ck ${r[1]?'y':'n'}" aria-label="${r[1]?tr("yes"):tr("no")}">${r[1]?'✓':'✕'}</span>${r[0]}</li>`).join("")}</ul>
     </div>
     <div class="card">
-      <h3>Dominacija</h3>
-      <div class="dom">${c.cards.share.map(s=>`<div><div class="small">${s[0]}</div><div class="v">${String(s[1]).replace(".",",")}%</div><div class="bars" style="color:${s[2]};height:${Math.max(6,s[1]*0.8)}px"></div></div>`).join("")}</div>
-      <p class="small" style="margin:12px 0 0">${c.cards.shareNote}, listopad 2026.</p>
+      <h3>${tr("dominance")}</h3>
+      <div class="dom">${c.cards.share.map(s=>`<div><div class="small">${s[0]}</div><div class="v">${String(s[1]).replace(".",LANG==="en"?".":",")}%</div><div class="bars" style="color:${s[2]};height:${Math.max(6,s[1]*0.8)}px"></div></div>`).join("")}</div>
+      <p class="small" style="margin:12px 0 0">${c.cards.shareNote}${tr("month")}</p>
     </div>
     <div class="card">
-      <h3>Statistika chaina</h3>
+      <h3>${tr("chainStats")}</h3>
       <div class="kv">${c.cards.kv.map(k=>`<div><span>${k[0]}</span><strong>${k[1]}</strong></div>`).join("")}</div>
     </div>
   </div>
   <div class="sec">
-    <div><div class="eyebrow">Zašto vlastiti chain</div><h2>Kako je ${c.issuer.split(" /")[0]} došao do ${c.name==="Arc"?"Arca":"Stablea"}</h2>${c.why.map(t=>`<p class="para">${esc(t)}</p>`).join("")}
-      <div class="eyebrow" style="margin-top:22px">Tip mreže</div>${c.layer.text.map(t=>`<p class="para">${esc(t)}</p>`).join("")}</div>
-    <div><div class="eyebrow">Razvoj</div><h2>Od najave do danas</h2>
+    <div><div class="eyebrow">${tr("whyOwn")}</div><h2>${tr("howGot")(c.issuer.split(" /")[0],c.name)}</h2>${c.why.map(t=>`<p class="para">${esc(t)}</p>`).join("")}
+      <div class="eyebrow" style="margin-top:22px">${tr("netType")}</div>${c.layer.text.map(t=>`<p class="para">${esc(t)}</p>`).join("")}</div>
+    <div><div class="eyebrow">${tr("dev")}</div><h2>${tr("sinceAnn")}</h2>
       <ol class="tl">${c.hist.map(h=>`<li><time>${h[0]}</time><p>${esc(h[1])}</p></li>`).join("")}</ol></div>
   </div>
-  <div class="src">Izvori: <ul>${c.src.map(s=>`<li><a href="${s[1]}" target="_blank" rel="noopener">${esc(s[0])}</a></li>`).join("")}</ul></div>`;
+  <div class="src">${tr("sources")} <ul>${c.src.map(s=>`<li><a href="${s[1]}" target="_blank" rel="noopener">${esc(s[0])}</a></li>`).join("")}</ul></div>`;
   document.querySelectorAll(".seg button[data-m]").forEach(b=>b.onclick=()=>{cMode[id]=b.dataset.m;renderChain(id)});
   const tip=document.getElementById("tip"),ch=document.getElementById("chart");
   ch.querySelectorAll(".hit").forEach(h=>{
@@ -372,7 +378,7 @@ function renderChain(id){
   });
 }
 
-const CMP=[
+const CMP_HR=[
   ["Tip mreže","Layer 1","Layer 1 (permissioned)"],
   ["Tko stoji iza","Bitfinex, USDT0, Tether ekosustav","Circle (javna tvrtka, NYSE: CRCL)"],
   ["Mainnet","8. 12. 2025.","16. 9. 2026."],
@@ -386,7 +392,7 @@ const CMP=[
   ["Posebnost","Besplatni USDT0 transferi, zajamčeni blockspace","22 stablecoina u StableFX-u, tokenizirani fondovi (BUIDL)"],
   ["Ciljani korisnik","Plaćanja u USDT-u, tržišta u razvoju","Banke, burze, upravitelji imovinom"]
 ];
-const CMPN=[
+const CMPN_HR=[
   ["TVL",30.25,553.06,"M"],
   ["Stablecoini na chainu",21.14,530.33,"M"],
   ["Naknade aplikacija / dan",0.0256,0.1488,"M"],
@@ -394,34 +400,206 @@ const CMPN=[
   ["Tržišna vrijednost tokena",689,0,"M","ARC nije javno lansiran"],
   ["Prikupljeno od investitora",28,242.2,"M","Stable: seed runda. Arc: privatna prodaja ARC-a."]
 ];
-function money(v){if(v===0)return "—";if(v>=1)return "$"+(v>=100?v.toFixed(0):v.toFixed(1)).replace(".",",")+"M";if(v>=0.001)return "$"+Math.round(v*1000)+"k";return "$"+Math.round(v*1e6)}
+function money(v){if(v===0)return "—";if(v>=1)return "$"+(v>=100?v.toFixed(0):v.toFixed(1)).replace(".",LANG==="en"?".":",")+"M";if(v>=0.001)return "$"+Math.round(v*1000)+"k";return "$"+Math.round(v*1e6)}
 function renderCompare(){
   document.getElementById("app").innerHTML=`
   <section class="hero">
     <div>
-      <div class="big"><div class="num">18<span>×</span></div><span class="pill">TVL Arc / Stable</span>
+      <div class="big"><div class="num">18<span>×</span></div><span class="pill">${tr("cmpPill")}</span>
         <span class="tag">Stable vs Arc</span></div>
-      <p class="sub">Oba su samostalni Layer 1 chainovi s plinom u stablecoinu, a ne L2. Stable je devet mjeseci stariji, ali Arc je u tri tjedna privukao osamnaest puta više kapitala. Podaci su od 9. 10. 2026.</p>
+      <p class="sub">${tr("cmpSub")}</p>
     </div>
   </section>
   <section class="vs">${CMPN.map(r=>{const mx=Math.max(r[1],r[2])||1;return `<div class="vsrow"><div class="vsl">${r[0]}${r[4]?`<span class="small"> · ${r[4]}</span>`:""}</div>
     <div class="vsb"><span class="nm">Stable</span><div class="track"><div style="width:${Math.max(r[1]/mx*100,r[1]?0.6:0)}%;background:var(--grey)"></div></div><span class="val">${money(r[1])}</span></div>
     <div class="vsb"><span class="nm">Arc</span><div class="track"><div style="width:${Math.max(r[2]/mx*100,r[2]?0.6:0)}%;background:var(--lime)"></div></div><span class="val">${money(r[2])}</span></div></div>`}).join("")}</section>
-  <div class="tblwrap"><table class="cmp"><thead><tr><th>Karakteristika</th><th>Stable</th><th>Arc</th></tr></thead><tbody>${CMP.map(r=>`<tr><th scope="row">${r[0]}</th><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody></table></div>
+  <div class="tblwrap"><table class="cmp"><thead><tr><th>${tr("feature")}</th><th>Stable</th><th>Arc</th></tr></thead><tbody>${CMP.map(r=>`<tr><th scope="row">${r[0]}</th><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody></table></div>
   <section class="chain">
-    <div><div class="eyebrow">Zaključak</div><h2>Dva različita pristupa</h2>
-      <p>Stable je otvoreniji i kripto-nativan. Ima token kojim se trguje, delegirani staking i fokus na jeftina plaćanja u USDT-u. Najveći mu je problem što kapital iz pre-deposita od $2B nije ostao na chainu, pa je TVL danas oko $30M.</p>
-      <p>Arc je institucionalan. Validatore bira Circle, a partneri su BlackRock, DTCC, Visa i Mastercard. Na startu je odmah dobio DeFi likvidnost preko Morpha i Aavea, ali je decentralizacija za sada ograničena.</p></div>
+    <div><div class="eyebrow">${tr("concl")}</div><h2>${tr("twoWays")}</h2>
+      <p>${tr("c1")}</p>
+      <p>${tr("c2")}</p></div>
     <div class="kv">
-      <div><span>Starija mreža</span><strong>Stable</strong></div>
-      <div><span>Veći TVL</span><strong>Arc</strong></div>
-      <div><span>Decentraliziraniji validatori</span><strong>Stable</strong></div>
-      <div><span>Jača institucionalna podrška</span><strong>Arc</strong></div>
-      <div><span>Token u slobodnom trgovanju</span><strong>Stable</strong></div>
+      ${tr("verd").map(v=>`<div><span>${v[0]}</span><strong>${v[1]}</strong></div>`).join("")}
     </div>
   </section>
-  <div class="src">Izvori: podaci sa stranica <a href="#stable">Stable</a> i <a href="#arc">Arc</a> (DefiLlama, Circle, The Block, CoinGecko), stanje 9. 10. 2026.</div>`;
+  <div class="src">${tr("cmpSrc")}</div>`;
 }
+
+// ---------- English ----------
+const PAGES_EN={
+tether:{...PAGES_HR.tether,
+  num:["$184",".1B"],pill:"59% of market",
+  sub:"Tether Holdings issues USD₮, the world's largest stablecoin. The company is linked to the Bitfinex exchange, is headquartered in El Salvador and is led by Paolo Ardoino.",
+  reserves:{title:"Reserve breakdown",note:"BDO attestation, 30 Jun 2026, total $187.75B",
+    parts:[["US Treasury bills",114.96,"var(--lime)"],["Gold (146+ t)",18.84,"var(--amber)"],["Bitcoin (~98,900 BTC)",5.80,"#f2913a"],["Other (repo, funds, loans)",48.15,"var(--grey)"]]},
+  market:[["USDT supply (6 Oct 2026)","$184.1B"],["Excess reserves (Q2 2026)","$4.11B"],["Net profit (Q2 2026)","~$1.5B"],["Users (Ardoino, Q2)","650M+"]],
+  hist:[["2014","Launched as Realcoin (Brock Pierce, Reeve Collins, Craig Sellars) and renamed Tether in November. The first tokens were issued on the Omni protocol on top of Bitcoin."],
+        ["2017","The Paradise Papers reveal that Tether and Bitfinex share owners and management (iFinex)."],
+        ["2021","Settlement with the New York Attorney General ($18.5M) and a CFTC fine ($41M) over misleading claims about reserve backing."],
+        ["2023","Paolo Ardoino becomes CEO. Tether starts regularly putting part of its profit into bitcoin and gold."],
+        ["2025","Headquarters move to El Salvador. The US passes the GENIUS Act, and Tether sets up a US subsidiary led by Bo Hines."],
+        ["2026","January: USA₮ launches through Anchorage Digital Bank. Q2: record profit of ~$1.5B while excess reserves are cut in half."]],
+  reg:[["no","EU / MiCA","USDT has no e-money licence, so it was delisted from regulated venues in the EEA."],
+       ["mid","US / GENIUS Act","USDT is outside the federal framework. The US market is served by the separate USA₮ (issued by Anchorage, reserves held by Cantor Fitzgerald)."],
+       ["mid","Audit","BDO performs quarterly attestations. The first full independent audit (KPMG) is still in progress."],
+       ["ok","El Salvador","Digital asset service provider licence, local headquarters since 2025."]],
+  chain:{name:"Stable",eyebrow:"Link to the chain",
+    text:["Stable is a Layer 1 payments network where USDT is the gas token. Users pay fees in dollars and need no separate volatile token. The network is funded by Bitfinex, and Paolo Ardoino is an advisor.",
+          "This gives Tether dedicated infrastructure for USDT, while most of its volume has so far run over Tron and Ethereum."],
+    kv:[["Mainnet","8 Dec 2025"],["Gas","USDT (USDT0)"],["Token","STABLE, 100 bn"],["Consensus","StableBFT (DPoS)"],["Seed round","$28M (Bitfinex, Hack VC)"],["CEO","Brian Mehler"]]},
+  src:[["Stablecoin Insider: Tether Q2 2026","https://stablecoininsider.org/tether-q2-2026-reserve-buffer-halved/"],["Paolo Ardoino on X, Q2 2026","https://x.com/paoloardoino/status/2083216885995175980"],["Cointelegraph: USA₮ launch","https://cointelegraph.com/news/tether-launch-usat-regulated-stablecoin-us"],["The Block: Stable mainnet","https://www.theblock.co/post/381688/stable-launches-mainnet-native-token-foundation"]]
+},
+circle:{...PAGES_HR.circle,
+  num:["$74",".2B"],pill:"~24% of market",
+  sub:"Circle Internet Group (NYSE: CRCL) issues USDC and EURC. It was founded by Jeremy Allaire and Sean Neville in 2013 and has been listed on the New York Stock Exchange since June 2025.",
+  reserves:{title:"Revenue Q2 2026",note:"Total revenue $701.3M, of which 58.8% goes to distribution partners",
+    parts:[["Reserve income",667.7,"var(--lime)"],["Other revenue",33.6,"var(--amber)"]],
+    extra:[["Distribution costs","$410.4M"],["Net income (continuing)","$48.2M"],["Reserve return rate","3.5%"]]},
+  market:[["USDC supply (14 Sep 2026)","$74.2B"],["Q2 2026 average","$76.5B"],["Q2 2026 revenue","$701.3M"],["Share per Circle (Q2)","27%"]],
+  hist:[["2013","Jeremy Allaire and Sean Neville found Circle in Boston, initially as a payments app."],
+        ["2018","Launches USDC on Ethereum with Coinbase through the Centre consortium."],
+        ["2023","SVB collapse: $3.3B of reserves is stuck at the bank and USDC briefly drops to ~$0.87. Centre is wound down and Circle takes full control of USDC."],
+        ["2024","First major issuer compliant with MiCA, with an e-money licence in France."],
+        ["2025","NYSE IPO (CRCL) in June. GENIUS Act signed in July. Arc testnet in October."],
+        ["2026","OCC and NYDFS approvals for trust banks. Arc mainnet on 16 September with 11 institutional validators."]],
+  reg:[["ok","EU / MiCA","USDC and EURC are issued as e-money tokens under a French EMI licence."],
+       ["ok","US / GENIUS Act","Circle National Trust is approved by the OCC, and Circle New York Trust by NYDFS."],
+       ["ok","Reserves","Reserves are bank cash and the Circle Reserve Fund, an SEC-registered fund managed by BlackRock. Deloitte performs monthly attestations."],
+       ["mid","Interest rate exposure","Almost all revenue comes from reserve income, so every rate cut directly reduces revenue."]],
+  chain:{name:"Arc",eyebrow:"Link to the chain",
+    text:["Arc is Circle's Layer 1 where USDC is the gas token. Finality is deterministic and takes under a second. The network is EVM-compatible, built for institutions, and supports optional privacy for amounts.",
+          "Mainnet launched on 16 September 2026 with 11 validators chosen by Circle, including BlackRock, DTCC, Visa and Mastercard."],
+    kv:[["Mainnet","16 Sep 2026"],["Gas","USDC"],["Consensus","Malachite (BFT), PoA"],["Validators","11 + Circle"],["ARC token","10 bn, not publicly launched"],["Private sale","$242.2M at $0.30"]]},
+  src:[["Beancount: Circle Q2 2026","https://beancount.io/blog/2026/09/13/circle-q2-2026-earnings-analysis"],["CertiK: Arc mainnet","https://www.certik.com/blog/circle-arc-mainnet-usdc-native-settlement"],["crypto.news: Arc launched","https://crypto.news/circle-arc-mainnet-launches-with-usdc-gas/"],["Arc blog","https://www.arc.io/blog/arc-mainnet-goes-live-on-september-16-2026"]]
+}};
+
+const CHAINS_EN={
+stable:{...CHAINS_HR.stable,
+  num:["$30",".3M"],
+  sub:"Stable (StableChain) is a standalone blockchain for USDT payments. It is backed by Bitfinex and the USDT0 team, with Paolo Ardoino as an advisor. Mainnet has been live since 8 December 2025.",
+  metrics:{
+    tvl:{label:"TVL",unit:"M",pts:[["10/2025 pre-deposit",825,false,"Pre-deposit phase 1 filled on 23 Oct 2025. The capital sat in vaults on Ethereum and does not count as chain TVL."],["12/2025 pre-deposit",2000,false,"Over $2B in total from ~24,000 wallets across two phases, before mainnet."],["12/2025 TVL peak",100,true,"Lookonchain reports an earlier peak above $100M. The exact date was not published."],["8 Jan 2026",0.029,false,"DeFi TVL fell to $29,231 (Lookonchain)."],["9 Oct 2026",30.25,false,"DefiLlama"]],
+      note:"The first two points are pre-deposit capital, not TVL on the chain itself. The $100M peak is a lower bound and its date is an estimate."},
+    tx:{label:"Transactions / day",unit:"k",pts:[["9 Oct 2026",135.5,false,"DefiLlama, last 24 h"]],
+      note:"No public historical series of daily transactions exists for Stable. Only today's figure is shown."}
+  },
+  cards:{
+    share:[["USDT",99.99,"var(--lime)"],["Others",0.01,"var(--grey)"]],shareNote:"Share of stablecoins on the chain (~$21.1M), DefiLlama",
+    kv:[["TVL","$30.3M"],["Stablecoins on chain","$21.1M"],["Transactions (24 h)","135,487"],["Active addresses (24 h)","8,010"],["App fees (24 h)","$25,631"],["STABLE market cap","$689M"]]},
+  why:["Tether moves trillions of dollars in USDT every year, but the volume runs over other networks, mostly Tron and Ethereum. Those networks charge fees in their own tokens (TRX, ETH), so the value from USDT activity stays with them.",
+       "Stable flips that around: gas is USDT itself, plain USDT0 transfers can be free, and large users are guaranteed a share of block capacity (guaranteed blockspace). The goal is to give USDT its own payments network and keep fee revenue inside Tether's ecosystem."],
+  hist:[["06/2025","Stable comes out of stealth. Ardoino publicly congratulates the team."],
+        ["07/2025","Three-phase roadmap published, plus a $28M seed round (Bitfinex, Hack VC)."],
+        ["09/2025","PayPal Ventures invests and PYUSD is integrated."],
+        ["10/2025","Pre-deposit phase 1: $825M filled within minutes, amid front-running allegations (about $500M from one address linked to BTSE)."],
+        ["12/2025","Mainnet and STABLE token on 8 Dec. Pre-deposits exceed $2B in total. Stable Foundation established."],
+        ["01/2026","DeFi TVL drops to ~$29 thousand. Pre-deposit capital did not stay on the chain."],
+        ["02/2026","v1.2.0 upgrade: gas moves from gUSDT to USDT0, and API-managed gas waivers are introduced."],
+        ["10/2026","TVL back at ~$30M (Concrete, Morpho, Gauntlet). Around 135 thousand transactions per day."]],
+  layer:{verdict:"L1",title:"Standalone Layer 1",
+    text:["Stable is not an L2. It has its own consensus (StableBFT, based on CometBFT), its own validators and its own staking token. It does not post data or proofs to Ethereum, so its security does not depend on Ethereum.",
+          "The hybrid part is EVM compatibility and USDT0, the omnichain version of USDT via LayerZero. Because of that, Stable behaves like part of the wider USDT network even though it is technically a separate chain."],
+    rows:[["Own consensus",true],["Own validators",true],["Settles on Ethereum",false],["EVM-compatible",true],["Gas paid in a stablecoin",true],["Own token",true]]},
+  src:[["DefiLlama: Stable","https://defillama.com/chain/stable"],["The Block: phase 1 roadmap","https://www.theblock.co/post/360616/stable-a-bitfinex-backed-layer-1-blockchain-using-tethers-usdt-as-a-gas-token-unveils-phase-1-of-its-roadmap"],["The Block: $825M pre-deposit","https://www.theblock.co/post/376022/stables-phase-1-hits-cap"],["The Block: mainnet","https://www.theblock.co/post/381688/stable-launches-mainnet-native-token-foundation"],["Cryptopolitan: move to USDT0","https://www.cryptopolitan.com/stable-migrate-to-usdt0-native-gas-token/"],["Lookonchain: TVL drop","https://lookonchain.com/feeds/42941"],["CoinGecko: STABLE","https://www.coingecko.com/en/coins/stable-2"]]
+},
+arc:{...CHAINS_HR.arc,
+  num:["$553",".1M"],
+  sub:"Arc is Circle's blockchain for financial markets and payments, with USDC as gas. Public mainnet has been live since 16 September 2026, with BlackRock, DTCC, Visa, Mastercard and other institutions as validators.",
+  metrics:{
+    tx:{label:"Transactions / day",unit:"M",pts:[["12 Sep",0.126,false,"Private mainnet"],["13 Sep",0.131,false,"Private mainnet"],["14 Sep",0.407,false,"Private mainnet"],["15 Sep",0.456,false,"Private mainnet"],["16 Sep",7.76,false,"Public launch, wave of memecoin launchpads"],["17 Sep",5.47,false,""],["18 Sep",2.61,false,""],["19 Sep",1.55,false,"80% below launch day"],["end Sep",1.5,true,"Roughly ~1.5M per day per the same source, no exact date"]],
+      note:"Daily figures from the Arc explorer (dev.to analysis). The last point is an estimate."},
+    tvl:{label:"TVL",unit:"M",pts:[["16 Sep",0,true,"Day one, DeFi protocols only just opening markets"],["~24 Sep",385,false,"DefiLlama: Morpho $211M, Aave V4 $146M"],["9 Oct",553.06,false,"DefiLlama"]],
+      note:"Day-one TVL is an assumption (zero), since DeFi markets were only starting then."},
+    usdc:{label:"USDC on chain",unit:"M",pts:[["16 Sep",649,false,"USDC issued on Arc on day one (+ $7M EURC)"],["24 Sep",624,false,"Official Arc X account"],["9 Oct",523,false,"Calculated: $530M of stablecoins × 98.7% USDC (DefiLlama)"]],
+      note:"The last point is calculated from USDC's share of stablecoins on the chain."},
+    dex:{label:"DEX volume / day",unit:"M",pts:[["16 Sep",410.8,false,"~82% from memecoin launchpads"],["20 Sep",52.8,false,"Uniswap v4 $36.8M, v3 $14.4M"],["9 Oct",34.0,false,"DefiLlama, 24 h"]],note:"DefiLlama."}
+  },
+  cards:{
+    share:[["USDC",98.7,"var(--lime)"],["Others",1.3,"var(--amber)"]],shareNote:"Share of stablecoins on the chain (~$530M), DefiLlama",
+    kv:[["TVL","$553.1M"],["Stablecoins on chain","$530.3M"],["Transactions / day","~1.5M (Sep)"],["App fees (24 h)","$148,828"],["App revenue (24 h)","$21,307"],["DEX volume (7 d)","$330.1M"]]},
+  why:["Circle earns interest on reserves and pays more than half of that revenue to distributors such as Coinbase. Its own chain gives it a direct relationship with users, fee revenue and a place where USDC settles without intermediaries.",
+       "The second reason is institutions. Banks, exchanges and asset managers want predictable dollar fees, instant finality and private amounts. General-purpose networks do not offer that, so Circle built a network tailored to regulated finance."],
+  hist:[["08/2025","Circle announces Arc alongside its Q2 2025 results."],
+        ["10/2025","Public testnet on 28 Oct with more than 100 companies (BlackRock, Goldman Sachs, Visa, AWS, Anthropic)."],
+        ["06/2026","Testnet reaches 502M transactions. Private ARC token sale: 807.5M at $0.30 ($242.2M)."],
+        ["09/2026","Testnet at ~735M transactions and ~3M wallets. Public mainnet on 16 Sep with 11 founding validators."],
+        ["09/2026","Day one: 7.8M transactions and 97,000 new tokens. Within six days fees fall 96.7% from day-one levels."],
+        ["10/2026","TVL grows to $553M, mostly Morpho and Aave V4. A move to proof of stake is being considered for 2027."]],
+  layer:{verdict:"L1",title:"Permissioned Layer 1",
+    text:["Arc is not an L2. It has its own Malachite consensus (BFT, derived from Tendermint), its own validators and sub-second finality. It does not settle on Ethereum.",
+          "The hybrid part is governance. Circle currently picks the validators (proof of authority), so Arc is closer to a consortium network than to an open L1 like Ethereum. A move to proof of stake with the ARC token is only being considered."],
+    rows:[["Own consensus",true],["Own validators",true],["Settles on Ethereum",false],["EVM-compatible",true],["Gas paid in a stablecoin",true],["Open validator set",false]]},
+  src:[["Circle: Arc mainnet","https://www.circle.com/pressroom/circle-launches-arc-mainnet-an-economic-operating-system-for-the-internet"],["Circle: Arc testnet","https://www.circle.com/pressroom/circle-launches-arc-public-testnet"],["DefiLlama: Arc","https://defillama.com/chain/arc"],["dev.to: Arc in numbers","https://dev.to/sulimanmukhtar/arc-chain-in-numbers-one-dollar-two-decimals-and-97000-tokens-in-a-day-4b5o"],["Coin Gabbar: first week","https://www.coingabbar.com/en/arc-chain-news-usdc-circulation-week-one"],["Coincu: fee drop","https://www.coincu.com/arc-mainnet-fees-fall-96-7-percent-six-days-after-launch/"],["crypto.news: launch","https://crypto.news/circle-arc-mainnet-launches-with-usdc-gas/"]]
+}};
+
+const CMP_EN=[
+  ["Network type","Layer 1","Layer 1 (permissioned)"],
+  ["Backed by","Bitfinex, USDT0, Tether ecosystem","Circle (public company, NYSE: CRCL)"],
+  ["Mainnet","8 Dec 2025","16 Sep 2026"],
+  ["Gas","USDT0","USDC"],
+  ["Consensus","StableBFT (CometBFT), delegated PoS","Malachite (BFT), proof of authority"],
+  ["Validators","STABLE token delegators","11 institutions + Circle (BlackRock, DTCC, Visa…)"],
+  ["Finality","Under a second","Under a second (~0.5 s blocks)"],
+  ["EVM","Yes","Yes (Reth)"],
+  ["Native token","STABLE, 100 bn, trading","ARC, 10 bn, not publicly launched"],
+  ["Privacy","Confidential transfers (planned)","Optional hidden amounts"],
+  ["Distinctive feature","Free USDT0 transfers, guaranteed blockspace","22 stablecoins in StableFX, tokenized funds (BUIDL)"],
+  ["Target user","USDT payments, emerging markets","Banks, exchanges, asset managers"]
+];
+const CMPN_EN=[
+  ["TVL",30.25,553.06,"M"],
+  ["Stablecoins on chain",21.14,530.33,"M"],
+  ["App fees / day",0.0256,0.1488,"M"],
+  ["DEX volume / day",0.0000445,34.02,"M"],
+  ["Token market cap",689,0,"M","ARC is not publicly launched"],
+  ["Raised from investors",28,242.2,"M","Stable: seed round. Arc: private ARC sale."]
+];
+
+const UI={
+hr:{nav:"Stranice",data:"Podaci do 9. 10. 2026.",supply:"Opskrba",share:"udio",chartAria:"Prikaz grafa",
+  legendIssuer:"Godišnji presjeci, približne vrijednosti (DefiLlama / CoinGecko); zadnja točka je najnoviji podatak.",
+  others:"Ostali",dominance:"Dominacija",domNote:"Udio u ukupnoj opskrbi dolarskih stablecoina (~$312B), DefiLlama, listopad 2026.",
+  market:"Tržišni podaci",history:"Povijest",howBorn:c=>`Kako je nastao ${c}`,reg:"Regulativa i transparentnost",where:t=>`Gdje ${t} smije raditi`,
+  st:{ok:"Usklađeno",no:"Nije",mid:"Djelomično"},and:"i",sources:"Izvori:",
+  metricAria:"Metrika grafa",measured:"izmjereno",est:"procjena (isprekidana linija)",layerQ:"L1, L2 ili hibrid?",yes:"da",no:"ne",
+  month:", listopad 2026.",chainStats:"Statistika chaina",whyOwn:"Zašto vlastiti chain",howGot:(i,n)=>`Kako je ${i} došao do ${n==="Arc"?"Arca":"Stablea"}`,
+  netType:"Tip mreže",dev:"Razvoj",sinceAnn:"Od najave do danas",
+  cmpPill:"TVL Arc / Stable",cmpSub:"Oba su samostalni Layer 1 chainovi s plinom u stablecoinu, a ne L2. Stable je devet mjeseci stariji, ali Arc je u tri tjedna privukao osamnaest puta više kapitala. Podaci su od 9. 10. 2026.",
+  feature:"Karakteristika",concl:"Zaključak",twoWays:"Dva različita pristupa",
+  c1:"Stable je otvoreniji i kripto-nativan. Ima token kojim se trguje, delegirani staking i fokus na jeftina plaćanja u USDT-u. Najveći mu je problem što kapital iz pre-deposita od $2B nije ostao na chainu, pa je TVL danas oko $30M.",
+  c2:"Arc je institucionalan. Validatore bira Circle, a partneri su BlackRock, DTCC, Visa i Mastercard. Na startu je odmah dobio DeFi likvidnost preko Morpha i Aavea, ali je decentralizacija za sada ograničena.",
+  verd:[["Starija mreža","Stable"],["Veći TVL","Arc"],["Decentraliziraniji validatori","Stable"],["Jača institucionalna podrška","Arc"],["Token u slobodnom trgovanju","Stable"]],
+  cmpSrc:'Izvori: podaci sa stranica <a href="#stable">Stable</a> i <a href="#arc">Arc</a> (DefiLlama, Circle, The Block, CoinGecko), stanje 9. 10. 2026.',
+  compare:"Usporedba",supplyAria:(a,b)=>`Opskrba ${a} i ${b} po godinama`},
+en:{nav:"Pages",data:"Data as of 9 Oct 2026",supply:"Supply",share:"share",chartAria:"Chart view",
+  legendIssuer:"Year-end snapshots, approximate values (DefiLlama / CoinGecko); the last point is the latest figure.",
+  others:"Others",dominance:"Dominance",domNote:"Share of total dollar stablecoin supply (~$312B), DefiLlama, October 2026.",
+  market:"Market data",history:"History",howBorn:c=>`How ${c} came to be`,reg:"Regulation and transparency",where:t=>`Where ${t} is allowed to operate`,
+  st:{ok:"Compliant",no:"No",mid:"Partial"},and:"and",sources:"Sources:",
+  metricAria:"Chart metric",measured:"measured",est:"estimate (dashed line)",layerQ:"L1, L2 or hybrid?",yes:"yes",no:"no",
+  month:", October 2026.",chainStats:"Chain statistics",whyOwn:"Why its own chain",howGot:(i,n)=>`How ${i} arrived at ${n}`,
+  netType:"Network type",dev:"Development",sinceAnn:"From announcement to today",
+  cmpPill:"TVL Arc / Stable",cmpSub:"Both are standalone Layer 1 chains with gas paid in a stablecoin, not L2s. Stable is nine months older, but Arc attracted eighteen times more capital in three weeks. Data as of 9 Oct 2026.",
+  feature:"Feature",concl:"Conclusion",twoWays:"Two different approaches",
+  c1:"Stable is more open and crypto-native. It has a freely traded token, delegated staking and a focus on cheap USDT payments. Its biggest problem is that the $2B of pre-deposit capital did not stay on the chain, so TVL is around $30M today.",
+  c2:"Arc is institutional. Circle picks the validators, and its partners are BlackRock, DTCC, Visa and Mastercard. It got DeFi liquidity through Morpho and Aave right from the start, but decentralization is limited for now.",
+  verd:[["Older network","Stable"],["Larger TVL","Arc"],["More decentralized validators","Stable"],["Stronger institutional backing","Arc"],["Freely traded token","Stable"]],
+  cmpSrc:'Sources: data from the <a href="#stable">Stable</a> and <a href="#arc">Arc</a> pages (DefiLlama, Circle, The Block, CoinGecko), as of 9 Oct 2026.',
+  compare:"Comparison",supplyAria:(a,b)=>`${a} and ${b} supply by year`}
+};
+let LANG="hr";try{const l=localStorage.getItem("izd-lang");if(l==="en"||l==="hr")LANG=l}catch(e){}
+let PAGES,CHAINS,CMP,CMPN;
+const tr=k=>UI[LANG][k];
+function applyLang(){
+  PAGES=LANG==="en"?PAGES_EN:PAGES_HR;CHAINS=LANG==="en"?CHAINS_EN:CHAINS_HR;CMP=LANG==="en"?CMP_EN:CMP_HR;CMPN=LANG==="en"?CMPN_EN:CMPN_HR;
+  document.documentElement.lang=LANG;
+  document.querySelector("nav").setAttribute("aria-label",tr("nav"));
+  document.querySelector('nav a[data-page="usporedba"]').textContent=tr("compare");
+  document.getElementById("hdr-date").textContent=tr("data");
+  document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.lang===LANG));
+}
+applyLang();
+document.querySelectorAll(".lang button").forEach(b=>b.onclick=()=>{LANG=b.dataset.lang;try{localStorage.setItem("izd-lang",LANG)}catch(e){};applyLang();render()});
 
 let mode="supply";
 function render(){
@@ -432,7 +610,7 @@ function render(){
   const p=PAGES[id]||PAGES.tether;setNav(PAGES[id]?id:"tether");
   const r=p.reserves,tot=r.parts.reduce((s,x)=>s+x[1],0);
   const other=p.other.toUpperCase();
-  const share=[["USDT",59,"var(--lime)"],["USDC",24,"var(--amber)"],["Ostali",17,"var(--red)"]];
+  const share=[["USDT",59,"var(--lime)"],["USDC",24,"var(--amber)"],[tr("others"),17,"var(--red)"]];
   document.getElementById("app").innerHTML=`
   <section class="hero">
     <div>
@@ -440,54 +618,54 @@ function render(){
         <span class="tag"><span class="coin" style="background:${p.color}">${p.ticker==="USDT"?"₮":"$"}</span>${p.ticker} · ${p.company}</span></div>
       <p class="sub">${esc(p.sub)}</p>
     </div>
-    <div class="seg" role="group" aria-label="Prikaz grafa">
-      <button id="m-supply" aria-pressed="${mode==="supply"}">Opskrba</button>
-      <button id="m-share" aria-pressed="${mode==="share"}">${p.ticker} vs ${other} udio</button>
+    <div class="seg" role="group" aria-label="${tr("chartAria")}">
+      <button id="m-supply" aria-pressed="${mode==="supply"}">${tr("supply")}</button>
+      <button id="m-share" aria-pressed="${mode==="share"}">${p.ticker} vs ${other} ${tr("share")}</button>
     </div>
   </section>
   <div class="chart" id="chart">${chartSVG(p,mode)}<div class="tip" id="tip" hidden></div></div>
-  <div class="legend"><span><i style="background:var(--lime);height:3px"></i>${p.ticker}</span><span><i style="background:var(--ink)"></i>${other}</span><span>Godišnji presjeci, približne vrijednosti (DefiLlama / CoinGecko); zadnja točka je najnoviji podatak.</span></div>
+  <div class="legend"><span><i style="background:var(--lime);height:3px"></i>${p.ticker}</span><span><i style="background:var(--ink)"></i>${other}</span><span>${tr("legendIssuer")}</span></div>
 
   <div class="cards">
     <div class="card dark">
       <h3>${r.title}</h3>
       <div class="dots">${r.parts.map(x=>`<span><b style="background:${x[2]}"></b>${esc(x[0])}</span>`).join("")}</div>
       <div class="stack">${r.parts.map(x=>`<div title="${esc(x[0])}" style="flex:${x[1]};background:${x[2]}"></div>`).join("")}</div>
-      <ul class="rlist">${r.parts.map(x=>`<li><span>${esc(x[0])}</span><span>${id==="circle"?"$"+x[1].toFixed(1).replace(".",",")+"M":"$"+x[1].toFixed(2).replace(".",",")+"B"} · ${(x[1]/tot*100).toFixed(1).replace(".",",")}%</span></li>`).join("")}
+      <ul class="rlist">${r.parts.map(x=>`<li><span>${esc(x[0])}</span><span>${id==="circle"?"$"+x[1].toFixed(1).replace(".",LANG==="en"?".":",")+"M":"$"+x[1].toFixed(2).replace(".",LANG==="en"?".":",")+"B"} · ${(x[1]/tot*100).toFixed(1).replace(".",LANG==="en"?".":",")}%</span></li>`).join("")}
       ${(r.extra||[]).map(x=>`<li><span>${x[0]}</span><span>${x[1]}</span></li>`).join("")}</ul>
       <p class="small" style="margin:12px 0 0">${esc(r.note)}</p>
     </div>
     <div class="card">
-      <h3>Dominacija</h3>
+      <h3>${tr("dominance")}</h3>
       <div class="dom">${share.map(s=>`<div><div class="small">${s[0]}</div><div class="v">${s[1]}%</div><div class="bars" style="color:${s[2]};height:${Math.max(10,s[1]*1.3)}px"></div></div>`).join("")}</div>
-      <p class="small" style="margin:12px 0 0">Udio u ukupnoj opskrbi dolarskih stablecoina (~$312B), DefiLlama, listopad 2026.</p>
+      <p class="small" style="margin:12px 0 0">${tr("domNote")}</p>
     </div>
     <div class="card">
-      <h3>Tržišni podaci</h3>
+      <h3>${tr("market")}</h3>
       <div class="kv">${p.market.map(m=>`<div><span>${m[0]}</span><strong>${m[1]}</strong></div>`).join("")}</div>
     </div>
   </div>
 
   <div class="sec">
-    <div><div class="eyebrow">Povijest</div><h2>Kako je nastao ${p.company}</h2>
+    <div><div class="eyebrow">${tr("history")}</div><h2>${tr("howBorn")(p.company)}</h2>
       <ol class="tl">${p.hist.map(h=>`<li><time>${h[0]}</time><p>${esc(h[1])}</p></li>`).join("")}</ol></div>
-    <div><div class="eyebrow">Regulativa i transparentnost</div><h2>Gdje ${p.ticker} smije raditi</h2>
-      <div class="facts">${p.reg.map(f=>`<div class="fact"><span class="st ${f[0]}">${f[0]==="ok"?"Usklađeno":f[0]==="no"?"Nije":"Djelomično"}</span><p><strong style="font-weight:500">${f[1]}.</strong> ${esc(f[2])}</p></div>`).join("")}</div></div>
+    <div><div class="eyebrow">${tr("reg")}</div><h2>${tr("where")(p.ticker)}</h2>
+      <div class="facts">${p.reg.map(f=>`<div class="fact"><span class="st ${f[0]}">${tr("st")[f[0]]}</span><p><strong style="font-weight:500">${f[1]}.</strong> ${esc(f[2])}</p></div>`).join("")}</div></div>
   </div>
 
   <section class="chain">
-    <div><div class="eyebrow">${p.chain.eyebrow}</div><h2>${p.company} i ${p.chain.name}</h2>${p.chain.text.map(t=>`<p>${esc(t)}</p>`).join("")}</div>
+    <div><div class="eyebrow">${p.chain.eyebrow}</div><h2>${p.company} ${tr("and")} ${p.chain.name}</h2>${p.chain.text.map(t=>`<p>${esc(t)}</p>`).join("")}</div>
     <div class="kv">${p.chain.kv.map(m=>`<div><span>${m[0]}</span><strong>${m[1]}</strong></div>`).join("")}</div>
   </section>
 
-  <div class="src">Izvori: <ul>${p.src.map(s=>`<li><a href="${s[1]}" target="_blank" rel="noopener">${esc(s[0])}</a></li>`).join("")}</ul></div>`;
+  <div class="src">${tr("sources")} <ul>${p.src.map(s=>`<li><a href="${s[1]}" target="_blank" rel="noopener">${esc(s[0])}</a></li>`).join("")}</ul></div>`;
 
   document.getElementById("m-supply").onclick=()=>{mode="supply";render()};
   document.getElementById("m-share").onclick=()=>{mode="share";render()};
   const tip=document.getElementById("tip"),ch=document.getElementById("chart");
   ch.querySelectorAll(".hit").forEach(h=>{
     h.addEventListener("mouseenter",()=>{const i=+h.dataset.i,a=SUPPLY[p.key][i],b=SUPPLY[p.other][i];
-      const v=mode==="share"?(a/(a+b)*100).toFixed(1).replace(".",",")+"%":fmt(a);
+      const v=mode==="share"?(a/(a+b)*100).toFixed(1).replace(".",LANG==="en"?".":",")+"%":fmt(a);
       const bb=h.getBoundingClientRect(),cb=ch.getBoundingClientRect();
       tip.textContent=`${YEARS[i]} · ${p.ticker} ${v}`;tip.style.left=(bb.left-cb.left+bb.width/2)+"px";tip.style.top="40px";tip.hidden=false;});
     h.addEventListener("mouseleave",()=>tip.hidden=true);

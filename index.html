@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="hr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Analiza stablecoin chainova Stable (Tether) i Arc (Circle): izdavatelji, statistike i usporedba.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'%3E%3Crect width='26' height='26' fill='%237fd321'/%3E%3Cpath d='M6 17h14M6 12h14M9 7h8' stroke='%23121410' stroke-width='2.4'/%3E%3C/svg%3E">
+<title>Stablecoin Izdavatelji</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: tamni header s navigacijom, veliki broj + graf opskrbe, ispod tri kartice (tamna / svijetla / svijetla), zatim povijest i regulativa */
+:root{
+  --bg:#f4f6f1; --paper:#ffffff; --ink:#121410; --ink-2:#5d6358; --line:#e3e7de;
+  --bar:#121410; --bar-ink:#e9eee4; --bar-ink-2:#8d9487; --bar-line:#2a2e26;
+  --lime:#7fd321; --lime-soft:rgba(127,211,33,.14); --lime-ink:#3f7a06;
+  --grey:#b9beb4; --red:#d8372f; --amber:#e6b23a;
+  --f-display:"Outfit",ui-sans-serif,system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0b0c0a; --paper:#151713; --ink:#eef2ea; --ink-2:#9aa293; --line:#272b23;
+  --bar:#050605; --bar-ink:#e9eee4; --bar-ink-2:#80887a; --bar-line:#22261f;
+  --lime:#93e637; --lime-soft:rgba(147,230,55,.14); --lime-ink:#a6ef55; --grey:#5c6257; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0b0c0a; --paper:#151713; --ink:#eef2ea; --ink-2:#9aa293; --line:#272b23;
+  --bar:#050605; --bar-ink:#e9eee4; --bar-ink-2:#80887a; --bar-line:#22261f;
+  --lime:#93e637; --lime-soft:rgba(147,230,55,.14); --lime-ink:#a6ef55; --grey:#5c6257; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-display);font-size:15px;line-height:1.55}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:20px 48px}
+.shell{background:var(--paper);border:1px solid var(--line);overflow:hidden}
+/* header */
+header{background:var(--bar);color:var(--bar-ink);display:flex;align-items:center;gap:28px;padding:14px 24px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:.02em}
+.logo svg{display:block}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+nav a{color:var(--bar-ink-2);text-decoration:none;font-size:14px;padding:6px 12px;border-radius:2px}
+nav a:hover{color:var(--bar-ink)}
+nav a[aria-current="page"]{color:var(--bar-ink);font-weight:500;box-shadow:inset 0 -2px 0 var(--lime)}
+nav a.soon{opacity:.45;pointer-events:none}
+.hdr-right{margin-left:auto;font-family:var(--f-mono);font-size:12px;color:var(--bar-ink-2);border:1px solid var(--bar-line);padding:7px 12px}
+/* hero */
+.hero{padding:28px 28px 0;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:flex-start}
+.big{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.big .num{font-size:clamp(48px,9vw,92px);font-weight:300;letter-spacing:-.03em;line-height:1}
+.big .num span{color:var(--ink-2)}
+.tag{display:inline-flex;align-items:center;gap:8px;font-size:22px;font-weight:400}
+.pill{font-family:var(--f-mono);font-size:11px;background:var(--lime);color:#122100;padding:2px 8px;border-radius:99px;font-weight:500;align-self:flex-start;margin-top:10px}
+.coin{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:600;color:#fff}
+.sub{color:var(--ink-2);margin:10px 0 0;max-width:62ch}
+.seg{display:flex;border:1px solid var(--line)}
+.seg button{font:inherit;font-size:13px;background:none;border:0;border-right:1px solid var(--line);padding:6px 12px;color:var(--ink);cursor:pointer}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.seg button:focus-visible,nav a:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+.chart{padding:8px 0 0;position:relative}
+.chart svg{display:block;width:100%;height:auto}
+.legend{display:flex;gap:18px;padding:0 28px 14px;font-size:12px;color:var(--ink-2);flex-wrap:wrap}
+.legend i{display:inline-block;width:14px;height:2px;vertical-align:middle;margin-right:6px}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--paper);font-family:var(--f-mono);font-size:12px;padding:5px 10px;border-radius:99px;white-space:nowrap;transform:translate(-50%,-130%)}
+/* cards */
+.cards{display:grid;grid-template-columns:1.15fr 1fr 1fr;border-top:1px solid var(--line)}
+.card{padding:22px 24px;min-width:0}
+.card+.card{border-left:1px solid var(--line)}
+.card.dark{background:var(--bar);color:var(--bar-ink)}
+.card h3{font-weight:400;font-size:20px;margin:0 0 12px}
+.small{font-size:12px;color:var(--ink-2)}
+.dark .small{color:var(--bar-ink-2)}
+.dots{display:flex;gap:14px;font-size:12px;margin-bottom:14px;flex-wrap:wrap}
+.dots b{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px}
+.stack{display:flex;height:34px;gap:2px}
+.stack div{height:100%}
+.rlist{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:6px;font-size:13px}
+.rlist li{display:flex;justify-content:space-between;gap:10px;font-variant-numeric:tabular-nums}
+.dom{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;align-items:end}
+.dom .v{font-size:20px;font-variant-numeric:tabular-nums}
+.dom .bars{height:64px;margin-top:6px;background-image:repeating-linear-gradient(90deg,currentColor 0 2px,transparent 2px 4px)}
+.kv{display:grid;gap:0}
+.kv div{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}
+.kv div:last-child{border-bottom:0}
+.kv span{font-size:12px;color:var(--ink-2)}
+.kv strong{font-weight:400;font-size:19px;font-variant-numeric:tabular-nums;text-align:right}
+/* body sections */
+.sec{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
+.sec>div{padding:26px 28px;min-width:0}
+.sec>div+div{border-left:1px solid var(--line)}
+h2{font-weight:400;font-size:24px;margin:0 0 14px;text-wrap:balance}
+.eyebrow{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--lime-ink);margin-bottom:6px}
+.tl{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.tl li{display:grid;grid-template-columns:72px 1fr;gap:14px;padding:9px 0;border-bottom:1px dashed var(--line)}
+.tl li:last-child{border-bottom:0}
+.tl time{font-family:var(--f-mono);font-size:12px;color:var(--ink-2);padding-top:2px}
+.tl p{margin:0;max-width:60ch}
+.facts{display:grid;gap:12px}
+.fact{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.st{font-family:var(--f-mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:3px 7px;border-radius:2px;white-space:nowrap;margin-top:3px}
+.st.ok{background:var(--lime-soft);color:var(--lime-ink)}
+.st.no{background:rgba(216,55,47,.12);color:var(--red)}
+.st.mid{background:rgba(230,178,58,.16);color:#a87a12}
+.fact p{margin:0}
+.chain{background:var(--bar);color:var(--bar-ink);padding:26px 28px;display:grid;grid-template-columns:1.2fr 1fr;gap:28px;border-top:1px solid var(--line)}
+.chain h2{color:var(--bar-ink)}
+.chain p{color:var(--bar-ink-2);max-width:62ch;margin:0 0 10px}
+.chain .kv div{border-color:var(--bar-line)}
+.chain .kv span{color:var(--bar-ink-2)}
+.chain .eyebrow{color:var(--lime)}
+.src{padding:18px 28px;font-size:12px;color:var(--ink-2);border-top:1px solid var(--line)}
+.src a{color:var(--ink-2)}
+.src ul{margin:6px 0 0;padding-left:18px;columns:2;column-gap:28px}
+@media (max-width:880px){
+  .cards,.sec,.chain{grid-template-columns:1fr}
+  .card+.card,.sec>div+div{border-left:0;border-top:1px solid var(--line)}
+  .src ul{columns:1}
+}
+@media (max-width:520px){
+  header{gap:12px;padding:12px 16px}.hdr-right{display:none}
+  .hero,.legend,.sec>div,.chain,.src{padding-left:16px;padding-right:16px}.card{padding:18px 16px}
+  .tl li{grid-template-columns:58px 1fr}
+}
+@media (prefers-reduced-motion:no-preference){.line-path{stroke-dasharray:var(--len);stroke-dashoffset:0;animation:draw 1.2s ease-out}@keyframes draw{from{stroke-dashoffset:var(--len)}}}
+.ldot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--lime);border:1.5px solid var(--ink);margin-right:6px;vertical-align:-1px}
+.ldot.est{background:var(--paper)}
+.verdict{display:flex;align-items:baseline;gap:12px;margin-bottom:14px}
+.vbig{font-size:54px;font-weight:300;line-height:1;color:var(--lime)}
+.checks{list-style:none;margin:0;padding:0;display:grid;gap:7px;font-size:13px}
+.checks li{display:flex;gap:10px;align-items:center}
+.ck{width:18px;height:18px;display:grid;place-items:center;font-size:11px;border-radius:2px}
+.ck.y{background:var(--lime);color:#122100}.ck.n{background:var(--bar-line);color:var(--bar-ink-2)}
+.para{margin:0 0 12px;max-width:62ch}
+.vs{padding:20px 28px 26px;display:grid;grid-template-columns:repeat(2,1fr);gap:18px 40px}
+.vsrow{min-width:0}.vsl{font-size:14px;margin-bottom:8px}
+.vsb{display:grid;grid-template-columns:52px 1fr 70px;gap:10px;align-items:center;font-size:12px;margin-bottom:5px}
+.vsb .nm{color:var(--ink-2)}.vsb .val{font-family:var(--f-mono);text-align:right;font-variant-numeric:tabular-nums}
+.track{height:12px;background:var(--line)}.track div{height:100%}
+.tblwrap{overflow-x:auto;border-top:1px solid var(--line)}
+table.cmp{width:100%;border-collapse:collapse;font-size:14px;min-width:560px}
+.cmp th,.cmp td{text-align:left;padding:11px 28px;border-bottom:1px solid var(--line);vertical-align:top}
+.cmp thead th{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);font-weight:400}
+.cmp tbody th{font-weight:500;width:24%}
+.cmp tbody tr:hover{background:var(--lime-soft)}
+@media (max-width:880px){.vs{grid-template-columns:1fr}}
+@media (max-width:520px){.vs{padding-left:16px;padding-right:16px}.cmp th,.cmp td{padding:10px 16px}}
+</style>
+
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<div class="wrap"><div class="shell">
+<header>
+  <div class="logo"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect width="26" height="26" fill="#7fd321"/><path d="M6 17h14M6 12h14M9 7h8" stroke="#121410" stroke-width="2.4"/></svg>Stable L2</div>
+  <nav aria-label="Stranice">
+    <a href="#tether" data-page="tether">Tether · USDT</a>
+    <a href="#circle" data-page="circle">Circle · USDC</a>
+    <a href="#stable" data-page="stable">Stable</a>
+    <a href="#arc" data-page="arc">Arc</a>
+    <a href="#usporedba" data-page="usporedba">Usporedba</a>
+  </nav>
+  <div class="hdr-right">Podaci do 9. 10. 2026.</div>
+</header>
+<main id="app"></main>
+</div></div>
+
+<script>
+const YEARS=["2019","2020","2021","2022","2023","2024","2025","10/2026"];
+const SUPPLY={usdt:[4.1,21,78,66,92,137,186,184.1],usdc:[0.5,4,42,44,24,44,75,74.2]};
+
+const PAGES={
+tether:{
+  key:"usdt",other:"usdc",color:"#26a17b",ticker:"USDT",company:"Tether",
+  num:["$184",",1B"],pill:"59% tržišta",
+  sub:"Tether Holdings izdaje USD₮, najveći stablecoin na svijetu. Tvrtka je povezana s burzom Bitfinex, sjedište joj je u El Salvadoru, a vodi je Paolo Ardoino.",
+  reserves:{title:"Struktura rezervi",note:"Atestacija BDO, 30. 6. 2026, ukupno $187,75B",
+    parts:[["Američki trezorski zapisi",114.96,"var(--lime)"],["Zlato (146+ t)",18.84,"var(--amber)"],["Bitcoin (~98.900 BTC)",5.80,"#f2913a"],["Ostalo (repo, fondovi, krediti)",48.15,"var(--grey)"]]},
+  market:[["Opskrba USDT (6. 10. 2026.)","$184,1B"],["Višak rezervi (Q2 2026.)","$4,11B"],["Neto dobit (Q2 2026.)","~$1,5B"],["Korisnika (Ardoino, Q2)","650M+"]],
+  hist:[["2014","Pokrenut kao Realcoin (Brock Pierce, Reeve Collins, Craig Sellars), u studenom preimenovan u Tether. Prvi tokeni izdani na Omni protokolu iznad Bitcoina."],
+        ["2017","Paradise Papers otkrivaju da Tether i Bitfinex imaju iste vlasnike i upravu (iFinex)."],
+        ["2021","Nagodba s njujorškim državnim odvjetnikom ($18,5M) i kazna CFTC-a ($41M) zbog netočnih tvrdnji o pokriću rezervi."],
+        ["2023","Paolo Ardoino postaje CEO. Tether počinje redovito ulagati dio dobiti u bitcoin i zlato."],
+        ["2025","Sjedište prelazi u El Salvador. U SAD-u se donosi GENIUS Act, a Tether za Bo Hinesa otvara američku podružnicu."],
+        ["2026","Siječanj: lansiran USA₮ preko Anchorage Digital Bank. Q2: rekordna dobit od ~$1,5B uz upola manji višak rezervi."]],
+  reg:[["no","EU / MiCA","USDT nema licencu za e-novac, pa je skinut s reguliranih burzi u EEA."],
+       ["mid","SAD / GENIUS Act","USDT nije u saveznom okviru. Za američko tržište služi zasebni USA₮ (izdavatelj Anchorage, skrbnik rezervi Cantor Fitzgerald)."],
+       ["mid","Revizija","Kvartalne atestacije radi BDO. Prva puna neovisna revizija (KPMG) još je u tijeku."],
+       ["ok","El Salvador","Licenca davatelja usluga digitalne imovine, lokalno sjedište od 2025."]],
+  chain:{name:"Stable",eyebrow:"Veza s chainom",
+    text:["Stable je Layer 1 mreža za plaćanja u kojoj je USDT plin. Korisnici plaćaju naknade u dolarima i ne trebaju zaseban volatilni token. Mrežu financira Bitfinex, a Paolo Ardoino joj je savjetnik.",
+          "Tether time dobiva vlastitu namjensku infrastrukturu za USDT, dok mu je dosad najveći dio prometa išao preko Trona i Ethereuma."],
+    kv:[["Mainnet","8. 12. 2025."],["Plin","USDT (USDT0)"],["Token","STABLE, 100 mlrd"],["Konsenzus","StableBFT (DPoS)"],["Seed runda","$28M (Bitfinex, Hack VC)"],["CEO","Brian Mehler"]]},
+  src:[["Stablecoin Insider: Tether Q2 2026","https://stablecoininsider.org/tether-q2-2026-reserve-buffer-halved/"],["Paolo Ardoino na X-u, Q2 2026","https://x.com/paoloardoino/status/2083216885995175980"],["Cointelegraph: lansiranje USA₮","https://cointelegraph.com/news/tether-launch-usat-regulated-stablecoin-us"],["The Block: Stable mainnet","https://www.theblock.co/post/381688/stable-launches-mainnet-native-token-foundation"]]
+},
+circle:{
+  key:"usdc",other:"usdt",color:"#2775ca",ticker:"USDC",company:"Circle",
+  num:["$74",",2B"],pill:"~24% tržišta",
+  sub:"Circle Internet Group (NYSE: CRCL) izdaje USDC i EURC. Osnovali su ga Jeremy Allaire i Sean Neville 2013., a od lipnja 2025. kotira na burzi u New Yorku.",
+  reserves:{title:"Prihodi Q2 2026.",note:"Ukupni prihod $701,3M, od toga 58,8% odlazi distributerima",
+    parts:[["Prinos na rezerve",667.7,"var(--lime)"],["Ostali prihodi",33.6,"var(--amber)"]],
+    extra:[["Troškovi distribucije",  "$410,4M"],["Neto dobit (kontinuirano)","$48,2M"],["Stopa prinosa rezervi","3,5%"]]},
+  market:[["Opskrba USDC (14. 9. 2026.)","$74,2B"],["Prosjek u Q2 2026.","$76,5B"],["Prihod Q2 2026.","$701,3M"],["Udio prema Circleu (Q2)","27%"]],
+  hist:[["2013","Jeremy Allaire i Sean Neville osnivaju Circle u Bostonu, isprva kao aplikaciju za plaćanja."],
+        ["2018","S Coinbaseom kroz konzorcij Centre lansira USDC na Ethereumu."],
+        ["2023","Pad SVB-a: $3,3B rezervi zapelo je u banci i USDC kratko pada na ~$0,87. Centre je ugašen, a Circle preuzima punu kontrolu nad USDC-om."],
+        ["2024","Prvi veliki izdavatelj usklađen s MiCA-om, s licencom za e-novac u Francuskoj."],
+        ["2025","IPO na NYSE-u (CRCL) u lipnju. GENIUS Act potpisan u srpnju. Arc testnet u listopadu."],
+        ["2026","Odobrenja OCC-a i NYDFS-a za trust banke. Arc mainnet 16. rujna s 11 institucionalnih validatora."]],
+  reg:[["ok","EU / MiCA","USDC i EURC izdaju se kao tokeni e-novca preko francuske EMI licence."],
+       ["ok","SAD / GENIUS Act","Circle National Trust ima odobrenje OCC-a, a Circle New York Trust odobrenje NYDFS-a."],
+       ["ok","Rezerve","Rezerve su gotovina u bankama i Circle Reserve Fund, SEC-registrirani fond kojim upravlja BlackRock. Mjesečne atestacije radi Deloitte."],
+       ["mid","Ovisnost o kamatama","Gotovo sav prihod dolazi od prinosa na rezerve, pa svako smanjenje kamatnih stopa izravno smanjuje prihod."]],
+  chain:{name:"Arc",eyebrow:"Veza s chainom",
+    text:["Arc je Circleov Layer 1 u kojem je USDC plin. Finalnost je deterministička i traje ispod jedne sekunde. Mreža je kompatibilna s EVM-om i namijenjena institucijama, a podržava i opcionalnu privatnost iznosa.",
+          "Mainnet je pokrenut 16. rujna 2026. s 11 validatora koje je odabrao Circle, među njima BlackRock, DTCC, Visa i Mastercard."],
+    kv:[["Mainnet","16. 9. 2026."],["Plin","USDC"],["Konsenzus","Malachite (BFT), PoA"],["Validatori","11 + Circle"],["ARC token","10 mlrd, javno nelansiran"],["Privatna prodaja","$242,2M po $0,30"]]},
+  src:[["Beancount: Circle Q2 2026","https://beancount.io/blog/2026/09/13/circle-q2-2026-earnings-analysis"],["CertiK: Arc mainnet","https://www.certik.com/blog/circle-arc-mainnet-usdc-native-settlement"],["crypto.news: Arc lansiran","https://crypto.news/circle-arc-mainnet-launches-with-usdc-gas/"],["Arc blog","https://www.arc.io/blog/arc-mainnet-goes-live-on-september-16-2026"]]
+}};
+
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt=v=>"$"+(v>=10?v.toFixed(0):v.toFixed(1)).replace(".",",")+"B";
+
+function chartSVG(p,mode){
+  const W=1000,H=330,L=0,R=58,T=20,B=34,iw=W-L-R,ih=H-T-B;
+  const a=SUPPLY[p.key],b=SUPPLY[p.other];
+  let sa=a,sb=b,max,ticks,lab;
+  if(mode==="share"){sa=a.map((v,i)=>v/(a[i]+b[i])*100);sb=sa.map(v=>100-v);max=100;ticks=[0,25,50,75,100];lab=v=>v+"%";}
+  else{max=200;ticks=[0,50,100,150,200];lab=v=>v+"B";}
+  const x=i=>L+i*iw/(YEARS.length-1),y=v=>T+ih-v/max*ih;
+  const path=s=>s.map((v,i)=>(i?"L":"M")+x(i).toFixed(1)+" "+y(v).toFixed(1)).join(" ");
+  const area=path(sa)+` L${x(sa.length-1)} ${T+ih} L${x(0)} ${T+ih} Z`;
+  let g="";
+  ticks.forEach(t=>{g+=`<line x1="${L}" x2="${L+iw}" y1="${y(t)}" y2="${y(t)}" stroke="var(--line)" stroke-dasharray="${t?'2 4':'0'}"/><text x="${W-6}" y="${y(t)+4}" text-anchor="end" font-size="12" fill="var(--ink-2)" font-family="JetBrains Mono,monospace">${lab(t)}</text>`});
+  YEARS.forEach((yr,i)=>g+=`<text x="${x(i)}" y="${H-10}" text-anchor="${i===0?'start':i===YEARS.length-1?'end':'middle'}" font-size="12" fill="var(--ink-2)">${yr}</text>`);
+  const last=sa.length-1,vl=mode==="share"?sa[last].toFixed(1).replace(".",",")+"%":fmt(sa[last]);
+  // vertical hatch like the template
+  let hatch="";for(let i=0;i<=120;i++){const xx=L+i*iw/120;hatch+=`<line x1="${xx}" x2="${xx}" y1="${T}" y2="${T+ih}" stroke="var(--lime)" stroke-opacity=".10"/>`;}
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Opskrba ${p.ticker} i ${p.other.toUpperCase()} po godinama">
+  <defs><clipPath id="ca"><path d="${area}"/></clipPath><linearGradient id="gf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--lime)" stop-opacity=".22"/><stop offset="1" stop-color="var(--lime)" stop-opacity="0"/></linearGradient></defs>
+  ${g}<path d="${area}" fill="url(#gf)"/><g clip-path="url(#ca)">${hatch}</g>
+  <path d="${path(sb)}" fill="none" stroke="var(--ink)" stroke-width="1.4" opacity=".8"/>
+  <path class="line-path" style="--len:2000" d="${path(sa)}" fill="none" stroke="var(--lime)" stroke-width="2.6" stroke-linejoin="round"/>
+  <line x1="${x(last)}" x2="${x(last)}" y1="${y(sa[last])}" y2="${T+ih}" stroke="var(--ink)" stroke-width="2"/>
+  <rect x="${x(last)-7}" y="${y(sa[last])-7}" width="14" height="14" transform="rotate(45 ${x(last)} ${y(sa[last])})" fill="var(--ink)"/>
+  <circle cx="${x(last)}" cy="${y(sa[last])}" r="2.5" fill="var(--paper)"/>
+  ${sa.map((v,i)=>`<rect class="hit" data-i="${i}" x="${x(i)-iw/(YEARS.length-1)/2}" y="${T}" width="${iw/(YEARS.length-1)}" height="${ih}" fill="transparent"/>`).join("")}
+  </svg>`;
+}
+
+// ---------- Chain stranice (Stable, Arc) i usporedba ----------
+// Točke: [oznaka, vrijednost, procjena?, napomena]
+const CHAINS={
+stable:{
+  name:"Stable",issuer:"Tether / Bitfinex",coinColor:"#26a17b",glyph:"S",
+  num:["$30",",3M"],pill:"TVL, DefiLlama",
+  sub:"Stable (StableChain) je samostalni blockchain za plaćanja u USDT-u. Iza njega stoje Bitfinex i tim USDT0, a Paolo Ardoino mu je savjetnik. Mainnet radi od 8. prosinca 2025.",
+  metrics:{
+    tvl:{label:"TVL",unit:"M",pts:[["10/2025 pre-deposit",825,false,"Faza 1 pre-deposita popunjena 23. 10. 2025. Kapital je bio u vaultovima na Ethereumu i ne računa se kao TVL chaina."],["12/2025 pre-deposit",2000,false,"Ukupno preko $2B iz ~24.000 novčanika u dvije faze, prije mainneta."],["12/2025 vrh TVL-a",100,true,"Lookonchain navodi raniji vrh iznad $100M. Točan datum nije objavljen."],["8. 1. 2026.",0.029,false,"DeFi TVL pao na $29.231 (Lookonchain)."],["9. 10. 2026.",30.25,false,"DefiLlama"]],
+      note:"Prve dvije točke su kapital u pre-depositu, a ne TVL na samom chainu. Vrh od $100M je donja granica, datum je procjena."},
+    tx:{label:"Transakcije / dan",unit:"k",pts:[["9. 10. 2026.",135.5,false,"DefiLlama, zadnjih 24 h"]],
+      note:"Javna povijesna serija dnevnih transakcija za Stable nije dostupna. Prikazan je samo današnji podatak."}
+  },
+  cards:{
+    share:[["USDT",99.99,"var(--lime)"],["Ostali",0.01,"var(--grey)"]],shareNote:"Udio u stablecoinima na chainu (~$21,1M), DefiLlama",
+    kv:[["TVL","$30,3M"],["Stablecoini na chainu","$21,1M"],["Transakcije (24 h)","135.487"],["Aktivne adrese (24 h)","8.010"],["Naknade aplikacija (24 h)","$25.631"],["STABLE tržišna kap.","$689M"]]},
+  why:["Tether godišnje prenese bilijune dolara u USDT-u, ali promet ide preko tuđih mreža, najviše Trona i Ethereuma. Naknade te mreže naplaćuju u svojim tokenima (TRX, ETH), pa vrijednost od prometa USDT-a ostaje njima.",
+       "Stable to okreće: plin je sam USDT, obični USDT0 transferi mogu biti besplatni, a velikim korisnicima se jamči dio kapaciteta bloka (guaranteed blockspace). Cilj je da USDT dobije svoju mrežu za plaćanja, a da prihod od naknada ostane u Tetherovom ekosustavu."],
+  hist:[["06/2025","Stable izlazi iz stealtha. Ardoino javno čestita timu."],
+        ["07/2025","Objavljen plan u tri faze i seed runda od $28M (Bitfinex, Hack VC)."],
+        ["09/2025","Investicija PayPal Venturesa i integracija PYUSD-a."],
+        ["10/2025","Faza 1 pre-deposita: $825M popunjeno u minutama, uz optužbe za front-running (oko $500M s jedne adrese povezane s BTSE-om)."],
+        ["12/2025","Mainnet i token STABLE 8. 12. Pre-deposit ukupno preko $2B. Osnovana Stable Foundation."],
+        ["01/2026","DeFi TVL pada na ~$29 tisuća. Kapital iz pre-deposita nije ostao na chainu."],
+        ["02/2026","Nadogradnja v1.2.0: plin prelazi s gUSDT na USDT0, uvode se gas waiveri preko API-ja."],
+        ["10/2026","TVL se vratio na ~$30M (Concrete, Morpho, Gauntlet). Oko 135 tisuća transakcija dnevno."]],
+  layer:{verdict:"L1",title:"Samostalni Layer 1",
+    text:["Stable nije L2. Ima vlastiti konsenzus (StableBFT, temeljen na CometBFT-u), vlastite validatore i vlastiti token za staking. Ne objavljuje podatke ni dokaze na Ethereum, pa njegova sigurnost ne ovisi o Ethereumu.",
+          "Hibridni dio je EVM kompatibilnost i USDT0, omnichain verzija USDT-a preko LayerZera. Zbog toga se Stable ponaša kao dio šire USDT mreže, iako je tehnički zaseban chain."],
+    rows:[["Vlastiti konsenzus",true],["Vlastiti validatori",true],["Settlement na Ethereumu",false],["EVM kompatibilan",true],["Plin u stablecoinu",true],["Vlastiti token",true]]},
+  src:[["DefiLlama: Stable","https://defillama.com/chain/stable"],["The Block: plan faze 1","https://www.theblock.co/post/360616/stable-a-bitfinex-backed-layer-1-blockchain-using-tethers-usdt-as-a-gas-token-unveils-phase-1-of-its-roadmap"],["The Block: pre-deposit $825M","https://www.theblock.co/post/376022/stables-phase-1-hits-cap"],["The Block: mainnet","https://www.theblock.co/post/381688/stable-launches-mainnet-native-token-foundation"],["Cryptopolitan: prijelaz na USDT0","https://www.cryptopolitan.com/stable-migrate-to-usdt0-native-gas-token/"],["Lookonchain: pad TVL-a","https://lookonchain.com/feeds/42941"],["CoinGecko: STABLE","https://www.coingecko.com/en/coins/stable-2"]]
+},
+arc:{
+  name:"Arc",issuer:"Circle",coinColor:"#2775ca",glyph:"A",
+  num:["$553",",1M"],pill:"TVL, DefiLlama",
+  sub:"Arc je Circleov blockchain za financijska tržišta i plaćanja, s USDC-om kao plinom. Javni mainnet radi od 16. rujna 2026., a validatore čine BlackRock, DTCC, Visa, Mastercard i druge institucije.",
+  metrics:{
+    tx:{label:"Transakcije / dan",unit:"M",pts:[["12. 9.",0.126,false,"Privatni mainnet"],["13. 9.",0.131,false,"Privatni mainnet"],["14. 9.",0.407,false,"Privatni mainnet"],["15. 9.",0.456,false,"Privatni mainnet"],["16. 9.",7.76,false,"Javno lansiranje, val memecoin launchpada"],["17. 9.",5.47,false,""],["18. 9.",2.61,false,""],["19. 9.",1.55,false,"80% manje nego prvi dan"],["kraj 9.",1.5,true,"Okvirno ~1,5M dnevno prema istom izvoru, bez točnog datuma"]],
+      note:"Dnevni podaci s Arc explorera (dev.to analiza). Zadnja točka je procjena."},
+    tvl:{label:"TVL",unit:"M",pts:[["16. 9.",0,true,"Prvi dan, DeFi protokoli tek otvaraju tržišta"],["~24. 9.",385,false,"DefiLlama: Morpho $211M, Aave V4 $146M"],["9. 10.",553.06,false,"DefiLlama"]],
+      note:"TVL prvog dana je pretpostavka (nula), jer DeFi tržišta tada tek kreću."},
+    usdc:{label:"USDC na chainu",unit:"M",pts:[["16. 9.",649,false,"USDC izdan na Arcu prvi dan (+ $7M EURC)"],["24. 9.",624,false,"Službeni Arc X profil"],["9. 10.",523,false,"Izračun: $530M stablecoina × 98,7% USDC (DefiLlama)"]],
+      note:"Zadnja točka je izračunata iz udjela USDC-a u stablecoinima na chainu."},
+    dex:{label:"DEX volumen / dan",unit:"M",pts:[["16. 9.",410.8,false,"~82% s memecoin launchpada"],["20. 9.",52.8,false,"Uniswap v4 $36,8M, v3 $14,4M"],["9. 10.",34.0,false,"DefiLlama, 24 h"]],note:"DefiLlama."}
+  },
+  cards:{
+    share:[["USDC",98.7,"var(--lime)"],["Ostali",1.3,"var(--amber)"]],shareNote:"Udio u stablecoinima na chainu (~$530M), DefiLlama",
+    kv:[["TVL","$553,1M"],["Stablecoini na chainu","$530,3M"],["Transakcije / dan","~1,5M (rujan)"],["Naknade aplikacija (24 h)","$148.828"],["Prihod aplikacija (24 h)","$21.307"],["DEX volumen (7 d)","$330,1M"]]},
+  why:["Circle zarađuje na kamatama od rezervi, a više od polovice tog prihoda daje distributerima poput Coinbasea. Vlastiti chain mu daje izravan odnos s korisnicima, prihod od naknada i mjesto na kojem se USDC namiruje bez posrednika.",
+       "Drugi razlog su institucije. Banke, burze i upravitelji imovinom žele predvidljive naknade u dolarima, trenutnu finalnost i privatnost iznosa. Opće mreže to ne nude, pa je Circle napravio mrežu po mjeri regulirane financije."],
+  hist:[["08/2025","Circle najavljuje Arc uz rezultate za Q2 2025."],
+        ["10/2025","Javni testnet 28. 10. uz više od 100 tvrtki (BlackRock, Goldman Sachs, Visa, AWS, Anthropic)."],
+        ["06/2026","Testnet doseže 502M transakcija. Privatna prodaja tokena ARC: 807,5M po $0,30 ($242,2M)."],
+        ["09/2026","Testnet ~735M transakcija i ~3M novčanika. Javni mainnet 16. 9. s 11 osnivačkih validatora."],
+        ["09/2026","Prvi dan 7,8M transakcija i 97.000 novih tokena. Naknade u šest dana padaju 96,7% od razine prvog dana."],
+        ["10/2026","TVL raste na $553M, uglavnom Morpho i Aave V4. Prijelaz na proof of stake razmatra se za 2027."]],
+  layer:{verdict:"L1",title:"Permissioned Layer 1",
+    text:["Arc nije L2. Ima vlastiti konsenzus Malachite (BFT, izveden iz Tendermint-a), vlastite validatore i finalnost ispod sekunde. Ne namiruje se na Ethereumu.",
+          "Hibridni dio je model upravljanja. Validatore danas bira Circle (proof of authority), pa je Arc bliži konzorcijskoj mreži nego otvorenom L1 kao Ethereum. Prijelaz na proof of stake s tokenom ARC tek se razmatra."],
+    rows:[["Vlastiti konsenzus",true],["Vlastiti validatori",true],["Settlement na Ethereumu",false],["EVM kompatibilan",true],["Plin u stablecoinu",true],["Otvoreni validatori",false]]},
+  src:[["Circle: Arc mainnet","https://www.circle.com/pressroom/circle-launches-arc-mainnet-an-economic-operating-system-for-the-internet"],["Circle: Arc testnet","https://www.circle.com/pressroom/circle-launches-arc-public-testnet"],["DefiLlama: Arc","https://defillama.com/chain/arc"],["dev.to: Arc u brojkama","https://dev.to/sulimanmukhtar/arc-chain-in-numbers-one-dollar-two-decimals-and-97000-tokens-in-a-day-4b5o"],["Coin Gabbar: prvi tjedan","https://www.coingabbar.com/en/arc-chain-news-usdc-circulation-week-one"],["Coincu: pad naknada","https://www.coincu.com/arc-mainnet-fees-fall-96-7-percent-six-days-after-launch/"],["crypto.news: lansiranje","https://crypto.news/circle-arc-mainnet-launches-with-usdc-gas/"]]
+}};
+const cMode={stable:"tvl",arc:"tx"};
+
+function fmtU(v,u){const s=v>=100?v.toFixed(0):v>=10?v.toFixed(1):v>=1?v.toFixed(2):v.toFixed(3);return "$"===u?"$"+s:(u==="k"?s.replace(".",",")+"k":"$"+s.replace(".",",")+"M")}
+function fmtM(v,m){if(m.label.startsWith("Transakcije"))return m.unit==="k"?v.toFixed(1).replace(".",",")+"k":v.toFixed(2).replace(".",",")+"M";return fmtU(v,m.unit)}
+
+function seriesSVG(m){
+  const W=1000,H=330,R=64,T=24,B=40,iw=W-R-24,ih=H-T-B,L=24,pts=m.pts,n=pts.length;
+  const mx=Math.max(...pts.map(p=>p[1]));const step=[0.1,0.2,0.5,1,2,5,10,20,50,100,200,500,1000][[0.1,0.2,0.5,1,2,5,10,20,50,100,200,500,1000].findIndex(s=>mx/s<=4.5)]||500;
+  const max=Math.ceil(mx/step)*step||1;const ticks=[];for(let t=0;t<=max+1e-9;t+=step)ticks.push(+t.toFixed(3));
+  const x=i=>n===1?L+iw/2:L+i*iw/(n-1),y=v=>T+ih-v/max*ih;
+  let g="";ticks.forEach(t=>g+=`<line x1="${L}" x2="${L+iw}" y1="${y(t)}" y2="${y(t)}" stroke="var(--line)" stroke-dasharray="${t?'2 4':'0'}"/><text x="${W-6}" y="${y(t)+4}" text-anchor="end" font-size="12" fill="var(--ink-2)" font-family="JetBrains Mono,monospace">${fmtM(t,m)}</text>`);
+  pts.forEach((p,i)=>g+=`<text x="${x(i)}" y="${H-12}" text-anchor="${n>1&&i===0?'start':n>1&&i===n-1?'end':'middle'}" font-size="12" fill="var(--ink-2)">${esc(p[0])}</text>`);
+  let segs="";for(let i=1;i<n;i++){const d=pts[i][2]||pts[i-1][2];segs+=`<line x1="${x(i-1)}" y1="${y(pts[i-1][1])}" x2="${x(i)}" y2="${y(pts[i][1])}" stroke="var(--lime)" stroke-width="2.6" stroke-linecap="round" ${d?'stroke-dasharray="6 6"':''}/>`;}
+  const area=n>1?pts.map((p,i)=>(i?"L":"M")+x(i)+" "+y(p[1])).join(" ")+` L${x(n-1)} ${T+ih} L${x(0)} ${T+ih} Z`:"";
+  let dots="";pts.forEach((p,i)=>dots+=`<circle cx="${x(i)}" cy="${y(p[1])}" r="5.5" fill="${p[2]?'var(--paper)':'var(--lime)'}" stroke="var(--ink)" stroke-width="1.6"/><text x="${x(i)}" y="${y(p[1])-12}" text-anchor="${n>1&&i===0?'start':n>1&&i===n-1?'end':'middle'}" font-size="12" font-family="JetBrains Mono,monospace" fill="var(--ink)">${p[2]?'~':''}${fmtM(p[1],m)}</text>`);
+  const hits=pts.map((p,i)=>{const w=n===1?iw:iw/(n-1);return `<rect class="hit" data-i="${i}" x="${x(i)-w/2}" y="${T}" width="${w}" height="${ih}" fill="transparent"/>`}).join("");
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(m.label)}"><defs><linearGradient id="gf2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--lime)" stop-opacity=".2"/><stop offset="1" stop-color="var(--lime)" stop-opacity="0"/></linearGradient></defs>${g}${area?`<path d="${area}" fill="url(#gf2)"/>`:""}${segs}${dots}${hits}</svg>`;
+}
+
+function setNav(id){document.querySelectorAll("nav a[data-page]").forEach(a=>{if(a.dataset.page===id)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")})}
+
+function renderChain(id){
+  const c=CHAINS[id],m=c.metrics[cMode[id]];
+  document.getElementById("app").innerHTML=`
+  <section class="hero">
+    <div>
+      <div class="big"><div class="num">${c.num[0]}<span>${c.num[1]}</span></div><span class="pill">${c.pill}</span>
+        <span class="tag"><span class="coin" style="background:${c.coinColor}">${c.glyph}</span>${c.name} · ${c.issuer}</span></div>
+      <p class="sub">${esc(c.sub)}</p>
+    </div>
+    <div class="seg" role="group" aria-label="Metrika grafa">${Object.entries(c.metrics).map(([k,v])=>`<button data-m="${k}" aria-pressed="${k===cMode[id]}">${v.label}</button>`).join("")}</div>
+  </section>
+  <div class="chart" id="chart">${seriesSVG(m)}<div class="tip" id="tip" hidden></div></div>
+  <div class="legend"><span><b class="ldot"></b>izmjereno</span><span><b class="ldot est"></b>procjena (isprekidana linija)</span><span>${esc(m.note)}</span></div>
+  <div class="cards">
+    <div class="card dark">
+      <h3>L1, L2 ili hibrid?</h3>
+      <div class="verdict"><span class="vbig">${c.layer.verdict}</span><span>${c.layer.title}</span></div>
+      <ul class="checks">${c.layer.rows.map(r=>`<li><span class="ck ${r[1]?'y':'n'}" aria-label="${r[1]?'da':'ne'}">${r[1]?'✓':'✕'}</span>${r[0]}</li>`).join("")}</ul>
+    </div>
+    <div class="card">
+      <h3>Dominacija</h3>
+      <div class="dom">${c.cards.share.map(s=>`<div><div class="small">${s[0]}</div><div class="v">${String(s[1]).replace(".",",")}%</div><div class="bars" style="color:${s[2]};height:${Math.max(6,s[1]*0.8)}px"></div></div>`).join("")}</div>
+      <p class="small" style="margin:12px 0 0">${c.cards.shareNote}, listopad 2026.</p>
+    </div>
+    <div class="card">
+      <h3>Statistika chaina</h3>
+      <div class="kv">${c.cards.kv.map(k=>`<div><span>${k[0]}</span><strong>${k[1]}</strong></div>`).join("")}</div>
+    </div>
+  </div>
+  <div class="sec">
+    <div><div class="eyebrow">Zašto vlastiti chain</div><h2>Kako je ${c.issuer.split(" /")[0]} došao do ${c.name==="Arc"?"Arca":"Stablea"}</h2>${c.why.map(t=>`<p class="para">${esc(t)}</p>`).join("")}
+      <div class="eyebrow" style="margin-top:22px">Tip mreže</div>${c.layer.text.map(t=>`<p class="para">${esc(t)}</p>`).join("")}</div>
+    <div><div class="eyebrow">Razvoj</div><h2>Od najave do danas</h2>
+      <ol class="tl">${c.hist.map(h=>`<li><time>${h[0]}</time><p>${esc(h[1])}</p></li>`).join("")}</ol></div>
+  </div>
+  <div class="src">Izvori: <ul>${c.src.map(s=>`<li><a href="${s[1]}" target="_blank" rel="noopener">${esc(s[0])}</a></li>`).join("")}</ul></div>`;
+  document.querySelectorAll(".seg button[data-m]").forEach(b=>b.onclick=()=>{cMode[id]=b.dataset.m;renderChain(id)});
+  const tip=document.getElementById("tip"),ch=document.getElementById("chart");
+  ch.querySelectorAll(".hit").forEach(h=>{
+    h.addEventListener("mouseenter",()=>{const p=m.pts[+h.dataset.i];const bb=h.getBoundingClientRect(),cb=ch.getBoundingClientRect();
+      tip.textContent=`${p[0]} · ${p[2]?'~':''}${fmtM(p[1],m)}${p[3]?' · '+p[3]:''}`;tip.style.left=Math.min(Math.max(bb.left-cb.left+bb.width/2,140),cb.width-140)+"px";tip.style.top="44px";tip.hidden=false;});
+    h.addEventListener("mouseleave",()=>tip.hidden=true);
+  });
+}
+
+const CMP=[
+  ["Tip mreže","Layer 1","Layer 1 (permissioned)"],
+  ["Tko stoji iza","Bitfinex, USDT0, Tether ekosustav","Circle (javna tvrtka, NYSE: CRCL)"],
+  ["Mainnet","8. 12. 2025.","16. 9. 2026."],
+  ["Plin","USDT0","USDC"],
+  ["Konsenzus","StableBFT (CometBFT), delegirani PoS","Malachite (BFT), proof of authority"],
+  ["Validatori","Delegatori STABLE tokena","11 institucija + Circle (BlackRock, DTCC, Visa…)"],
+  ["Finalnost","Ispod sekunde","Ispod sekunde (~0,5 s blok)"],
+  ["EVM","Da","Da (Reth)"],
+  ["Nativni token","STABLE, 100 mlrd, trguje se","ARC, 10 mlrd, javno nelansiran"],
+  ["Privatnost","Povjerljivi transferi (plan)","Opcionalno skrivanje iznosa"],
+  ["Posebnost","Besplatni USDT0 transferi, zajamčeni blockspace","22 stablecoina u StableFX-u, tokenizirani fondovi (BUIDL)"],
+  ["Ciljani korisnik","Plaćanja u USDT-u, tržišta u razvoju","Banke, burze, upravitelji imovinom"]
+];
+const CMPN=[
+  ["TVL",30.25,553.06,"M"],
+  ["Stablecoini na chainu",21.14,530.33,"M"],
+  ["Naknade aplikacija / dan",0.0256,0.1488,"M"],
+  ["DEX volumen / dan",0.0000445,34.02,"M"],
+  ["Tržišna vrijednost tokena",689,0,"M","ARC nije javno lansiran"],
+  ["Prikupljeno od investitora",28,242.2,"M","Stable: seed runda. Arc: privatna prodaja ARC-a."]
+];
+function money(v){if(v===0)return "—";if(v>=1)return "$"+(v>=100?v.toFixed(0):v.toFixed(1)).replace(".",",")+"M";if(v>=0.001)return "$"+Math.round(v*1000)+"k";return "$"+Math.round(v*1e6)}
+function renderCompare(){
+  document.getElementById("app").innerHTML=`
+  <section class="hero">
+    <div>
+      <div class="big"><div class="num">18<span>×</span></div><span class="pill">TVL Arc / Stable</span>
+        <span class="tag">Stable vs Arc</span></div>
+      <p class="sub">Oba su samostalni Layer 1 chainovi s plinom u stablecoinu, a ne L2. Stable je devet mjeseci stariji, ali Arc je u tri tjedna privukao osamnaest puta više kapitala. Podaci su od 9. 10. 2026.</p>
+    </div>
+  </section>
+  <section class="vs">${CMPN.map(r=>{const mx=Math.max(r[1],r[2])||1;return `<div class="vsrow"><div class="vsl">${r[0]}${r[4]?`<span class="small"> · ${r[4]}</span>`:""}</div>
+    <div class="vsb"><span class="nm">Stable</span><div class="track"><div style="width:${Math.max(r[1]/mx*100,r[1]?0.6:0)}%;background:var(--grey)"></div></div><span class="val">${money(r[1])}</span></div>
+    <div class="vsb"><span class="nm">Arc</span><div class="track"><div style="width:${Math.max(r[2]/mx*100,r[2]?0.6:0)}%;background:var(--lime)"></div></div><span class="val">${money(r[2])}</span></div></div>`}).join("")}</section>
+  <div class="tblwrap"><table class="cmp"><thead><tr><th>Karakteristika</th><th>Stable</th><th>Arc</th></tr></thead><tbody>${CMP.map(r=>`<tr><th scope="row">${r[0]}</th><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody></table></div>
+  <section class="chain">
+    <div><div class="eyebrow">Zaključak</div><h2>Dva različita pristupa</h2>
+      <p>Stable je otvoreniji i kripto-nativan. Ima token kojim se trguje, delegirani staking i fokus na jeftina plaćanja u USDT-u. Najveći mu je problem što kapital iz pre-deposita od $2B nije ostao na chainu, pa je TVL danas oko $30M.</p>
+      <p>Arc je institucionalan. Validatore bira Circle, a partneri su BlackRock, DTCC, Visa i Mastercard. Na startu je odmah dobio DeFi likvidnost preko Morpha i Aavea, ali je decentralizacija za sada ograničena.</p></div>
+    <div class="kv">
+      <div><span>Starija mreža</span><strong>Stable</strong></div>
+      <div><span>Veći TVL</span><strong>Arc</strong></div>
+      <div><span>Decentraliziraniji validatori</span><strong>Stable</strong></div>
+      <div><span>Jača institucionalna podrška</span><strong>Arc</strong></div>
+      <div><span>Token u slobodnom trgovanju</span><strong>Stable</strong></div>
+    </div>
+  </section>
+  <div class="src">Izvori: podaci sa stranica <a href="#stable">Stable</a> i <a href="#arc">Arc</a> (DefiLlama, Circle, The Block, CoinGecko), stanje 9. 10. 2026.</div>`;
+}
+
+let mode="supply";
+function render(){
+  const id=(location.hash||"#tether").slice(1);
+  try{localStorage.setItem("izd-page",id)}catch(e){}
+  if(CHAINS[id]){setNav(id);renderChain(id);return}
+  if(id==="usporedba"){setNav(id);renderCompare();return}
+  const p=PAGES[id]||PAGES.tether;setNav(PAGES[id]?id:"tether");
+  const r=p.reserves,tot=r.parts.reduce((s,x)=>s+x[1],0);
+  const other=p.other.toUpperCase();
+  const share=[["USDT",59,"var(--lime)"],["USDC",24,"var(--amber)"],["Ostali",17,"var(--red)"]];
+  document.getElementById("app").innerHTML=`
+  <section class="hero">
+    <div>
+      <div class="big"><div class="num">${p.num[0]}<span>${p.num[1]}</span></div><span class="pill">${p.pill}</span>
+        <span class="tag"><span class="coin" style="background:${p.color}">${p.ticker==="USDT"?"₮":"$"}</span>${p.ticker} · ${p.company}</span></div>
+      <p class="sub">${esc(p.sub)}</p>
+    </div>
+    <div class="seg" role="group" aria-label="Prikaz grafa">
+      <button id="m-supply" aria-pressed="${mode==="supply"}">Opskrba</button>
+      <button id="m-share" aria-pressed="${mode==="share"}">${p.ticker} vs ${other} udio</button>
+    </div>
+  </section>
+  <div class="chart" id="chart">${chartSVG(p,mode)}<div class="tip" id="tip" hidden></div></div>
+  <div class="legend"><span><i style="background:var(--lime);height:3px"></i>${p.ticker}</span><span><i style="background:var(--ink)"></i>${other}</span><span>Godišnji presjeci, približne vrijednosti (DefiLlama / CoinGecko); zadnja točka je najnoviji podatak.</span></div>
+
+  <div class="cards">
+    <div class="card dark">
+      <h3>${r.title}</h3>
+      <div class="dots">${r.parts.map(x=>`<span><b style="background:${x[2]}"></b>${esc(x[0])}</span>`).join("")}</div>
+      <div class="stack">${r.parts.map(x=>`<div title="${esc(x[0])}" style="flex:${x[1]};background:${x[2]}"></div>`).join("")}</div>
+      <ul class="rlist">${r.parts.map(x=>`<li><span>${esc(x[0])}</span><span>${id==="circle"?"$"+x[1].toFixed(1).replace(".",",")+"M":"$"+x[1].toFixed(2).replace(".",",")+"B"} · ${(x[1]/tot*100).toFixed(1).replace(".",",")}%</span></li>`).join("")}
+      ${(r.extra||[]).map(x=>`<li><span>${x[0]}</span><span>${x[1]}</span></li>`).join("")}</ul>
+      <p class="small" style="margin:12px 0 0">${esc(r.note)}</p>
+    </div>
+    <div class="card">
+      <h3>Dominacija</h3>
+      <div class="dom">${share.map(s=>`<div><div class="small">${s[0]}</div><div class="v">${s[1]}%</div><div class="bars" style="color:${s[2]};height:${Math.max(10,s[1]*1.3)}px"></div></div>`).join("")}</div>
+      <p class="small" style="margin:12px 0 0">Udio u ukupnoj opskrbi dolarskih stablecoina (~$312B), DefiLlama, listopad 2026.</p>
+    </div>
+    <div class="card">
+      <h3>Tržišni podaci</h3>
+      <div class="kv">${p.market.map(m=>`<div><span>${m[0]}</span><strong>${m[1]}</strong></div>`).join("")}</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div><div class="eyebrow">Povijest</div><h2>Kako je nastao ${p.company}</h2>
+      <ol class="tl">${p.hist.map(h=>`<li><time>${h[0]}</time><p>${esc(h[1])}</p></li>`).join("")}</ol></div>
+    <div><div class="eyebrow">Regulativa i transparentnost</div><h2>Gdje ${p.ticker} smije raditi</h2>
+      <div class="facts">${p.reg.map(f=>`<div class="fact"><span class="st ${f[0]}">${f[0]==="ok"?"Usklađeno":f[0]==="no"?"Nije":"Djelomično"}</span><p><strong style="font-weight:500">${f[1]}.</strong> ${esc(f[2])}</p></div>`).join("")}</div></div>
+  </div>
+
+  <section class="chain">
+    <div><div class="eyebrow">${p.chain.eyebrow}</div><h2>${p.company} i ${p.chain.name}</h2>${p.chain.text.map(t=>`<p>${esc(t)}</p>`).join("")}</div>
+    <div class="kv">${p.chain.kv.map(m=>`<div><span>${m[0]}</span><strong>${m[1]}</strong></div>`).join("")}</div>
+  </section>
+
+  <div class="src">Izvori: <ul>${p.src.map(s=>`<li><a href="${s[1]}" target="_blank" rel="noopener">${esc(s[0])}</a></li>`).join("")}</ul></div>`;
+
+  document.getElementById("m-supply").onclick=()=>{mode="supply";render()};
+  document.getElementById("m-share").onclick=()=>{mode="share";render()};
+  const tip=document.getElementById("tip"),ch=document.getElementById("chart");
+  ch.querySelectorAll(".hit").forEach(h=>{
+    h.addEventListener("mouseenter",()=>{const i=+h.dataset.i,a=SUPPLY[p.key][i],b=SUPPLY[p.other][i];
+      const v=mode==="share"?(a/(a+b)*100).toFixed(1).replace(".",",")+"%":fmt(a);
+      const bb=h.getBoundingClientRect(),cb=ch.getBoundingClientRect();
+      tip.textContent=`${YEARS[i]} · ${p.ticker} ${v}`;tip.style.left=(bb.left-cb.left+bb.width/2)+"px";tip.style.top="40px";tip.hidden=false;});
+    h.addEventListener("mouseleave",()=>tip.hidden=true);
+  });
+  try{localStorage.setItem("izd-page",id)}catch(e){}
+}
+window.addEventListener("hashchange",()=>{render();scrollTo(0,0)});
+if(!location.hash){try{const s=localStorage.getItem("izd-page");if(s&&(PAGES[s]||CHAINS[s]||s==="usporedba"))history.replaceState(null,"","#"+s)}catch(e){}}
+render();
+</script>
+
+</body>
+</html>

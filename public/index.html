@@ -175,6 +175,14 @@ table.cmp{width:100%;border-collapse:collapse;font-size:14px;min-width:560px}
 .watch strong{font-size:14px!important;max-width:60%}
 @media (max-width:880px){.leaks,.flows,.goalcols{grid-template-columns:1fr}.leak+.leak{border-left:0;border-top:1px solid var(--line)}}
 @media (max-width:520px){.leak,.flowsec,.goalsec{padding-left:16px;padding-right:16px}.vsb.wide{grid-template-columns:96px 1fr 60px}}
+.refresh{font:inherit;font-size:12px;background:var(--lime);color:#122100;border:0;padding:7px 12px;cursor:pointer;font-weight:500;white-space:nowrap}
+.refresh:disabled{opacity:.6;cursor:progress}
+.refresh:focus-visible{outline:2px solid var(--bar-ink);outline-offset:2px}
+.rmsg{font-size:12px;color:var(--amber)}
+@media (max-width:520px){.hdr-end{flex-wrap:wrap}}
+header{gap:18px}
+nav a{padding:6px 9px}
+.hdr-right{font-size:11px;padding:7px 10px}
 </style>
 
 <style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
@@ -191,7 +199,7 @@ table.cmp{width:100%;border-collapse:collapse;font-size:14px;min-width:560px}
     <a href="#usporedba" data-page="usporedba">Usporedba</a>
     <a href="#strategija" data-page="strategija">Strategija</a>
   </nav>
-  <div class="hdr-end"><div class="hdr-right"><span id="hdr-date">Podaci do 9. 10. 2026.</span></div><div class="lang" role="group" aria-label="Jezik / Language"><button data-lang="hr" aria-pressed="true">HR</button><button data-lang="en" aria-pressed="false">EN</button></div></div>
+  <div class="hdr-end"><div class="hdr-right"><span id="hdr-date">Podaci do 9. 10. 2026.</span></div><button id="refresh" class="refresh" type="button">↻ Osvježi</button><span id="refresh-msg" class="rmsg" role="status" hidden></span><div class="lang" role="group" aria-label="Jezik / Language"><button data-lang="hr" aria-pressed="true">HR</button><button data-lang="en" aria-pressed="false">EN</button></div></div>
 </header>
 <main id="app"></main>
 </div></div>
@@ -434,7 +442,7 @@ function renderCompare(){
   document.getElementById("app").innerHTML=`
   <section class="hero">
     <div>
-      <div class="big"><div class="num">18<span>×</span></div><span class="pill">${tr("cmpPill")}</span>
+      <div class="big"><div class="num">${CMPR}<span>×</span></div><span class="pill">${tr("cmpPill")}</span>
         <span class="tag">Stable vs Arc</span></div>
       <p class="sub">${tr("cmpSub")}</p>
     </div>
@@ -730,7 +738,7 @@ hr:{nav:"Stranice",data:"Podaci do 9. 10. 2026.",supply:"Opskrba",share:"udio",c
   metricAria:"Metrika grafa",measured:"izmjereno",est:"procjena (isprekidana linija)",layerQ:"L1, L2 ili hibrid?",yes:"da",no:"ne",
   month:", listopad 2026.",chainStats:"Statistika chaina",whyOwn:"Zašto vlastiti chain",howGot:(i,n)=>`Kako je ${i} došao do ${n==="Arc"?"Arca":"Stablea"}`,
   netType:"Tip mreže",dev:"Razvoj",sinceAnn:"Od najave do danas",
-  cmpPill:"TVL Arc / Stable",cmpSub:"Oba su samostalni Layer 1 chainovi u kojima se naknade mreže (gas fees) plaćaju u stablecoinu, a ne L2. Stable je devet mjeseci stariji, ali Arc je u tri tjedna privukao osamnaest puta više kapitala. Podaci su od 9. 10. 2026.",
+  cmpPill:"TVL Arc / Stable",cmpSub:"Oba su samostalni Layer 1 chainovi u kojima se naknade mreže (gas fees) plaćaju u stablecoinu, a ne L2. Stable je devet mjeseci stariji, ali Arc je u nekoliko tjedana privukao višestruko više kapitala.",
   feature:"Karakteristika",concl:"Zaključak",twoWays:"Dva različita pristupa",
   c1:"Stable je otvoreniji i kripto-nativan. Ima token kojim se trguje, delegirani staking i fokus na jeftina plaćanja u USDT-u. Najveći mu je problem što kapital iz pre-deposita od $2B nije ostao na chainu, pa je TVL danas oko $30M.",
   c2:"Arc je institucionalan. Validatore bira Circle, a partneri su BlackRock, DTCC, Visa i Mastercard. Na startu je odmah dobio DeFi likvidnost preko Morpha i Aavea, ali je decentralizacija za sada ograničena.",
@@ -745,7 +753,7 @@ en:{nav:"Pages",data:"Data as of 9 Oct 2026",supply:"Supply",share:"share",chart
   metricAria:"Chart metric",measured:"measured",est:"estimate (dashed line)",layerQ:"L1, L2 or hybrid?",yes:"yes",no:"no",
   month:", October 2026.",chainStats:"Chain statistics",whyOwn:"Why its own chain",howGot:(i,n)=>`How ${i} arrived at ${n}`,
   netType:"Network type",dev:"Development",sinceAnn:"From announcement to today",
-  cmpPill:"TVL Arc / Stable",cmpSub:"Both are standalone Layer 1 chains with gas paid in a stablecoin, not L2s. Stable is nine months older, but Arc attracted eighteen times more capital in three weeks. Data as of 9 Oct 2026.",
+  cmpPill:"TVL Arc / Stable",cmpSub:"Both are standalone Layer 1 chains with gas paid in a stablecoin, not L2s. Stable is nine months older, but Arc attracted many times more capital within weeks.",
   feature:"Feature",concl:"Conclusion",twoWays:"Two different approaches",
   c1:"Stable is more open and crypto-native. It has a freely traded token, delegated staking and a focus on cheap USDT payments. Its biggest problem is that the $2B of pre-deposit capital did not stay on the chain, so TVL is around $30M today.",
   c2:"Arc is institutional. Circle picks the validators, and its partners are BlackRock, DTCC, Visa and Mastercard. It got DeFi liquidity through Morpho and Aave right from the start, but decentralization is limited for now.",
@@ -762,11 +770,78 @@ function applyLang(){
   document.querySelector("nav").setAttribute("aria-label",tr("nav"));
   document.querySelector('nav a[data-page="usporedba"]').textContent=tr("compare");
   document.querySelector('nav a[data-page="strategija"]').textContent=STRAT[LANG].nav;
-  document.getElementById("hdr-date").textContent=tr("data");
+  try{headerDate()}catch(e){document.getElementById("hdr-date").textContent=tr("data")}
+  const rb=document.getElementById("refresh");if(rb&&!rb.disabled)rb.textContent=LANG==="en"?"↻ Refresh":"↻ Osvježi";
   document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.lang===LANG));
 }
 applyLang();
 document.querySelectorAll(".lang button").forEach(b=>b.onclick=()=>{LANG=b.dataset.lang;try{localStorage.setItem("izd-lang",LANG)}catch(e){};applyLang();render()});
+
+// ---------- Osvježavanje podataka (gumb Osvježi) ----------
+let LIVE=null;let DOM=[59,24,17];let CMPR="18";
+const dsep=()=>LANG==="en"?".":",";
+const n1=(v,d=1)=>v.toFixed(d).replace(".",dsep());
+const bigB=v=>"$"+n1(v/1e9)+"B", bigM=v=>"$"+(v>=1e8?(v/1e6).toFixed(0):n1(v/1e6))+"M";
+const intL=v=>Math.round(v).toLocaleString(LANG==="en"?"en-US":"hr-HR");
+const splitNum=s=>{const i=s.search(/[.,]\d/);return i<0?[s,""]:[s.slice(0,i),s.slice(i)]};
+function stamp(iso,lang){const d=new Date(iso),p=x=>String(x).padStart(2,"0"),t=`${p(d.getHours())}:${p(d.getMinutes())}`;
+  if(lang==="en")return `${d.getDate()} ${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][d.getMonth()]} ${d.getFullYear()}, ${t}`;
+  return `${d.getDate()}. ${d.getMonth()+1}. ${d.getFullYear()}. u ${t}`}
+function shortDate(iso,lang){const d=new Date(iso);return lang==="en"?`${d.getDate()} ${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][d.getMonth()]}`:`${d.getDate()}. ${d.getMonth()+1}.`}
+function headerDate(){const el=document.getElementById("hdr-date");if(!el)return;
+  el.textContent=LIVE?(LANG==="en"?"Data as of ":"Podaci od ")+stamp(LIVE.fetchedAt,LANG):tr("data")}
+
+function applyLive(d){
+  LIVE=d;const at=d.fetchedAt;
+  for(const lang of ["hr","en"]){
+    const L0=LANG;LANG=lang; // formatiranje po jeziku
+    const P=lang==="en"?PAGES_EN:PAGES_HR,C=lang==="en"?CHAINS_EN:CHAINS_HR,N=lang==="en"?CMPN_EN:CMPN_HR,S=STRAT[lang],U=UI[lang];
+    const sd=shortDate(at,lang),full=stamp(at,lang);
+    if(d.usdt&&d.usdc&&d.stablecoinsTotal){
+      const tS=d.usdt/d.stablecoinsTotal*100,cS=d.usdc/d.stablecoinsTotal*100;
+      DOM=[Math.round(tS),Math.round(cS),100-Math.round(tS)-Math.round(cS)];
+      P.tether.num=splitNum(bigB(d.usdt));P.tether.pill=lang==="en"?`${Math.round(tS)}% of market`:`${Math.round(tS)}% tržišta`;
+      P.tether.market[0]=[lang==="en"?`USDT supply (${full})`:`Opskrba USDT (${full})`,bigB(d.usdt)];
+      P.circle.num=splitNum(bigB(d.usdc));P.circle.pill=lang==="en"?`~${Math.round(cS)}% of market`:`~${Math.round(cS)}% tržišta`;
+      P.circle.market[0]=[lang==="en"?`USDC supply (${full})`:`Opskrba USDC (${full})`,bigB(d.usdc)];
+      U.domNote=lang==="en"?`Share of total dollar stablecoin supply (~$${(d.stablecoinsTotal/1e9).toFixed(0)}B), DefiLlama, ${full}.`:`Udio u ukupnoj opskrbi dolarskih stablecoina (~$${(d.stablecoinsTotal/1e9).toFixed(0)}B), DefiLlama, ${full}.`;
+      SUPPLY.usdt[7]=+(d.usdt/1e9).toFixed(1);SUPPLY.usdc[7]=+(d.usdc/1e9).toFixed(1);
+      S.scale[2][1]=d.usdc/1e9;
+    }
+    const st=C.stable,ar=C.arc;
+    if(d.stableTvl!=null){st.num=splitNum(bigM(d.stableTvl));st.cards.kv[0][1]=bigM(d.stableTvl);const tp=st.metrics.tvl.pts;tp[tp.length-1]=[sd,d.stableTvl/1e6,false,"DefiLlama, "+full];N[0][1]=d.stableTvl/1e6}
+    if(d.arcTvl!=null){ar.num=splitNum(bigM(d.arcTvl));ar.cards.kv[0][1]=bigM(d.arcTvl);const tp=ar.metrics.tvl.pts;tp[tp.length-1]=[sd,d.arcTvl/1e6,false,"DefiLlama, "+full];N[0][2]=d.arcTvl/1e6}
+    if(d.stableTvl&&d.arcTvl)CMPR=String(Math.round(d.arcTvl/d.stableTvl));
+    if(d.stableStablecoins!=null){st.cards.kv[1][1]=bigM(d.stableStablecoins);N[1][1]=d.stableStablecoins/1e6;S.scale[1][1]=d.stableStablecoins/1e9;
+      st.cards.shareNote=(lang==="en"?"Share of stablecoins on the chain (~":"Udio u stablecoinima na chainu (~")+bigM(d.stableStablecoins)+"), DefiLlama"}
+    if(d.arcStablecoins!=null){ar.cards.kv[1][1]=bigM(d.arcStablecoins);N[1][2]=d.arcStablecoins/1e6;const usdcArc=d.arcStablecoins*0.987;S.scale[3][1]=usdcArc/1e9;
+      const up=ar.metrics.usdc.pts;up[up.length-1]=[sd,usdcArc/1e6,false,(lang==="en"?"Calculated: stablecoins on Arc × 98.7% USDC, ":"Izračun: stablecoini na Arcu × 98,7% USDC, ")+full];
+      ar.cards.shareNote=(lang==="en"?"Share of stablecoins on the chain (~":"Udio u stablecoinima na chainu (~")+bigM(d.arcStablecoins)+"), DefiLlama"}
+    if(d.stableFees24h!=null){st.cards.kv[4][1]="$"+intL(d.stableFees24h);N[2][1]=d.stableFees24h/1e6}
+    if(d.arcFees24h!=null){ar.cards.kv[3][1]="$"+intL(d.arcFees24h);N[2][2]=d.arcFees24h/1e6}
+    if(d.stableDex24h!=null)N[3][1]=d.stableDex24h/1e6;
+    if(d.arcDex24h!=null){N[3][2]=d.arcDex24h/1e6;const dp=ar.metrics.dex.pts;dp[dp.length-1]=[sd,d.arcDex24h/1e6,false,"DefiLlama, 24 h, "+full]}
+    if(d.arcDex7d!=null)ar.cards.kv[5][1]=bigM(d.arcDex7d);
+    if(d.stableMcap){st.cards.kv[5][1]=bigM(d.stableMcap);N[4][1]=d.stableMcap/1e6}
+    LANG=L0;
+  }
+  try{localStorage.setItem("izd-live",JSON.stringify(d))}catch(e){}
+}
+
+async function refreshData(){
+  const b=document.getElementById("refresh"),msg=document.getElementById("refresh-msg");
+  b.disabled=true;b.textContent=LANG==="en"?"Refreshing…":"Osvježavam…";msg.hidden=true;
+  try{
+    const r=await fetch("/api/data",{cache:"no-store"});if(!r.ok)throw new Error(r.status);
+    const d=await r.json();if(!d.fetchedAt)throw new Error("bad");
+    applyLive(d);headerDate();render();
+  }catch(e){
+    msg.textContent=LANG==="en"?"Could not refresh the data. Try again.":"Podaci se nisu mogli osvježiti. Pokušaj ponovno.";msg.hidden=false;
+  }finally{b.disabled=false;b.textContent=LANG==="en"?"↻ Refresh":"↻ Osvježi"}
+}
+document.getElementById("refresh").onclick=refreshData;
+try{const s=JSON.parse(localStorage.getItem("izd-live")||"null");if(s&&s.fetchedAt)applyLive(s)}catch(e){}
+headerDate();
 
 let mode="supply";
 function render(){
@@ -778,7 +853,7 @@ function render(){
   const p=PAGES[id]||PAGES.tether;setNav(PAGES[id]?id:"tether");
   const r=p.reserves,tot=r.parts.reduce((s,x)=>s+x[1],0);
   const other=p.other.toUpperCase();
-  const share=[["USDT",59,"var(--lime)"],["USDC",24,"var(--amber)"],[tr("others"),17,"var(--red)"]];
+  const share=[["USDT",DOM[0],"var(--lime)"],["USDC",DOM[1],"var(--amber)"],[tr("others"),DOM[2],"var(--red)"]];
   document.getElementById("app").innerHTML=`
   <section class="hero">
     <div>

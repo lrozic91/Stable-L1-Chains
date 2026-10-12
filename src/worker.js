@@ -55,7 +55,7 @@ async function collect() {
     safe(getJSON("https://api.coingecko.com/api/v3/simple/price?ids=stable-2&vs_currencies=usd&include_market_cap=true")),
     safe(getJSON("https://coins.llama.fi/prices/current/coingecko:stable-2")),
     safe(stableDailyTx()),
-    safe(arcDailyTx()),
+    arcDailyTx().catch((e) => ({ error: String(e).slice(0, 300) })),
   ]);
 
   const out = { fetchedAt: new Date().toISOString() };
@@ -82,7 +82,8 @@ async function collect() {
   const p = llamaPrice?.coins?.["coingecko:stable-2"]?.price;
   out.stableMcap = g?.usd_market_cap || (p ? p * STABLE_CIRCULATING : null);
   out.stableTxDaily = stableTx;
-  out.arcTxDaily = arcTx;
+  if (arcTx?.error) out.errors = { arcTx: arcTx.error };
+  else out.arcTxDaily = arcTx;
   out.stableFeesDaily = last30(feesStable?.totalDataChart);
   out.arcFeesDaily = last30(feesArc?.totalDataChart);
   return out;

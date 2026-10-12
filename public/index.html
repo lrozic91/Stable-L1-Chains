@@ -236,10 +236,9 @@ circle:{
   key:"usdc",other:"usdt",color:"#2775ca",ticker:"USDC",company:"Circle",
   num:["$74",",2B"],pill:"~24% tržišta",
   sub:"Circle Internet Group (NYSE: CRCL) izdaje USDC i EURC. Osnovali su ga Jeremy Allaire i Sean Neville 2013., a od lipnja 2025. kotira na burzi u New Yorku.",
-  reserves:{title:"Prihodi Q2 2026.",note:"Ukupni prihod $701,3M, od toga 58,8% odlazi distributerima",
-    parts:[["Prinos na rezerve",667.7,"var(--lime)"],["Ostali prihodi",33.6,"var(--amber)"]],
-    extra:[["Troškovi distribucije",  "$410,4M"],["Neto dobit (kontinuirano)","$48,2M"],["Stopa prinosa rezervi","3,5%"]]},
-  market:[["Ukupna ponuda USDC (14. 9. 2026.)","$74,2B"],["Prosjek u Q2 2026.","$76,5B"],["Prihod Q2 2026.","$701,3M"],["Udio prema Circleu (Q2)","27%"]],
+  reserves:{title:"Struktura rezervi",note:"Ispitivanje Deloitte, 31. 7. 2026, ukupno $71,90B. Repo i trezorski zapisi drže se u Circle Reserve Fundu (BlackRock).",
+    parts:[["Repo ugovori (trezorski kolateral)",52.72,"var(--lime)"],["Američki trezorski zapisi",7.18,"var(--amber)"],["Gotovina u fondu",0.82,"#f2913a"],["Gotovina u bankama",11.19,"var(--grey)"]]},
+  market:[["Ukupna ponuda USDC (14. 9. 2026.)","$74,2B"],["Prosjek u Q2 2026.","$76,5B"],["Prihod Q2 2026.","$701,3M"],["Troškovi distribucije (Q2)","$410,4M"],["Neto dobit (Q2)","$48,2M"],["Udio prema Circleu (Q2)","27%"]],
   hist:[["2013","Jeremy Allaire i Sean Neville osnivaju Circle u Bostonu, isprva kao aplikaciju za plaćanja."],
         ["2018","S Coinbaseom kroz konzorcij Centre lansira USDC na Ethereumu."],
         ["2023","Pad SVB-a: $3,3B rezervi zapelo je u banci i USDC kratko pada na ~$0,87. Centre je ugašen, a Circle preuzima punu kontrolu nad USDC-om."],
@@ -254,7 +253,7 @@ circle:{
     text:["Arc je Circleov Layer 1 u kojem se naknade mreže (gas fees) plaćaju u USDC-u. Finalnost je deterministička i traje ispod jedne sekunde. Mreža je kompatibilna s EVM-om i namijenjena institucijama, a podržava i opcionalnu privatnost iznosa.",
           "Mainnet je pokrenut 16. rujna 2026. s 11 validatora koje je odabrao Circle, među njima BlackRock, DTCC, Visa i Mastercard."],
     kv:[["Mainnet","16. 9. 2026."],["Naknade mreže (gas fees)","USDC"],["Konsenzus","Malachite (BFT), PoA"],["Validatori","11 + Circle"],["ARC token","10 mlrd, javno nelansiran"],["Privatna prodaja","$242,2M po $0,30"]]},
-  src:[["Beancount: Circle Q2 2026","https://beancount.io/blog/2026/09/13/circle-q2-2026-earnings-analysis"],["CertiK: Arc mainnet","https://www.certik.com/blog/circle-arc-mainnet-usdc-native-settlement"],["crypto.news: Arc lansiran","https://crypto.news/circle-arc-mainnet-launches-with-usdc-gas/"],["Arc blog","https://www.arc.io/blog/arc-mainnet-goes-live-on-september-16-2026"]]
+  src:[["Beancount: Circle Q2 2026","https://beancount.io/blog/2026/09/13/circle-q2-2026-earnings-analysis"],["Circle: transparentnost rezervi","https://www.circle.com/transparency"],["CertiK: Arc mainnet","https://www.certik.com/blog/circle-arc-mainnet-usdc-native-settlement"],["crypto.news: Arc lansiran","https://crypto.news/circle-arc-mainnet-launches-with-usdc-gas/"],["Arc blog","https://www.arc.io/blog/arc-mainnet-goes-live-on-september-16-2026"]]
 }};
 
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -626,10 +625,9 @@ tether:{...PAGES_HR.tether,
 circle:{...PAGES_HR.circle,
   num:["$74",".2B"],pill:"~24% of market",
   sub:"Circle Internet Group (NYSE: CRCL) issues USDC and EURC. It was founded by Jeremy Allaire and Sean Neville in 2013 and has been listed on the New York Stock Exchange since June 2025.",
-  reserves:{title:"Revenue Q2 2026",note:"Total revenue $701.3M, of which 58.8% goes to distribution partners",
-    parts:[["Reserve income",667.7,"var(--lime)"],["Other revenue",33.6,"var(--amber)"]],
-    extra:[["Distribution costs","$410.4M"],["Net income (continuing)","$48.2M"],["Reserve return rate","3.5%"]]},
-  market:[["USDC supply (14 Sep 2026)","$74.2B"],["Q2 2026 average","$76.5B"],["Q2 2026 revenue","$701.3M"],["Share per Circle (Q2)","27%"]],
+  reserves:{title:"Reserve breakdown",note:"Deloitte examination, 31 Jul 2026, total $71.90B. Repo and Treasuries are held in the Circle Reserve Fund (BlackRock).",
+    parts:[["Repo agreements (Treasury collateral)",52.72,"var(--lime)"],["US Treasury bills",7.18,"var(--amber)"],["Cash in the fund",0.82,"#f2913a"],["Cash at banks",11.19,"var(--grey)"]]},
+  market:[["USDC supply (14 Sep 2026)","$74.2B"],["Q2 2026 average","$76.5B"],["Q2 2026 revenue","$701.3M"],["Distribution costs (Q2)","$410.4M"],["Net income (Q2)","$48.2M"],["Share per Circle (Q2)","27%"]],
   hist:[["2013","Jeremy Allaire and Sean Neville found Circle in Boston, initially as a payments app."],
         ["2018","Launches USDC on Ethereum with Coinbase through the Centre consortium."],
         ["2023","SVB collapse: $3.3B of reserves is stuck at the bank and USDC briefly drops to ~$0.87. Centre is wound down and Circle takes full control of USDC."],
@@ -644,7 +642,7 @@ circle:{...PAGES_HR.circle,
     text:["Arc is Circle's Layer 1 where USDC is the gas token. Finality is deterministic and takes under a second. The network is EVM-compatible, built for institutions, and supports optional privacy for amounts.",
           "Mainnet launched on 16 September 2026 with 11 validators chosen by Circle, including BlackRock, DTCC, Visa and Mastercard."],
     kv:[["Mainnet","16 Sep 2026"],["Gas","USDC"],["Consensus","Malachite (BFT), PoA"],["Validators","11 + Circle"],["ARC token","10 bn, not publicly launched"],["Private sale","$242.2M at $0.30"]]},
-  src:[["Beancount: Circle Q2 2026","https://beancount.io/blog/2026/09/13/circle-q2-2026-earnings-analysis"],["CertiK: Arc mainnet","https://www.certik.com/blog/circle-arc-mainnet-usdc-native-settlement"],["crypto.news: Arc launched","https://crypto.news/circle-arc-mainnet-launches-with-usdc-gas/"],["Arc blog","https://www.arc.io/blog/arc-mainnet-goes-live-on-september-16-2026"]]
+  src:[["Beancount: Circle Q2 2026","https://beancount.io/blog/2026/09/13/circle-q2-2026-earnings-analysis"],["Circle: reserve transparency","https://www.circle.com/transparency"],["CertiK: Arc mainnet","https://www.certik.com/blog/circle-arc-mainnet-usdc-native-settlement"],["crypto.news: Arc launched","https://crypto.news/circle-arc-mainnet-launches-with-usdc-gas/"],["Arc blog","https://www.arc.io/blog/arc-mainnet-goes-live-on-september-16-2026"]]
 }};
 
 const CHAINS_EN={
@@ -874,7 +872,7 @@ function render(){
       <h3>${r.title}</h3>
       <div class="dots">${r.parts.map(x=>`<span><b style="background:${x[2]}"></b>${esc(x[0])}</span>`).join("")}</div>
       <div class="stack">${r.parts.map(x=>`<div title="${esc(x[0])}" style="flex:${x[1]};background:${x[2]}"></div>`).join("")}</div>
-      <ul class="rlist">${r.parts.map(x=>`<li><span>${esc(x[0])}</span><span>${id==="circle"?"$"+x[1].toFixed(1).replace(".",LANG==="en"?".":",")+"M":"$"+x[1].toFixed(2).replace(".",LANG==="en"?".":",")+"B"} · ${(x[1]/tot*100).toFixed(1).replace(".",LANG==="en"?".":",")}%</span></li>`).join("")}
+      <ul class="rlist">${r.parts.map(x=>`<li><span>${esc(x[0])}</span><span>${"$"+x[1].toFixed(2).replace(".",LANG==="en"?".":",")+"B"} · ${(x[1]/tot*100).toFixed(1).replace(".",LANG==="en"?".":",")}%</span></li>`).join("")}
       ${(r.extra||[]).map(x=>`<li><span>${x[0]}</span><span>${x[1]}</span></li>`).join("")}</ul>
       <p class="small" style="margin:12px 0 0">${esc(r.note)}</p>
     </div>

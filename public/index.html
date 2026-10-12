@@ -250,7 +250,7 @@ circle:{
        ["ok","Rezerve","Rezerve su gotovina u bankama i Circle Reserve Fund, SEC-registrirani fond kojim upravlja BlackRock. Mjesečne atestacije radi Deloitte."],
        ["mid","Ovisnost o kamatama","Gotovo sav prihod dolazi od prinosa na rezerve, pa svako smanjenje kamatnih stopa izravno smanjuje prihod."]],
   chain:{name:"Arc",eyebrow:"Veza s chainom",
-    text:["Arc je Circleov Layer 1 u kojem se naknade mreže (gas fees) plaćaju u USDC-u. Finalnost je deterministička i traje ispod jedne sekunde. Mreža je kompatibilna s EVM-om i namijenjena institucijama, a podržava i opcionalnu privatnost iznosa.",
+    text:["Arc je Circleov Layer 1 u kojem se naknade mreže (gas fees) plaćaju u USDC-u. Transakcija je konačna za manje od sekunde i nakon toga se ne može poništiti. Mreža radi s alatima za Ethereum (EVM) i namijenjena je institucijama. Iznos transakcije može se po želji sakriti od javnosti, tako da ga vide samo sudionici i revizori.",
           "Mainnet je pokrenut 16. rujna 2026. s 11 validatora koje je odabrao Circle, među njima BlackRock, DTCC, Visa i Mastercard."],
     kv:[["Mainnet","16. 9. 2026."],["Naknade mreže (gas fees)","USDC"],["Konsenzus","Malachite (BFT), PoA"],["Validatori","11 + Circle"],["ARC token","10 mlrd, javno nelansiran"],["Privatna prodaja","$242,2M po $0,30"]]},
   src:[["Beancount: Circle Q2 2026","https://beancount.io/blog/2026/09/13/circle-q2-2026-earnings-analysis"],["Circle: transparentnost rezervi","https://www.circle.com/transparency"],["CertiK: Arc mainnet","https://www.certik.com/blog/circle-arc-mainnet-usdc-native-settlement"],["crypto.news: Arc lansiran","https://crypto.news/circle-arc-mainnet-launches-with-usdc-gas/"],["Arc blog","https://www.arc.io/blog/arc-mainnet-goes-live-on-september-16-2026"]]
@@ -335,7 +335,7 @@ arc:{
     share:[["USDC",98.7,"var(--lime)"],["Ostali",1.3,"var(--amber)"]],shareNote:"Udio u stablecoinima na chainu (~$530M), DefiLlama",
     kv:[["TVL","$553,1M"],["Stablecoini na chainu","$530,3M"],["Transakcije / dan","~1,5M (rujan)"],["Naknade aplikacija (24 h)","$148.828"],["Prihod aplikacija (24 h)","$21.307"],["DEX volumen (7 d)","$330,1M"]]},
   why:["Circle zarađuje na kamatama od rezervi, a više od polovice tog prihoda daje distributerima poput Coinbasea. Vlastiti chain mu daje izravan odnos s korisnicima, prihod od naknada i mjesto na kojem se USDC namiruje bez posrednika.",
-       "Drugi razlog su institucije. Banke, burze i upravitelji imovinom žele predvidljive naknade u dolarima, trenutnu finalnost i privatnost iznosa. Opće mreže to ne nude, pa je Circle napravio mrežu po mjeri regulirane financije."],
+       "Drugi razlog su institucije. Banke, burze i upravitelji imovinom žele predvidljive naknade u dolarima, transakcije koje su odmah konačne i iznose koji nisu javno vidljivi. Opće mreže to ne nude, pa je Circle napravio mrežu po mjeri regulirane financije."],
   hist:[["08/2025","Circle najavljuje Arc uz rezultate za Q2 2025."],
         ["10/2025","Javni testnet 28. 10. uz više od 100 tvrtki (BlackRock, Goldman Sachs, Visa, AWS, Anthropic)."],
         ["06/2026","Testnet doseže 502M transakcija. Privatna prodaja tokena ARC: 807,5M po $0,30 ($242,2M)."],
@@ -424,7 +424,7 @@ const CMP_HR=[
   ["Finalnost","Ispod sekunde","Ispod sekunde (~0,5 s blok)"],
   ["EVM","Da","Da (Reth)"],
   ["Nativni token","STABLE, 100 mlrd, trguje se","ARC, 10 mlrd, javno nelansiran"],
-  ["Privatnost","Povjerljivi transferi (plan)","Opcionalno skrivanje iznosa"],
+  ["Privatnost","Skriveni iznosi (u planu)","Iznos se može sakriti od javnosti"],
   ["Posebnost","Besplatni USDT0 transferi, zajamčeni blockspace","22 stablecoina u StableFX-u, tokenizirani fondovi (BUIDL)"],
   ["Ciljani korisnik","Plaćanja u USDT-u, tržišta u razvoju","Banke, burze, upravitelji imovinom"]
 ];
@@ -483,7 +483,7 @@ hr:{
     ["Tko zarađuje na naknadama","Validatori i stakeri tokena STABLE, ekosustav blizak Bitfinexu. Ne Tether izravno.","Circle navodi naknade i staking na Arcu kao svoj izvor prihoda. Točna raspodjela još nije objavljena."],
     ["Veza s ostalim proizvodima","USDT0 (omnichain USDT preko LayerZera, preko $100B prenesenih), Bitfinex, PayPal i PYUSD.","Circle Mint, CCTP, Gateway, Circle Payments Network (CPN), StableFX i EURC, sve na jednom mjestu."],
     ["Token","STABLE se slobodno trguje (~$689M tržišna kapitalizacija). Vrijednost od rasta mreže ostaje kod vlasnika tokena.","ARC je u Circleovim rukama (25%), privatna prodaja $242,2M. Novi izvor prihoda za Circle, neovisan o kamatama."],
-    ["Regulativa","Stable je izvan Tethera, pa Tether ostaje neutralan i ne mora prilagođavati chain regulatorima.","Arc je dio regulirane tvrtke s odobrenjima OCC-a i NYDFS-a. Ima privatnost uz pristup za revizore i dopuštene validatore."],
+    ["Regulativa","Stable je izvan Tethera, pa Tether ostaje neutralan i ne mora prilagođavati chain regulatorima.","Arc je dio regulirane tvrtke s odobrenjima OCC-a i NYDFS-a. Iznosi transakcija mogu biti skriveni od javnosti, ali ih revizori vide, a validatore odobrava Circle."],
     ["Najveći rizik","Kapital ne ostaje na chainu: stablecoini na Stableu pali su s $706M na ~$21M.","Sukob s distribucijom: Circle smanjuje partnerstva s drugim chainovima, a USDC mora ostati svugdje."]],
   goalsH:"Što su firme htjele postići",
   status:{ok:"Ostvareno",prog:"U tijeku",no:"Nije ostvareno"},
@@ -498,7 +498,7 @@ hr:{
     ["prog","Prihod neovisan o kamatama","Prinos na rezerve pao je na 3,48% (-66 bp). Smjernica za ostale prihode podignuta je na $310–330M, od čega je oko $180M od tokena ARC. Bez ARC-a smjernica bi bila niža od prethodne."],
     ["ok","Platforma za regulirane institucije","Među validatorima su BlackRock, DTCC, ICE, Visa i Mastercard. BlackRock planira BUIDL na Arcu, a DTCC tokenizaciju od druge polovice 2027. Allaire Arc zove »kanonskim domom za izdavatelje imovine«."],
     ["prog","Plaćanja, devize i AI agenti","CPN je dosegao $23B anualiziranog prometa (31. 7.), a monetizacija kreće u drugoj polovici 2026. StableFX dodaje 22 stablecoina za devizno namirenje 0–24. Circle tvrdi da USDC drži 98,6% volumena plaćanja AI agenata."],
-    ["ok","Kontrola nad infrastrukturom","Circle bira validatore, upravlja nadogradnjama i naknadama i ugrađuje privatnost uz pristup za revizore. Za regulatore je to prednost, ali za decentralizaciju je to slabost dok ne stigne proof of stake."]],
+    ["ok","Kontrola nad infrastrukturom","Circle bira validatore, upravlja nadogradnjama i naknadama i ugrađuje skrivanje iznosa koje revizori ipak mogu vidjeti. Za regulatore je to prednost, ali za decentralizaciju je to slabost dok ne stigne proof of stake."]],
   scaleH:"Provjera stvarnosti",scaleSub:"Koliko je stablecoina danas na novim chainovima u odnosu na stare mreže",
   scale:[["USDT na Tronu",87.9,"var(--grey)"],["USDT na Stableu",0.021,"var(--lime)"],["Ukupni USDC",74.2,"var(--grey)"],["USDC na Arcu",0.523,"var(--lime)"]],
   scaleNote:"Stablecoin chainovi (Stable, Arc, Plasma, Tempo) zajedno drže manje od 0,3% svih stablecoina, a Ethereum i Tron oko 78% (CoinMarketCap). Arc je u tri tjedna dosegao 0,7% USDC-a, a Stable nakon deset mjeseci drži 0,01% USDT-a.",
@@ -639,7 +639,7 @@ circle:{...PAGES_HR.circle,
        ["ok","Reserves","Reserves are bank cash and the Circle Reserve Fund, an SEC-registered fund managed by BlackRock. Deloitte performs monthly attestations."],
        ["mid","Interest rate exposure","Almost all revenue comes from reserve income, so every rate cut directly reduces revenue."]],
   chain:{name:"Arc",eyebrow:"Link to the chain",
-    text:["Arc is Circle's Layer 1 where USDC is the gas token. Finality is deterministic and takes under a second. The network is EVM-compatible, built for institutions, and supports optional privacy for amounts.",
+    text:["Arc is Circle's Layer 1 where USDC is the gas token. A transaction is final in under a second and cannot be reversed after that. The network works with Ethereum tools (EVM) and is built for institutions. The amount of a transaction can be hidden from the public if the user wants, so only the parties and auditors can see it.",
           "Mainnet launched on 16 September 2026 with 11 validators chosen by Circle, including BlackRock, DTCC, Visa and Mastercard."],
     kv:[["Mainnet","16 Sep 2026"],["Gas","USDC"],["Consensus","Malachite (BFT), PoA"],["Validators","11 + Circle"],["ARC token","10 bn, not publicly launched"],["Private sale","$242.2M at $0.30"]]},
   src:[["Beancount: Circle Q2 2026","https://beancount.io/blog/2026/09/13/circle-q2-2026-earnings-analysis"],["Circle: reserve transparency","https://www.circle.com/transparency"],["CertiK: Arc mainnet","https://www.certik.com/blog/circle-arc-mainnet-usdc-native-settlement"],["crypto.news: Arc launched","https://crypto.news/circle-arc-mainnet-launches-with-usdc-gas/"],["Arc blog","https://www.arc.io/blog/arc-mainnet-goes-live-on-september-16-2026"]]
@@ -714,7 +714,7 @@ const CMP_EN=[
   ["Finality","Under a second","Under a second (~0.5 s blocks)"],
   ["EVM","Yes","Yes (Reth)"],
   ["Native token","STABLE, 100 bn, trading","ARC, 10 bn, not publicly launched"],
-  ["Privacy","Confidential transfers (planned)","Optional hidden amounts"],
+  ["Privacy","Hidden amounts (planned)","Amount can be hidden from the public"],
   ["Distinctive feature","Free USDT0 transfers, guaranteed blockspace","22 stablecoins in StableFX, tokenized funds (BUIDL)"],
   ["Target user","USDT payments, emerging markets","Banks, exchanges, asset managers"]
 ];

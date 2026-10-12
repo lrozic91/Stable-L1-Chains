@@ -32,16 +32,25 @@ function last30(chart) {
   return rows.length > 1 ? rows.map(([t, v]) => [new Date(t * 1000).toISOString().slice(0, 10), Math.round(v)]) : null;
 }
 
-// Dnevne transakcije na Arcu: Blockscout API na Arcscanu
+// Dnevne transakcije na Arcu: Blockscout na explorer.arc.io (stari API ili stats servis)
 async function arcDailyTx() {
-  const j = await getJSON("https://arcscan.app/api/v2/stats/charts/transactions");
   const today = new Date().toISOString().slice(0, 10);
-  const rows = (j?.chart_data || [])
-    .map((r) => [r.date, +(r.transactions_count ?? r.transaction_count ?? r.value)])
-    .filter((r) => r[0] < today && Number.isFinite(r[1]))
-    .sort((a, b) => (a[0] < b[0] ? -1 : 1));
-  if (rows.length < 2) throw new Error("arcscan: nema podataka");
-  return rows.slice(-30);
+  const from = new Date(Date.now() - 40 * 864e5).toISOString().slice(0, 10);
+  const tries = [
+    ["https://explorer.arc.io/api/v2/stats/charts/transactions", (j) => (j.chart_data || []).map((r) => [r.date, +(r.transactions_count ?? r.transaction_count ?? r.value)])],
+    [`https://explorer.arc.io/stats-service/api/v1/lines/newTxns?from=${from}&to=${today}&resolution=DAY`, (j) => (j.chart || []).map((r) => [r.date, +r.value])],
+  ];
+  const errs = [];
+  for (const [url, pick] of tries) {
+    try {
+      const rows = pick(await getJSON(url))
+        .filter((r) => r[0] < today && Number.isFinite(r[1]))
+        .sort((a, b) => (a[0] < b[0] ? -1 : 1));
+      if (rows.length > 1) return rows.slice(-30);
+      errs.push(url + " → prazno");
+    } catch (e) { errs.push(String(e)); }
+  }
+  throw new Error(errs.join(" | "));
 }
 
 async function collect() {

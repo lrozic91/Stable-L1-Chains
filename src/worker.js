@@ -32,10 +32,22 @@ function last30(chart) {
   return rows.length > 1 ? rows.map(([t, v]) => [new Date(t * 1000).toISOString().slice(0, 10), Math.round(v)]) : null;
 }
 
+// Dnevne transakcije na Arcu: Blockscout API na Arcscanu
+async function arcDailyTx() {
+  const j = await getJSON("https://arcscan.app/api/v2/stats/charts/transactions");
+  const today = new Date().toISOString().slice(0, 10);
+  const rows = (j?.chart_data || [])
+    .map((r) => [r.date, +(r.transactions_count ?? r.transaction_count ?? r.value)])
+    .filter((r) => r[0] < today && Number.isFinite(r[1]))
+    .sort((a, b) => (a[0] < b[0] ? -1 : 1));
+  if (rows.length < 2) throw new Error("arcscan: nema podataka");
+  return rows.slice(-30);
+}
+
 async function collect() {
   const ov = (kind, chain, chart = false) =>
     safe(getJSON(`https://api.llama.fi/overview/${kind}/${chain}?excludeTotalDataChart=${!chart}&excludeTotalDataChartBreakdown=true`));
-  const [coins, chains, scChains, feesStable, feesArc, dexStable, dexArc, gecko, llamaPrice, stableTx] = await Promise.all([
+  const [coins, chains, scChains, feesStable, feesArc, dexStable, dexArc, gecko, llamaPrice, stableTx, arcTx] = await Promise.all([
     safe(getJSON("https://stablecoins.llama.fi/stablecoins?includePrices=false")),
     safe(getJSON("https://api.llama.fi/v2/chains")),
     safe(getJSON("https://stablecoins.llama.fi/stablecoinchains")),
@@ -43,6 +55,7 @@ async function collect() {
     safe(getJSON("https://api.coingecko.com/api/v3/simple/price?ids=stable-2&vs_currencies=usd&include_market_cap=true")),
     safe(getJSON("https://coins.llama.fi/prices/current/coingecko:stable-2")),
     safe(stableDailyTx()),
+    safe(arcDailyTx()),
   ]);
 
   const out = { fetchedAt: new Date().toISOString() };
@@ -69,6 +82,7 @@ async function collect() {
   const p = llamaPrice?.coins?.["coingecko:stable-2"]?.price;
   out.stableMcap = g?.usd_market_cap || (p ? p * STABLE_CIRCULATING : null);
   out.stableTxDaily = stableTx;
+  out.arcTxDaily = arcTx;
   out.stableFeesDaily = last30(feesStable?.totalDataChart);
   out.arcFeesDaily = last30(feesArc?.totalDataChart);
   return out;

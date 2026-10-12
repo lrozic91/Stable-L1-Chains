@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
-/* Layout: tamni header s navigacijom, veliki broj + graf optjecaja, ispod tri kartice (tamna / svijetla / svijetla), zatim povijest i regulativa */
+/* Layout: tamni header s navigacijom, veliki broj + graf ukupne ponude, ispod tri kartice (tamna / svijetla / svijetla), zatim povijest i regulativa */
 :root{
   --bg:#f4f6f1; --paper:#ffffff; --ink:#121410; --ink-2:#5d6358; --line:#e3e7de;
   --bar:#121410; --bar-ink:#e9eee4; --bar-ink-2:#8d9487; --bar-line:#2a2e26;
@@ -215,7 +215,7 @@ tether:{
   sub:"Tether Holdings izdaje USD₮, najveći stablecoin na svijetu. Tvrtka je povezana s burzom Bitfinex, sjedište joj je u El Salvadoru, a vodi je Paolo Ardoino.",
   reserves:{title:"Struktura rezervi",note:"Atestacija BDO, 30. 6. 2026, ukupno $187,75B",
     parts:[["Američki trezorski zapisi",114.96,"var(--lime)"],["Zlato (146+ t)",18.84,"var(--amber)"],["Bitcoin (~98.900 BTC)",5.80,"#f2913a"],["Ostalo (repo, fondovi, krediti)",48.15,"var(--grey)"]]},
-  market:[["USDT u optjecaju (6. 10. 2026.)","$184,1B"],["Višak rezervi (Q2 2026.)","$4,11B"],["Neto dobit (Q2 2026.)","~$1,5B"],["Korisnika (Ardoino, Q2)","650M+"]],
+  market:[["Ukupna ponuda USDT (6. 10. 2026.)","$184,1B"],["Višak rezervi (Q2 2026.)","$4,11B"],["Neto dobit (Q2 2026.)","~$1,5B"],["Korisnika (Ardoino, Q2)","650M+"]],
   hist:[["2014","Pokrenut kao Realcoin (Brock Pierce, Reeve Collins, Craig Sellars), u studenom preimenovan u Tether. Prvi tokeni izdani na Omni protokolu iznad Bitcoina."],
         ["2017","Paradise Papers otkrivaju da Tether i Bitfinex imaju iste vlasnike i upravu (iFinex)."],
         ["2021","Nagodba s njujorškim državnim odvjetnikom ($18,5M) i kazna CFTC-a ($41M) zbog netočnih tvrdnji o pokriću rezervi."],
@@ -239,7 +239,7 @@ circle:{
   reserves:{title:"Prihodi Q2 2026.",note:"Ukupni prihod $701,3M, od toga 58,8% odlazi distributerima",
     parts:[["Prinos na rezerve",667.7,"var(--lime)"],["Ostali prihodi",33.6,"var(--amber)"]],
     extra:[["Troškovi distribucije",  "$410,4M"],["Neto dobit (kontinuirano)","$48,2M"],["Stopa prinosa rezervi","3,5%"]]},
-  market:[["USDC u optjecaju (14. 9. 2026.)","$74,2B"],["Prosjek u Q2 2026.","$76,5B"],["Prihod Q2 2026.","$701,3M"],["Udio prema Circleu (Q2)","27%"]],
+  market:[["Ukupna ponuda USDC (14. 9. 2026.)","$74,2B"],["Prosjek u Q2 2026.","$76,5B"],["Prihod Q2 2026.","$701,3M"],["Udio prema Circleu (Q2)","27%"]],
   hist:[["2013","Jeremy Allaire i Sean Neville osnivaju Circle u Bostonu, isprva kao aplikaciju za plaćanja."],
         ["2018","S Coinbaseom kroz konzorcij Centre lansira USDC na Ethereumu."],
         ["2023","Pad SVB-a: $3,3B rezervi zapelo je u banci i USDC kratko pada na ~$0,87. Centre je ugašen, a Circle preuzima punu kontrolu nad USDC-om."],
@@ -489,13 +489,13 @@ hr:{
   goalsH:"Što su firme htjele postići",
   status:{ok:"Ostvareno",prog:"U tijeku",no:"Nije ostvareno"},
   tGoals:[
-    ["no","Vratiti vrijednost od naknada","Na Tronu je $87,9B USDT-a (47,6% ukupnog optjecaja), a Tron je u Q2 2026. naplatio $699,4M naknada. Stable bi taj promet trebao preuzeti, ali na njemu je danas samo oko $21M stablecoina."],
+    ["no","Vratiti vrijednost od naknada","Na Tronu je $87,9B USDT-a (47,6% ukupne ponude), a Tron je u Q2 2026. naplatio $699,4M naknada. Stable bi taj promet trebao preuzeti, ali na njemu je danas samo oko $21M stablecoina."],
     ["ok","Jeftina plaćanja u USDT-u","Ardoino tvrdi da 40% svih naknada na blockchainima ide na slanje USDT-a. Na Stableu se naknade mreže (gas fees) plaćaju u USDT-u, a gas waiveri i besplatni USDT0 transferi rade od nadogradnje u veljači 2026. Tehnički je cilj ostvaren, ali korisnika je još malo."],
     ["prog","Portfelj umjesto jednog chaina","Ekosustav Tethera financira i Stable (Bitfinex) i Plasmu (Founders Fund, kapital blizak Tetheru). Dva suprotna dizajna testiraju različite putove, a zajedno jačaju Tetherovu pregovaračku poziciju prema Tronu."],
     ["prog","Institucionalni promet","Zajamčeni blockspace i partneri poput Anchorage Digitala, PayPala i Standard Chartereda (Libeara) ciljaju plaće, namirenja i B2B plaćanja. Velikih javno objavljenih tokova zasad nema."],
     ["ok","Ostati neutralan","Ardoino je u kolovozu 2026. napisao da Tether ne gradi blockchain i da ga ne planira graditi. Tether ostaje agnostičan prema mrežama, a vrijednost chaina pripada povezanim stranama, ne bilanci Tethera."]],
   cGoals:[
-    ["prog","Manja ovisnost o distributerima","Distribucija uzima 58,5% prihoda. USDC na Circleovoj platformi narastao je 106% godišnje na $12,4B (17% optjecaja), dok je na Coinbaseu oko 30%. Arc je kanal na kojem Circle sam drži odnos s korisnikom."],
+    ["prog","Manja ovisnost o distributerima","Distribucija uzima 58,5% prihoda. USDC na Circleovoj platformi narastao je 106% godišnje na $12,4B (17% ukupne ponude), dok je na Coinbaseu oko 30%. Arc je kanal na kojem Circle sam drži odnos s korisnikom."],
     ["prog","Prihod neovisan o kamatama","Prinos na rezerve pao je na 3,48% (-66 bp). Smjernica za ostale prihode podignuta je na $310–330M, od čega je oko $180M od tokena ARC. Bez ARC-a smjernica bi bila niža od prethodne."],
     ["ok","Platforma za regulirane institucije","Među validatorima su BlackRock, DTCC, ICE, Visa i Mastercard. BlackRock planira BUIDL na Arcu, a DTCC tokenizaciju od druge polovice 2027. Allaire Arc zove »kanonskim domom za izdavatelje imovine«."],
     ["prog","Plaćanja, devize i AI agenti","CPN je dosegao $23B anualiziranog prometa (31. 7.), a monetizacija kreće u drugoj polovici 2026. StableFX dodaje 22 stablecoina za devizno namirenje 0–24. Circle tvrdi da USDC drži 98,6% volumena plaćanja AI agenata."],
@@ -509,7 +509,7 @@ hr:{
   verdict:["Tether i Circle rješavaju isti problem s dvije strane. Tether ne mora graditi chain da bi zarađivao, jer prihod dolazi od rezervi bez obzira na to gdje USDT putuje. Zato Stable drži na udaljenosti, preko Bitfinexa i tokena STABLE. Cilj je smanjiti cijenu slanja USDT-a i oslabiti Tronovu poziciju, a ne napraviti novi izvor prihoda za Tether. Za sada to ne uspijeva, jer kapital iz pre-deposita od $2B nije ostao na chainu.",
            "Circle je u drugačijem položaju. Njegov problem je u vlastitom računu dobiti i gubitka: distribucija mu uzima gotovo 60%, a prihod pada sa svakim smanjenjem kamata. Arc mu zato treba kao drugi posao s vlastitim kanalom do korisnika, prihodima od naknada, tokenom i uslugama za institucije. Start je jak ($553M TVL-a u tri tjedna), ali Arc još nije pokazao stvarnu dobit, a ARC ovisi o prijelazu na proof of stake do svibnja 2028."],
   watchH:"Što pratiti",
-  watch:[["Circle Q3 2026. (studeni)","Prvi kvartal s Arcom: naknade, prihod od ARC-a i udio platforme"],["TVL Stablea","Hoće li prijeći prethodni vrh od $100M"],["USDT0 u optjecaju","Sada ~$4B. Mjera koliko USDT napušta Tron"],["ARC i proof of stake","Ako prijelaz ne stigne do 8. 5. 2028., Circle mora vratiti novac kupcima tokena"],["Tronove naknade","Smanjenje cijena na Tronu bilo bi znak da pritisak djeluje"]],
+  watch:[["Circle Q3 2026. (studeni)","Prvi kvartal s Arcom: naknade, prihod od ARC-a i udio platforme"],["TVL Stablea","Hoće li prijeći prethodni vrh od $100M"],["Ukupna ponuda USDT0","Sada ~$4B. Mjera koliko USDT napušta Tron"],["ARC i proof of stake","Ako prijelaz ne stigne do 8. 5. 2028., Circle mora vratiti novac kupcima tokena"],["Tronove naknade","Smanjenje cijena na Tronu bilo bi znak da pritisak djeluje"]],
   srcH:"Izvori:"
 },
 en:{
@@ -730,9 +730,9 @@ const CMPN_EN=[
 ];
 
 const UI={
-hr:{nav:"Stranice",data:"Podaci do 9. 10. 2026.",supply:"U optjecaju",share:"udio",chartAria:"Prikaz grafa",
+hr:{nav:"Stranice",data:"Podaci do 9. 10. 2026.",supply:"Ukupna ponuda",share:"udio",chartAria:"Prikaz grafa",
   legendIssuer:"Godišnji presjeci, približne vrijednosti (DefiLlama / CoinGecko); zadnja točka je najnoviji podatak.",
-  others:"Ostali",dominance:"Dominacija",domNote:"Udio u ukupnom optjecaju dolarskih stablecoina (~$312B), DefiLlama, listopad 2026.",
+  others:"Ostali",dominance:"Dominacija",domNote:"Udio u ukupnoj ponudi dolarskih stablecoina (~$312B), DefiLlama, listopad 2026.",
   market:"Tržišni podaci",history:"Povijest",howBorn:c=>`Kako je nastao ${c}`,reg:"Regulativa i transparentnost",where:t=>`Gdje ${t} smije raditi`,
   st:{ok:"Usklađeno",no:"Nije",mid:"Djelomično"},and:"i",sources:"Izvori:",
   metricAria:"Metrika grafa",measured:"izmjereno",est:"procjena (isprekidana linija)",layerQ:"L1, L2 ili hibrid?",yes:"da",no:"ne",
@@ -744,7 +744,7 @@ hr:{nav:"Stranice",data:"Podaci do 9. 10. 2026.",supply:"U optjecaju",share:"udi
   c2:"Arc je institucionalan. Validatore bira Circle, a partneri su BlackRock, DTCC, Visa i Mastercard. Na startu je odmah dobio DeFi likvidnost preko Morpha i Aavea, ali je decentralizacija za sada ograničena.",
   verd:[["Starija mreža","Stable"],["Veći TVL","Arc"],["Decentraliziraniji validatori","Stable"],["Jača institucionalna podrška","Arc"],["Token u slobodnom trgovanju","Stable"]],
   cmpSrc:'Izvori: podaci sa stranica <a href="#stable">Stable</a> i <a href="#arc">Arc</a> (DefiLlama, Circle, The Block, CoinGecko), stanje 9. 10. 2026.',
-  compare:"Usporedba",supplyAria:(a,b)=>`${a} i ${b} u optjecaju po godinama`},
+  compare:"Usporedba",supplyAria:(a,b)=>`Ukupna ponuda ${a} i ${b} po godinama`},
 en:{nav:"Pages",data:"Data as of 9 Oct 2026",supply:"Supply",share:"share",chartAria:"Chart view",
   legendIssuer:"Year-end snapshots, approximate values (DefiLlama / CoinGecko); the last point is the latest figure.",
   others:"Others",dominance:"Dominance",domNote:"Share of total dollar stablecoin supply (~$312B), DefiLlama, October 2026.",
@@ -801,10 +801,10 @@ function applyLive(d){
       const tS=d.usdt/d.stablecoinsTotal*100,cS=d.usdc/d.stablecoinsTotal*100;
       DOM=[Math.round(tS),Math.round(cS),100-Math.round(tS)-Math.round(cS)];
       P.tether.num=splitNum(bigB(d.usdt));P.tether.pill=lang==="en"?`${Math.round(tS)}% of market`:`${Math.round(tS)}% tržišta`;
-      P.tether.market[0]=[lang==="en"?`USDT supply (${full})`:`USDT u optjecaju (${full})`,bigB(d.usdt)];
+      P.tether.market[0]=[lang==="en"?`USDT supply (${full})`:`Ukupna ponuda USDT (${full})`,bigB(d.usdt)];
       P.circle.num=splitNum(bigB(d.usdc));P.circle.pill=lang==="en"?`~${Math.round(cS)}% of market`:`~${Math.round(cS)}% tržišta`;
-      P.circle.market[0]=[lang==="en"?`USDC supply (${full})`:`USDC u optjecaju (${full})`,bigB(d.usdc)];
-      U.domNote=lang==="en"?`Share of total dollar stablecoin supply (~$${(d.stablecoinsTotal/1e9).toFixed(0)}B), DefiLlama, ${full}.`:`Udio u ukupnom optjecaju dolarskih stablecoina (~$${(d.stablecoinsTotal/1e9).toFixed(0)}B), DefiLlama, ${full}.`;
+      P.circle.market[0]=[lang==="en"?`USDC supply (${full})`:`Ukupna ponuda USDC (${full})`,bigB(d.usdc)];
+      U.domNote=lang==="en"?`Share of total dollar stablecoin supply (~$${(d.stablecoinsTotal/1e9).toFixed(0)}B), DefiLlama, ${full}.`:`Udio u ukupnoj ponudi dolarskih stablecoina (~$${(d.stablecoinsTotal/1e9).toFixed(0)}B), DefiLlama, ${full}.`;
       SUPPLY.usdt[7]=+(d.usdt/1e9).toFixed(1);SUPPLY.usdc[7]=+(d.usdc/1e9).toFixed(1);
       S.scale[2][1]=d.usdc/1e9;
     }

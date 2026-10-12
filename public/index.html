@@ -252,7 +252,7 @@ circle:{
   chain:{name:"Arc",eyebrow:"Veza s chainom",
     text:["Arc je Circleov Layer 1 u kojem se naknade mreže (gas fees) plaćaju u USDC-u. Transakcija je konačna za manje od sekunde i nakon toga se ne može poništiti. Mreža radi s alatima za Ethereum (EVM) i namijenjena je institucijama. Iznos transakcije može se po želji sakriti od javnosti, tako da ga vide samo sudionici i revizori.",
           "Mainnet je pokrenut 16. rujna 2026. s 11 validatora koje je odabrao Circle, među njima BlackRock, DTCC, Visa i Mastercard."],
-    kv:[["Mainnet","16. 9. 2026."],["Naknade mreže (gas fees)","USDC"],["Konsenzus","Malachite (BFT), PoA"],["Validatori","11 + Circle"],["ARC token","10 mlrd, javno nelansiran"],["Privatna prodaja","$242,2M po $0,30"]]},
+    kv:[["Mainnet","16. 9. 2026."],["Naknade mreže (gas fees)","USDC"],["Konsenzus","Malachite (BFT), PoA"],["Validatori","11 + Circle"],["ARC token","10 mlrd, nije još lansiran"],["Privatna prodaja","$242,2M po $0,30"]]},
   src:[["Beancount: Circle Q2 2026","https://beancount.io/blog/2026/09/13/circle-q2-2026-earnings-analysis"],["Circle: transparentnost rezervi","https://www.circle.com/transparency"],["CertiK: Arc mainnet","https://www.certik.com/blog/circle-arc-mainnet-usdc-native-settlement"],["crypto.news: Arc lansiran","https://crypto.news/circle-arc-mainnet-launches-with-usdc-gas/"],["Arc blog","https://www.arc.io/blog/arc-mainnet-goes-live-on-september-16-2026"]]
 }};
 
@@ -425,7 +425,7 @@ const CMP_HR=[
   ["Validatori","Delegatori STABLE tokena","11 institucija + Circle (BlackRock, DTCC, Visa…)"],
   ["Finalnost","Ispod sekunde","Ispod sekunde (~0,5 s blok)"],
   ["EVM","Da","Da (Reth)"],
-  ["Nativni token","STABLE, 100 mlrd, trguje se","ARC, 10 mlrd, javno nelansiran"],
+  ["Nativni token","STABLE, 100 mlrd, trguje se","ARC, 10 mlrd, nije još lansiran"],
   ["Privatnost","Skriveni iznosi (u planu)","Iznos se može sakriti od javnosti"],
   ["Posebnost","Besplatni USDT0 transferi, zajamčeni blockspace","22 stablecoina u StableFX-u, tokenizirani fondovi (BUIDL)"],
   ["Ciljani korisnik","Plaćanja u USDT-u, tržišta u razvoju","Banke, burze, upravitelji imovinom"]
@@ -435,7 +435,7 @@ const CMPN_HR=[
   ["Stablecoini na chainu",21.14,530.33,"M"],
   ["Naknade aplikacija / dan",0.0256,0.1488,"M"],
   ["DEX volumen / dan",0.0000445,34.02,"M"],
-  ["Tržišna vrijednost tokena",689,0,"M","ARC nije javno lansiran"],
+  ["Tržišna vrijednost tokena",689,0,"M","ARC još nije lansiran"],
   ["Prikupljeno od investitora",28,242.2,"M","Stable: seed runda. Arc: privatna prodaja ARC-a."]
 ];
 function money(v){if(v===0)return "—";if(v>=1)return "$"+(v>=100?v.toFixed(0):v.toFixed(1)).replace(".",LANG==="en"?".":",")+"M";if(v>=0.001)return "$"+Math.round(v*1000)+"k";return "$"+Math.round(v*1e6)}
@@ -643,7 +643,7 @@ circle:{...PAGES_HR.circle,
   chain:{name:"Arc",eyebrow:"Link to the chain",
     text:["Arc is Circle's Layer 1 where USDC is the gas token. A transaction is final in under a second and cannot be reversed after that. The network works with Ethereum tools (EVM) and is built for institutions. The amount of a transaction can be hidden from the public if the user wants, so only the parties and auditors can see it.",
           "Mainnet launched on 16 September 2026 with 11 validators chosen by Circle, including BlackRock, DTCC, Visa and Mastercard."],
-    kv:[["Mainnet","16 Sep 2026"],["Gas","USDC"],["Consensus","Malachite (BFT), PoA"],["Validators","11 + Circle"],["ARC token","10 bn, not publicly launched"],["Private sale","$242.2M at $0.30"]]},
+    kv:[["Mainnet","16 Sep 2026"],["Gas","USDC"],["Consensus","Malachite (BFT), PoA"],["Validators","11 + Circle"],["ARC token","10 bn, not launched yet"],["Private sale","$242.2M at $0.30"]]},
   src:[["Beancount: Circle Q2 2026","https://beancount.io/blog/2026/09/13/circle-q2-2026-earnings-analysis"],["Circle: reserve transparency","https://www.circle.com/transparency"],["CertiK: Arc mainnet","https://www.certik.com/blog/circle-arc-mainnet-usdc-native-settlement"],["crypto.news: Arc launched","https://crypto.news/circle-arc-mainnet-launches-with-usdc-gas/"],["Arc blog","https://www.arc.io/blog/arc-mainnet-goes-live-on-september-16-2026"]]
 }};
 
@@ -716,7 +716,7 @@ const CMP_EN=[
   ["Validators","STABLE token delegators","11 institutions + Circle (BlackRock, DTCC, Visa…)"],
   ["Finality","Under a second","Under a second (~0.5 s blocks)"],
   ["EVM","Yes","Yes (Reth)"],
-  ["Native token","STABLE, 100 bn, trading","ARC, 10 bn, not publicly launched"],
+  ["Native token","STABLE, 100 bn, trading","ARC, 10 bn, not launched yet"],
   ["Privacy","Hidden amounts (planned)","Amount can be hidden from the public"],
   ["Distinctive feature","Free USDT0 transfers, guaranteed blockspace","22 stablecoins in StableFX, tokenized funds (BUIDL)"],
   ["Target user","USDT payments, emerging markets","Banks, exchanges, asset managers"]
@@ -726,7 +726,7 @@ const CMPN_EN=[
   ["Stablecoins on chain",21.14,530.33,"M"],
   ["App fees / day",0.0256,0.1488,"M"],
   ["DEX volume / day",0.0000445,34.02,"M"],
-  ["Token market cap",689,0,"M","ARC is not publicly launched"],
+  ["Token market cap",689,0,"M","ARC has not launched yet"],
   ["Raised from investors",28,242.2,"M","Stable: seed round. Arc: private ARC sale."]
 ];
 

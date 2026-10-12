@@ -24,14 +24,22 @@ async function stableDailyTx() {
   return rows.slice(-30);
 }
 
+// Zadnjih 30 završenih dana (UTC) iz DefiLlamina dnevnog grafa [timestamp, vrijednost]
+function last30(chart) {
+  if (!Array.isArray(chart)) return null;
+  const today = Math.floor(Date.now() / 864e5) * 86400;
+  const rows = chart.filter((r) => r[0] < today).slice(-30);
+  return rows.length > 1 ? rows.map(([t, v]) => [new Date(t * 1000).toISOString().slice(0, 10), Math.round(v)]) : null;
+}
+
 async function collect() {
-  const ov = (kind, chain) =>
-    safe(getJSON(`https://api.llama.fi/overview/${kind}/${chain}?excludeTotalDataChart=true&excludeTotalDataChartBreakdown=true`));
+  const ov = (kind, chain, chart = false) =>
+    safe(getJSON(`https://api.llama.fi/overview/${kind}/${chain}?excludeTotalDataChart=${!chart}&excludeTotalDataChartBreakdown=true`));
   const [coins, chains, scChains, feesStable, feesArc, dexStable, dexArc, gecko, llamaPrice, stableTx] = await Promise.all([
     safe(getJSON("https://stablecoins.llama.fi/stablecoins?includePrices=false")),
     safe(getJSON("https://api.llama.fi/v2/chains")),
     safe(getJSON("https://stablecoins.llama.fi/stablecoinchains")),
-    ov("fees", "Stable"), ov("fees", "Arc"), ov("dexs", "Stable"), ov("dexs", "Arc"),
+    ov("fees", "Stable", true), ov("fees", "Arc", true), ov("dexs", "Stable"), ov("dexs", "Arc"),
     safe(getJSON("https://api.coingecko.com/api/v3/simple/price?ids=stable-2&vs_currencies=usd&include_market_cap=true")),
     safe(getJSON("https://coins.llama.fi/prices/current/coingecko:stable-2")),
     safe(stableDailyTx()),
@@ -61,6 +69,8 @@ async function collect() {
   const p = llamaPrice?.coins?.["coingecko:stable-2"]?.price;
   out.stableMcap = g?.usd_market_cap || (p ? p * STABLE_CIRCULATING : null);
   out.stableTxDaily = stableTx;
+  out.stableFeesDaily = last30(feesStable?.totalDataChart);
+  out.arcFeesDaily = last30(feesArc?.totalDataChart);
   return out;
 }
 

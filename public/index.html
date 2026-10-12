@@ -317,7 +317,7 @@ stable:{
   layer:{verdict:"L1",title:"Samostalni Layer 1",
     text:["Stable nije L2. Ima vlastiti konsenzus (StableBFT, temeljen na CometBFT-u), vlastite validatore i vlastiti token za staking. Ne objavljuje podatke ni dokaze na Ethereum, pa njegova sigurnost ne ovisi o Ethereumu.",
           "Hibridni dio je EVM kompatibilnost i USDT0, omnichain verzija USDT-a preko LayerZera. Zbog toga se Stable ponaša kao dio šire USDT mreže, iako je tehnički zaseban chain."],
-    rows:[["Vlastiti konsenzus",true],["Vlastiti validatori",true],["Settlement na Ethereumu",false],["EVM kompatibilan",true],["Naknade mreže (gas fees) u stablecoinu",true],["Vlastiti token",true]]},
+    rows:[["Vlastiti konsenzus",true],["Vlastiti validatori",true],["Oslanja se na Ethereum",false],["EVM kompatibilan",true],["Naknade mreže (gas fees) u stablecoinu",true],["Vlastiti token",true]]},
   src:[["DefiLlama: Stable","https://defillama.com/chain/stable"],["The Block: plan faze 1","https://www.theblock.co/post/360616/stable-a-bitfinex-backed-layer-1-blockchain-using-tethers-usdt-as-a-gas-token-unveils-phase-1-of-its-roadmap"],["The Block: pre-deposit $825M","https://www.theblock.co/post/376022/stables-phase-1-hits-cap"],["The Block: mainnet","https://www.theblock.co/post/381688/stable-launches-mainnet-native-token-foundation"],["Cryptopolitan: prijelaz na USDT0","https://www.cryptopolitan.com/stable-migrate-to-usdt0-native-gas-token/"],["Lookonchain: pad TVL-a","https://lookonchain.com/feeds/42941"],["CoinGecko: STABLE","https://www.coingecko.com/en/coins/stable-2"]]
 },
 arc:{
@@ -335,7 +335,7 @@ arc:{
   cards:{
     share:[["USDC",98.7,"var(--lime)"],["Ostali",1.3,"var(--amber)"]],shareNote:"Udio u stablecoinima na chainu (~$530M), DefiLlama",
     kv:[["TVL","$553,1M"],["Stablecoini na chainu","$530,3M"],["Transakcije / dan","785.666 (11. 10.)"],["Naknade aplikacija (24 h)","$148.828"],["Prihod aplikacija (24 h)","$21.307"],["DEX volumen (7 d)","$330,1M"]]},
-  why:["Circle zarađuje na kamatama od rezervi, a više od polovice tog prihoda daje distributerima poput Coinbasea. Vlastiti chain mu daje izravan odnos s korisnicima, prihod od naknada i mjesto na kojem se USDC namiruje bez posrednika.",
+  why:["Circle zarađuje na kamatama od rezervi, a više od polovice tog prihoda daje distributerima poput Coinbasea. Vlastiti chain mu daje izravan odnos s korisnicima, prihod od naknada i mjesto gdje se plaćanja u USDC-u obavljaju bez posrednika.",
        "Drugi razlog su institucije. Banke, burze i upravitelji imovinom žele predvidljive naknade u dolarima, transakcije koje su odmah konačne i iznose koji nisu javno vidljivi. Opće mreže to ne nude, pa je Circle napravio mrežu po mjeri regulirane financije."],
   hist:[["08/2025","Circle najavljuje Arc uz rezultate za Q2 2025."],
         ["10/2025","Javni testnet 28. 10. uz više od 100 tvrtki (BlackRock, Goldman Sachs, Visa, AWS, Anthropic)."],
@@ -344,9 +344,9 @@ arc:{
         ["09/2026","Prvi dan 7,8M transakcija i 97.000 novih tokena. Naknade u šest dana padaju 96,7% od razine prvog dana."],
         ["10/2026","TVL raste na $553M, uglavnom Morpho i Aave V4. Prijelaz na proof of stake razmatra se za 2027."]],
   layer:{verdict:"L1",title:"Permissioned Layer 1",
-    text:["Arc nije L2. Ima vlastiti konsenzus Malachite (BFT, izveden iz Tendermint-a), vlastite validatore i finalnost ispod sekunde. Ne namiruje se na Ethereumu.",
+    text:["Arc nije L2, nego samostalan blockchain. Ima vlastite validatore i vlastiti konsenzus Malachite (BFT, izveden iz Tendermint-a), a transakcija je konačna za manje od sekunde. Za razliku od L2 mreža, Arc ne šalje svoje transakcije na Ethereum na potvrdu, pa njegova sigurnost ne ovisi o Ethereumu.",
           "Hibridni dio je model upravljanja. Validatore danas bira Circle (proof of authority), pa je Arc bliži konzorcijskoj mreži nego otvorenom L1 kao Ethereum. Prijelaz na proof of stake s tokenom ARC tek se razmatra."],
-    rows:[["Vlastiti konsenzus",true],["Vlastiti validatori",true],["Settlement na Ethereumu",false],["EVM kompatibilan",true],["Naknade mreže (gas fees) u stablecoinu",true],["Otvoreni validatori",false]]},
+    rows:[["Vlastiti konsenzus",true],["Vlastiti validatori",true],["Oslanja se na Ethereum",false],["EVM kompatibilan",true],["Naknade mreže (gas fees) u stablecoinu",true],["Otvoreni validatori",false]]},
   src:[["Circle: Arc mainnet","https://www.circle.com/pressroom/circle-launches-arc-mainnet-an-economic-operating-system-for-the-internet"],["Circle: Arc testnet","https://www.circle.com/pressroom/circle-launches-arc-public-testnet"],["DefiLlama: Arc","https://defillama.com/chain/arc"],["dev.to: Arc u brojkama","https://dev.to/sulimanmukhtar/arc-chain-in-numbers-one-dollar-two-decimals-and-97000-tokens-in-a-day-4b5o"],["Coin Gabbar: prvi tjedan","https://www.coingabbar.com/en/arc-chain-news-usdc-circulation-week-one"],["Coincu: pad naknada","https://www.coincu.com/arc-mainnet-fees-fall-96-7-percent-six-days-after-launch/"],["crypto.news: lansiranje","https://crypto.news/circle-arc-mainnet-launches-with-usdc-gas/"]]
 }};
 const cMode={stable:"tvl",arc:"tvl"};
@@ -675,7 +675,7 @@ stable:{...CHAINS_HR.stable,
   layer:{verdict:"L1",title:"Standalone Layer 1",
     text:["Stable is not an L2. It has its own consensus (StableBFT, based on CometBFT), its own validators and its own staking token. It does not post data or proofs to Ethereum, so its security does not depend on Ethereum.",
           "The hybrid part is EVM compatibility and USDT0, the omnichain version of USDT via LayerZero. Because of that, Stable behaves like part of the wider USDT network even though it is technically a separate chain."],
-    rows:[["Own consensus",true],["Own validators",true],["Settles on Ethereum",false],["EVM-compatible",true],["Gas paid in a stablecoin",true],["Own token",true]]},
+    rows:[["Own consensus",true],["Own validators",true],["Relies on Ethereum",false],["EVM-compatible",true],["Gas paid in a stablecoin",true],["Own token",true]]},
   src:[["DefiLlama: Stable","https://defillama.com/chain/stable"],["The Block: phase 1 roadmap","https://www.theblock.co/post/360616/stable-a-bitfinex-backed-layer-1-blockchain-using-tethers-usdt-as-a-gas-token-unveils-phase-1-of-its-roadmap"],["The Block: $825M pre-deposit","https://www.theblock.co/post/376022/stables-phase-1-hits-cap"],["The Block: mainnet","https://www.theblock.co/post/381688/stable-launches-mainnet-native-token-foundation"],["Cryptopolitan: move to USDT0","https://www.cryptopolitan.com/stable-migrate-to-usdt0-native-gas-token/"],["Lookonchain: TVL drop","https://lookonchain.com/feeds/42941"],["CoinGecko: STABLE","https://www.coingecko.com/en/coins/stable-2"]]
 },
 arc:{...CHAINS_HR.arc,
@@ -701,9 +701,9 @@ arc:{...CHAINS_HR.arc,
         ["09/2026","Day one: 7.8M transactions and 97,000 new tokens. Within six days fees fall 96.7% from day-one levels."],
         ["10/2026","TVL grows to $553M, mostly Morpho and Aave V4. A move to proof of stake is being considered for 2027."]],
   layer:{verdict:"L1",title:"Permissioned Layer 1",
-    text:["Arc is not an L2. It has its own Malachite consensus (BFT, derived from Tendermint), its own validators and sub-second finality. It does not settle on Ethereum.",
+    text:["Arc is not an L2 but a standalone blockchain. It has its own validators and its own Malachite consensus (BFT, derived from Tendermint), and a transaction is final in under a second. Unlike L2 networks, Arc does not send its transactions to Ethereum for confirmation, so its security does not depend on Ethereum.",
           "The hybrid part is governance. Circle currently picks the validators (proof of authority), so Arc is closer to a consortium network than to an open L1 like Ethereum. A move to proof of stake with the ARC token is only being considered."],
-    rows:[["Own consensus",true],["Own validators",true],["Settles on Ethereum",false],["EVM-compatible",true],["Gas paid in a stablecoin",true],["Open validator set",false]]},
+    rows:[["Own consensus",true],["Own validators",true],["Relies on Ethereum",false],["EVM-compatible",true],["Gas paid in a stablecoin",true],["Open validator set",false]]},
   src:[["Circle: Arc mainnet","https://www.circle.com/pressroom/circle-launches-arc-mainnet-an-economic-operating-system-for-the-internet"],["Circle: Arc testnet","https://www.circle.com/pressroom/circle-launches-arc-public-testnet"],["DefiLlama: Arc","https://defillama.com/chain/arc"],["dev.to: Arc in numbers","https://dev.to/sulimanmukhtar/arc-chain-in-numbers-one-dollar-two-decimals-and-97000-tokens-in-a-day-4b5o"],["Coin Gabbar: first week","https://www.coingabbar.com/en/arc-chain-news-usdc-circulation-week-one"],["Coincu: fee drop","https://www.coincu.com/arc-mainnet-fees-fall-96-7-percent-six-days-after-launch/"],["crypto.news: launch","https://crypto.news/circle-arc-mainnet-launches-with-usdc-gas/"]]
 }};
 

@@ -9,16 +9,32 @@ async function getJSON(url) {
 
 const safe = (p) => p.then((v) => v, () => null);
 
+// Dnevne transakcije na Stableu: CSV s grafa "Daily Transactions" na Stablescanu (Etherscan), zadnjih 30 dana
+async function stableDailyTx() {
+  const res = await fetch("https://stablescan.xyz/chart/tx?output=csv", {
+    headers: { accept: "text/csv,*/*", "user-agent": "Mozilla/5.0 (compatible; stable-l1-chains)" },
+  });
+  if (!res.ok) throw new Error(`stablescan → ${res.status}`);
+  const rows = [];
+  for (const line of (await res.text()).split(/\r?\n/)) {
+    const m = line.match(/^"?[^",]*"?,"?(\d{9,11})"?,"?(\d+)"?/);
+    if (m) rows.push([new Date(+m[1] * 1000).toISOString().slice(0, 10), +m[2]]);
+  }
+  if (rows.length < 2) throw new Error("stablescan: prazan CSV");
+  return rows.slice(-30);
+}
+
 async function collect() {
   const ov = (kind, chain) =>
     safe(getJSON(`https://api.llama.fi/overview/${kind}/${chain}?excludeTotalDataChart=true&excludeTotalDataChartBreakdown=true`));
-  const [coins, chains, scChains, feesStable, feesArc, dexStable, dexArc, gecko, llamaPrice] = await Promise.all([
+  const [coins, chains, scChains, feesStable, feesArc, dexStable, dexArc, gecko, llamaPrice, stableTx] = await Promise.all([
     safe(getJSON("https://stablecoins.llama.fi/stablecoins?includePrices=false")),
     safe(getJSON("https://api.llama.fi/v2/chains")),
     safe(getJSON("https://stablecoins.llama.fi/stablecoinchains")),
     ov("fees", "Stable"), ov("fees", "Arc"), ov("dexs", "Stable"), ov("dexs", "Arc"),
     safe(getJSON("https://api.coingecko.com/api/v3/simple/price?ids=stable-2&vs_currencies=usd&include_market_cap=true")),
     safe(getJSON("https://coins.llama.fi/prices/current/coingecko:stable-2")),
+    safe(stableDailyTx()),
   ]);
 
   const out = { fetchedAt: new Date().toISOString() };
@@ -44,6 +60,7 @@ async function collect() {
   const g = gecko?.["stable-2"];
   const p = llamaPrice?.coins?.["coingecko:stable-2"]?.price;
   out.stableMcap = g?.usd_market_cap || (p ? p * STABLE_CIRCULATING : null);
+  out.stableTxDaily = stableTx;
   return out;
 }
 

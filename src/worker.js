@@ -96,6 +96,11 @@ export default {
       const cache = caches.default;
       const key = new Request(url.origin + "/api/data");
       let res = await cache.match(key);
+      // Cloudflare zna zadržati spremljeni odgovor dulje od max-age, pa starost provjeravamo sami
+      if (res) {
+        const at = Date.parse((await res.clone().json().catch(() => ({}))).fetchedAt || 0);
+        if (!(Date.now() - at < 60000)) res = null;
+      }
       if (!res) {
         const data = await collect();
         res = new Response(JSON.stringify(data), {
